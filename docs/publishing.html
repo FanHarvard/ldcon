@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Publishing ldcon</title>
 <style>body{font:16px/1.7 system-ui;max-width:900px;margin:3rem auto;padding:0 1rem}pre{background:#f2f4f6;padding:1rem;overflow:auto}code{font-size:.9em}</style>
 <h1>Publishing ldcon</h1><p>Public repository: <a href="https://github.com/FanHarvard/ldcon">FanHarvard/ldcon</a>.
-Initial version: 0.2.0. No production service is activated by publication.</p>
+Current version: 0.2.1. No production service is activated by publication.</p>
 <h2>One-time PyPI setup</h2><p>A PyPI account owner creates a pending publisher at
 <a href="https://pypi.org/manage/account/publishing/">PyPI publishing settings</a> with:</p>
 <table><tr><th>Project name</th><td>ldcon</td></tr><tr><th>Owner</th><td>FanHarvard</td></tr>
@@ -18,8 +18,8 @@ python -m twine check --strict dist/*
 python scripts/check_dist.py dist
 python scripts/check_secrets.py
 python -m pytest -q
-git tag v0.2.0
-git push origin v0.2.0</pre>
+git tag v0.2.1
+git push origin v0.2.1</pre>
 <p>Create a GitHub Release for the tag to run <code>release.yml</code>, or dispatch that workflow at
 the tag. The workflow checks the tag against package metadata, builds and audits distributions,
 tests the wheel, and publishes through the dedicated environment. Do not reuse an uploaded PyPI version.

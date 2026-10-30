@@ -3,7 +3,7 @@
 **Still in active development.**
 
 Laser locking, characterization and a Web dashboard. **ECDL and DFB/DBR control
-are implemented**, including ESP32-based native PI and TOPTICA DLCpro adapters.
+are implemented**, with digital-servo PI control and TOPTICA DLCpro adapters.
 
 ```sh
 pip install "ldcon[web,instruments,analysis]"
@@ -14,6 +14,9 @@ ldcon-examples ./my-lab
 Python 3.10+ on Linux. `experiment-core` installs automatically. Optional agent
 messaging: `pip install "ldcon[agents]"` (installs `fanharvard-agentbridge`).
 Provider CLIs and their authentication are separate.
+
+Supported agent interfaces: **Claude Code, Codex and OpenCode**, with a DeepSeek
+Harness adapter for card tasks.
 
 **Agents** monitor results, diagnose problems and run bounded characterization,
 parameter tuning and recovery through registered control cards. **Humans** choose
@@ -29,10 +32,13 @@ Missing data remains unknown; quality labels are distinct from physical safety.
 
 | Configuration | Hardware |
 | --- | --- |
-| ECDL / ESP32 | Wavemeter and data feed, ESP32 servo DAC/firmware, piezo driver, current/TEC controllers and supported AWGs (e.g. Siglent SDG) |
-| DFB/DBR | Wavemeter, current/TEC controller (e.g. Thorlabs CLD1015); ESP32 DAC and modulation input for native current PI |
+| ECDL / digital servo | Wavemeter and data feed, compatible digital servo/DAC, piezo driver, current/TEC controllers and supported AWGs (e.g. Siglent SDG) |
+| DFB/DBR | Wavemeter, current/TEC controller (e.g. Thorlabs CLD1015); compatible digital servo/DAC and modulation input for native current PI |
 | ECDL / DLCpro | TOPTICA DLCpro, wavemeter feedback; AWG/trigger connections for configured feedforward scans |
 | Spectral quality / studies | Fringe image source for secondary-peak analysis; scope/telemetry and AWG where required by the selected measurement |
+
+For digital-servo hardware and integration details, please contact
+[kenjishu@fas.harvard.edu](mailto:kenjishu@fas.harvard.edu).
 
 Tests use simulations, fake instruments and loopback services to cover control
 contracts, owner exclusivity, uncertain writes, cancellation/recovery, tuning,
