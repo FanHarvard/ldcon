@@ -5,6 +5,7 @@ settling or restoring an old target. Physical envelopes remain Instrument's job.
 """
 from copy import deepcopy
 import math
+import sqlite3
 import uuid
 
 from ldcon.core.contracts import DeviceError
@@ -29,8 +30,11 @@ class PITrial:
         self.active = None
         self.last = None
         self.revision = 0
+        self.parameter_trial = None
 
     def settings(self):
+        if self.parameter_trial is not None:
+            return self.parameter_trial.settings()
         return {k: self.owner.control[k] for k in KEYS}
 
     def view(self):
@@ -39,7 +43,8 @@ class PITrial:
         return dict(active=a, last=deepcopy(self.last), revision=self.revision,
                     settings=self.settings() if hasattr(self.owner, 'control') else None)
 
-    def begin(self, identity, target_revision, policy_revision, watchdog_s, target_program=None):
+    def begin(self, identity, target_revision, policy_revision, watchdog_s, target_program=None, *,
+              expected_operating_mode_revision=None, monitor_grant=None, family='pi'):
         o = self.owner
         o._healthy()
         if o.mode != 'lock' or self.active:
@@ -61,18 +66,28 @@ class PITrial:
                 raise ValueError('Target program increment exceeds capture')
             previous=value
         if offsets and (offsets[-1]!=0 or not program['max_cycles']):raise ValueError('Target program must return to origin')
+        if family not in ('pi', 'current', 'slow_loop', 'feedforward'):
+            raise ValueError('Unknown DLC adjustment family')
+        if family != 'pi' and offsets:
+            raise ValueError('Parameter adjustment cannot change the optical target')
+        supervision = self._admit_supervision(expected_operating_mode_revision, monitor_grant, offsets, family)
         o.read_control()
+        helper = None
+        if family != 'pi':
+            from ldcon.owners.dlcpro_parameter_trial import ParameterTrialSettings
+            helper = ParameterTrialSettings(o, family)
+        self.parameter_trial = helper
         token = uuid.uuid4().hex
-        self.active = dict(token=token, identity=identity, checkpoint=self.settings(),
+        self.active = dict(token=token, identity=identity, family=family, checkpoint=self.settings(),
             target_revision=o.target_revision, policy_revision=digest(o.policy),
             watchdog_s=watchdog_s, renewed_s=o.clock(), origin_target_hz=o.target,
-            target_program=program, program_index=0, program_cycle=0)
+            target_program=program, program_index=0, program_cycle=0, **supervision)
         self.revision += 1
-        o.audit(dict(event='pi_trial_begin', identity=identity, checkpoint=self.settings()))
+        o.audit(dict(event='pi_trial_begin', identity=identity, family=family, checkpoint=self.settings()))
         return dict(token=token, **self.view())
 
     def require(self, token):
-        self.poll()
+        self.poll(force_supervision=True)
         if not self.active or token != self.active['token']:
             raise ValueError('PI trial is no longer active')
         if self.owner.fault or self.owner.mode != 'lock':
@@ -81,6 +96,10 @@ class PITrial:
 
     def switch(self, values):
         o = self.owner
+        if self.parameter_trial is not None:
+            started = o.clock()
+            receipt = self.parameter_trial.switch(values)
+            return self._parameter_receipt(receipt, held_started_s=started)
         values = candidate(values)
         # The last owner-confirmed command and its actual accepted acquisition
         # define this boundary. No slow console read or optical settling is
@@ -105,9 +124,45 @@ class PITrial:
     def apply(self, token, expected_revision, values):
         self.require(token)
         if expected_revision != self.revision: raise ValueError('PI revision changed')
-        candidate(values)
+        if self.parameter_trial is not None:
+            self.parameter_trial.validate(values)
+        else:
+            candidate(values)
         self.owner.read_control()  # Freshness before accepting a new experiment.
         return self.switch(values)
+
+    def _parameter_receipt(self, receipt, *, held_started_s=None):
+        if not isinstance(receipt, dict) or receipt.get('confirmed') is not True:
+            raise DeviceError('Parameter change was not confirmed')
+        now = self.owner.clock()
+        if (receipt.get('output_write') is True or held_started_s is not None
+                and now-held_started_s > self.owner.policy['max_sample_age_s']):
+            # UDP can continue accumulating while an exclusive FF/current/TEC
+            # transaction holds PZT. Its backlog is evidence, not an integral
+            # correction to replay at the next feedback update.
+            self.owner.integral_resume_after_s = now
+            receipt = dict(receipt, integral_resume_after_s=now)
+        credit = getattr(self.owner, 'credit_waiting_client', None)
+        if credit is not None:credit()
+        self.revision += 1
+        # A confirmed FF trial updates its runtime expected factor so that the
+        # instrument's full-output checks use that factor. Only this correlated
+        # own change updates the epoch; external policy changes still preempt.
+        if self.active is not None:
+            self.active['policy_revision'] = digest(self.owner.policy)
+        return dict(receipt, revision=self.revision, target_revision=self.owner.target_revision)
+
+    def _restore_checkpoint(self):
+        if self.parameter_trial is not None:
+            started = self.owner.clock()
+            return self._parameter_receipt(self.parameter_trial.restore(), held_started_s=started)
+        return self.switch(self.active['checkpoint'])
+
+    def reset(self, token, expected_revision):
+        self.require(token)
+        if expected_revision != self.revision:
+            raise ValueError('Adjustment revision changed')
+        return self._restore_checkpoint()
 
     def step(self, token, expected_revision, index, cycle):
         self.require(token)
@@ -140,22 +195,86 @@ class PITrial:
     def end(self, adopt, reason):
         if not self.active: return self.last
         previous = self.active
-        receipt = None if adopt else self.switch(previous['checkpoint'])
+        if adopt:
+            receipt = self.parameter_trial.commit() if self.parameter_trial is not None else None
+            if self.parameter_trial is not None and (not isinstance(receipt, dict) or receipt.get('confirmed') is not True):
+                raise DeviceError('Parameter adoption was not confirmed')
+        else:
+            receipt = self._restore_checkpoint()
         self.last = dict(identity=previous['identity'], state='adopted' if adopt else 'restored',
-            reason=reason, checkpoint=previous['checkpoint'], settings=self.settings(),
+            reason=reason, family=previous['family'], checkpoint=previous['checkpoint'], settings=self.settings(),
             origin_target_hz=previous['origin_target_hz'], target_frequency_hz=self.owner.target,
             target_restored=self.owner.target==previous['origin_target_hz'],
             receipt=receipt, confirmed=True, target_revision=self.owner.target_revision)
         self.active = None
+        self.parameter_trial = None
         self.owner.audit(dict(event='pi_trial_end', **self.last))
         return deepcopy(self.last)
 
     def preempt(self, reason):
         return self.end(False, reason) if self.active else None
 
-    def poll(self):
+    def _admit_supervision(self, revision, binding, offsets, family):
+        if binding is not None and (revision is None or offsets):
+            raise ValueError('Monitor PI trials require owner mode and cannot change the optical target')
+        mode = getattr(self.owner, 'operating_mode', None)
+        if revision is None and mode is not None:
+            revision = mode.authority.status()['revision']
+        result = {}
+        if revision is not None:
+            if mode is None:
+                raise ValueError('Current owner operating mode is required for monitored PI')
+            mode.authority.require_revision(revision)
+            result['operating_mode_revision'] = revision
+        if binding is not None:
+            from ldcon.agents.dlc_monitor_grant import check_grant
+            grant = check_grant(self.owner.laser_id, binding)
+            if family not in grant['bounds']['families']:
+                raise ValueError('Adjustment family is outside this monitor grant')
+            result.update(monitor_grant=deepcopy(binding),
+                          monitor_deadline_s=self.owner.clock()+grant['bounds']['timeout_s'])
+        return result
+
+    def _supervision_reason(self, force):
+        a, o = self.active, self.owner
+        if 'operating_mode_revision' not in a and 'monitor_grant' not in a:
+            return None
+        if o.clock() >= a.get('monitor_deadline_s', math.inf):
+            return 'monitor_trial_deadline'
+        # Fast servo ticks must not read the authorization file or SQLite on
+        # every wavelength sample. Effect/adoption RPCs force a fresh check;
+        # mode-change RPCs already preempt synchronously under the owner mutex.
+        if not force and o.clock()-a.get('last_supervision_check_s', -math.inf)<.2:
+            return None
+        a['last_supervision_check_s'] = o.clock()
+        mode = getattr(o, 'operating_mode', None)
+        try:
+            if mode is None or mode.authority.status()['revision'] != a.get('operating_mode_revision'):
+                return 'operating_mode_changed'
+        except (OSError, ValueError, KeyError, sqlite3.Error):
+            return 'operating_mode_unavailable'
+        if 'monitor_grant' in a:
+            from ldcon.agents.dlc_monitor_grant import check_grant
+            try:
+                grant = check_grant(o.laser_id, a['monitor_grant'])
+                if a['family'] not in grant['bounds']['families']:
+                    return 'monitor_grant_revoked'
+            except (OSError, ValueError, KeyError, TypeError):
+                return 'monitor_grant_revoked'
+        return None
+
+    def poll(self, *, force_supervision=False):
         if not self.active: return
         o, a = self.owner, self.active
+        if self.parameter_trial is not None and o.fault:
+            # An uncertain physical effect is not a revocable trial with a
+            # known checkpoint return. Retain the slot and lease for inspection.
+            a['inspection_required'] = True
+            return
+        reason = self._supervision_reason(force_supervision)
+        if reason:
+            self.preempt(reason)
+            return
         if (o.clock()-a['renewed_s'] > a['watchdog_s'] or o.mode != 'lock'
                 or o.target_revision != a['target_revision'] or digest(o.policy) != a['policy_revision']):
             self.preempt('watchdog_or_context_change')

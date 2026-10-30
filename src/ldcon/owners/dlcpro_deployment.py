@@ -8,6 +8,9 @@ def commissioning_issues(config,lasers):
     from ldcon.owners.dlcpro_service import make_observation
     from ldcon.core.target_policy import laser_target, target_bounds
     issues=[]
+    from ldcon.owners.dlcpro_agent_setup import validate_config as validate_agent_setup
+    try:validate_agent_setup(config,lasers)
+    except (ValueError,KeyError,TypeError) as error:issues.append('Adjustment commissioning: '+str(error))
     if not config.get('host') or str(config['host']).endswith('.invalid'):issues.append('DLC hostname required')
     if not config.get('expected_serial_number') or config['expected_serial_number']=='COMMISSION_REQUIRED':issues.append('DLC serial number required')
     if not isinstance(config.get('state_directory'),str) or not config['state_directory'].startswith('/'):issues.append('Absolute owner state directory required')

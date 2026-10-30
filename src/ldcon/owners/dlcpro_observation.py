@@ -30,6 +30,7 @@ class DatagramOpticalSource:
             fresh=age is not None and 0<=age<=self.max_age and frame.frequency.acquisition_known
             return dict(available=frame is not None,fresh=fresh,age_s=age,error=self.error,
                 acquired_s=None if frame is None else frame.frequency.acquired_s,
+                acquired_unix_s=None if frame is None else frame.frequency.acquired_unix_s,
                 quality_valid=bool(fresh and frame.quality_valid),
                 single_mode=None if not fresh else frame.single_mode,
                 metrics={} if not fresh else dict(frame.metrics),

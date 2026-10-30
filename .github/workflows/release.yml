@@ -28,6 +28,7 @@ jobs:
       - run: python scripts/check_secrets.py
       - run: python scripts/install_wheel.py
       - run: python -m pytest -q
+      - run: node tests/test_dlc_adjustment_web.cjs
       - run: python -m pip check
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

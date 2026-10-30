@@ -10,6 +10,9 @@ def approved_adjustment_plan(value):
     it. Calling this validator never creates a grant or authorizes physical I/O.
     """
     b = copy.deepcopy(value)
+    if isinstance(b, dict) and 'controller_operation' in b:
+        from ldcon.agents.dlc_monitor_grant import validate_bounds
+        return validate_bounds(b)
     if not isinstance(b, dict) or type(b.get('enabled')) is not bool:
         raise ValueError('Invalid adjustment plan')
     if set(b) - {'enabled', 'half_span_v', 'handoff_timeout_s', 'max_points', 'timeout_s','families','pid_parameters','adjustment_parameters'}:

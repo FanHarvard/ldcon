@@ -18,6 +18,13 @@
   {
    "class": "free",
    "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.adjustment_measurement_cards",
+   "source": "code:agent_task.DEFAULTS (resolver)",
+   "value": {}
+  },
+  {
+   "class": "free",
+   "live": "runtime",
    "path": "cards.dfb-dbr-ldc-tec.agent-adjust.adjustment_objective",
    "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
    "value": ""

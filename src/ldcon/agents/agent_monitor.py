@@ -65,7 +65,17 @@ def snapshot(box):
                     source = node.get('dither_source_unix_s', stamp) if key == 'dither_response' else stamp
                     metrics[path] = dict(value=item, acquired_unix_s=source,
                         valid=source is not None and node.get(key+'_valid', node.get('valid', True)) is not False)
-        collect(value.get('content', value.get('data', value)))
+        document=value.get('content', value.get('data', value))
+        collect(document)
+        # DLC optics have their own HTTP acquisition clock. A new WSU UDP
+        # frequency sample must not refresh a cached/invalid fringe frame.
+        quality=(document.get('observation') or {}).get('quality') if isinstance(document,dict) else None
+        if isinstance(quality,dict):
+            for name in quality.get('metrics') or {}:
+                key='observation.quality.metrics.'+name
+                if key in metrics:
+                    metrics[key]['valid']=quality.get('fresh') is True and quality.get('quality_valid') is True
+                    metrics[key]['acquired_unix_s']=quality.get('acquired_unix_s')
     for source, target, scale, absolute in (
             ('error_hz','abs_error_hz',1.,True),
             ('native_interval_us','source_interval_s',1e-6,False),
@@ -74,6 +84,11 @@ def snapshot(box):
             raw=metrics[source]
             metrics[target]={**raw,'value':(abs(raw['value']) if absolute else raw['value'])*scale,
                              'derived_from':source}
+    if 'integral_v' in metrics and 'control.integral_limit_v' in metrics:
+        integral,limit=metrics['integral_v'],metrics['control.integral_limit_v']
+        if limit['value']>0:
+            metrics['integral_utilization']={**integral,'value':abs(integral['value'])/limit['value'],
+                'valid':integral['valid'] and limit['valid'],'derived_from':['integral_v','control.integral_limit_v']}
     return dict(jobs=jobs, metrics=metrics,
                 authority='recorded data only; no physical state proof or new grant')
 
@@ -120,7 +135,7 @@ def run(directory, p, *, clock, sleep, cancel, emit, runtime=None, snapshot_fn=N
             if grant_dir.is_symlink():raise ValueError('Monitor grant directory must not be a symlink')
             grant_dir.mkdir(parents=True,exist_ok=True)
             atomic_json(grant_dir/(meta['id']+'.json'),dict(generation=state['generation'],bounds=p['background'],
-                enabled=p['enabled'] and p['background']['enabled'] and not phase.startswith('stopped') and phase!='control_data_unavailable',
+                enabled=p['enabled'] and p['background']['enabled'] and not phase.startswith('stopped') and phase not in ('control_data_unavailable','waiting_controller'),
                 last_seen=time.time(),max_age_s=max(30,p['sample_interval_s']*3),parameters_hash=digest(p)))
         except (ValueError,OSError):
             state['background_grant']='unavailable; passive review remains available'
@@ -203,6 +218,10 @@ def run(directory, p, *, clock, sleep, cancel, emit, runtime=None, snapshot_fn=N
                 from ldcon.agents.agent_background import revoke_monitor
                 revoke_monitor(box.root,laser_id,meta['id'],state['generation'])
                 publish('disabled'); sleep(p['sample_interval_s']); continue
+            if p['background'].get('controller_operation')=='servo.dlcpro_frequency' and not any(
+                    j.get('status')=='running' and any(c.get('operation',c.get('card'))=='servo.dlcpro_frequency'
+                    for c in j.get('cards',[])) for j in last_snapshot.get('jobs',[])):
+                publish('waiting_controller'); sleep(p['sample_interval_s']); continue
             due = bool(p['interval_s'] and (state['last_review'] is None or now-state['last_review'] >= p['interval_s']))
             research = bool(p['history_task_card_id'] and p['history_interval_s'] and
                 (state['last_history'] is None or now-state['last_history'] >= p['history_interval_s']) and

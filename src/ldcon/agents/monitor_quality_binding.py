@@ -21,9 +21,10 @@ def conditions(rules, document):
             fraction = rule['clear_below']/rule['above'] if rule['above'] else 1.
             rule.update(above=dither_limit, clear_below=dither_limit*fraction)
             continue
-        if not rule['id'].startswith('quality-') or not metric.startswith('fringe_metrics.'):
+        prefix=next((v for v in ('fringe_metrics.','observation.quality.metrics.') if metric.startswith(v)),None)
+        if not rule['id'].startswith('quality-') or prefix is None:
             continue
-        name = metric[len('fringe_metrics.'):]
+        name = metric[len(prefix):]
         if name not in values:
             continue
         # Retain configured hysteresis and persistence; never alter frequency,

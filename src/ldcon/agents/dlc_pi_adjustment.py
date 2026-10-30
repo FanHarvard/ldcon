@@ -70,13 +70,14 @@ def evidence_documents(directory, result, state, turn):
     return docs
 
 
-def run(directory,p,*,clock,sleep,cancel,emit,selected,decision_session,adapter=None,report_writer=None):
+def run(directory,p,*,clock,sleep,cancel,emit,selected,decision_session,adapter=None,report_writer=None,plan=None):
     directory=Path(directory)
     invocation=read_json(directory/'invocation.json')
-    plan=invocation.get('adjustment_plan') or {}
+    plan=deepcopy(plan if plan is not None else invocation.get('adjustment_plan') or {})
     if plan.get('kind') not in ('dlc_pi_change_measure','dlc_pi_target_response'):raise ValueError('Frozen PI measurement plan required')
     laser=load_mapping((directory/'laser.yaml').read_text())
     adapter=adapter or PIAdapter(laser,directory.name,clock=clock)
+    if hasattr(adapter,'supervise'):adapter.supervise(directory,p,laser)
     joint=plan['kind']=='dlc_pi_target_response'
     if joint:
         if adapter.target!=plan['target_frequency_hz']:raise ValueError('Live target differs from frozen response reference')
@@ -154,7 +155,7 @@ def run(directory,p,*,clock,sleep,cancel,emit,selected,decision_session,adapter=
         result.update(adopted=True,adopted_settings=values,reason=reason,
             adoption_basis='Task-model decision after repeated matched measurements')
     try:
-        adapter.begin();save()
+        adapter.begin();result['checkpoint']=deepcopy(adapter.origin);save()
         baseline=measure(adapter.origin,'baseline')
         invalid=0
         while True:
@@ -179,6 +180,9 @@ def run(directory,p,*,clock,sleep,cancel,emit,selected,decision_session,adapter=
                 'or {"action":"adopt","parameters":{"trial_id":number,"reason":"..."}}, '
                 'or {"action":"finish","parameters":{"reason":"..."}}. No other commands. '
                 'Explain why the evidence warrants a trial, adoption, or no further changes. '+p['prompt']+' '+p['adjustment_objective'])
+            if getattr(adapter,'operating_mode_revision',None) is not None:
+                from ldcon.agents.operating_mode_client import instructions
+                prompt+=instructions(adapter.operating_mode)
             if joint:
                 prompt+=' This is JOINT target-step and steady-noise optimization. The host executes the frozen target-step and return sequence; you only choose P/I/integral coefficients. Judge the overall trade-off among response speed, steady RMS, mean bias, overshoot, saturation and practical robustness. A modest RMS increase can be worthwhile for a substantial speed gain: the human explicitly gave +10 percent RMS with 2x faster response as an acceptable kind of trade-off, not a fixed numeric acceptance rule. Do not require RMS non-degradation or invent fixed weights. Quantify gains and costs and justify your preference. The response band is empirical from the first checkpoint and stays fixed. Null settling times are censored, not zero or the deadline. Compare request/verified-write timestamps, signed mean error, response integral and the full raw waveforms. No candidate-specific relaxation of the band. Requesting adopt for an initial trial triggers a repeat and matched baseline. Review that new confirmation row before issuing adopt again for its trial_id; only the second decision can commit. You may decline after seeing confirmation.'
             answer=decision_session.request(dict(kind='pi_adjustment_decision',prompt=prompt,evidence_files=manifest),tick=check)

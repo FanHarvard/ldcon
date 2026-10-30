@@ -144,6 +144,10 @@ def main():
         owner=LaserOwner(instrument,channel,laser['id'],policy_from_device(device),source,
                          audit=audit,target_policy=laser.get('target'))
         protocols[laser['id']]=Protocol(owner,device)
+        from ldcon.owners.dlcpro_agent_setup import attach as attach_agent_setup
+        attach_agent_setup(protocols[laser['id']], config)
+        from ldcon.owners.dlcpro_operating_mode import attach as attach_operating_mode
+        attach_operating_mode(protocols[laser['id']], state / 'operating-mode' / (laser['id']+'.sqlite3'))
         from ldcon.owners.dlcpro_target_changes import attach as attach_target_changes
         attach_target_changes(protocols[laser['id']], args.config.parent / laser_path,
                               state / 'target-changes' / laser['id'])

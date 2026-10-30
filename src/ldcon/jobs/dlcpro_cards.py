@@ -166,6 +166,9 @@ class Protocol:
         self.owner=owner
         self.device=deepcopy(device)
         self.client=None
+        from ldcon.owners.dlcpro_client_liveness import ClientLiveness
+        self.client_liveness = ClientLiveness(self)
+        owner.credit_waiting_client = self.client_liveness.credit_verified_boundary
 
     def policies(self):
         result={}
@@ -177,6 +180,15 @@ class Protocol:
         return result
 
     def dispatch(self, request):
+        with self.client_liveness.incoming(request):
+            return self._dispatch(request)
+
+    def _dispatch(self, request):
+        if request.get('action') == 'operating_mode_status':
+            if request.get('laser_id') != self.owner.laser_id:
+                raise PermissionError('Wrong laser scope')
+            from ldcon.owners.dlcpro_operating_mode import dispatch
+            return dispatch(self, 'operating_mode_status', {})
         if request.get('action') == 'stop':
             manager = getattr(self.owner, 'awg_sweep', None)
             with self.owner.mutex:
@@ -193,10 +205,15 @@ class Protocol:
             action=r.pop('action')
             if r.pop('laser_id')!=self.owner.laser_id:
                 raise PermissionError('Wrong laser scope')
+            if action in ('operating_mode_status', 'operating_mode_change'):
+                from ldcon.owners.dlcpro_operating_mode import dispatch
+                return dispatch(self, action, r)
             if action=='describe':
                 return dict(revision=digest(self.device),policies=self.policies())
             if action=='inspect':
-                return dict(snapshot=self.owner.snapshot(cached=True),client_claimed=self.client is not None)
+                from ldcon.owners.dlcpro_operating_mode import status as operating_mode_status
+                return dict(snapshot=self.owner.snapshot(cached=True),client_claimed=self.client is not None,
+                            operating_mode=operating_mode_status(self.owner))
             if action=='claim':
                 if self.client or r.get('revision')!=digest(self.device):
                     raise PermissionError('Lease active or revision mismatch')

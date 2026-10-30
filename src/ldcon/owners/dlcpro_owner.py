@@ -463,6 +463,7 @@ class LaserOwner:
         self.applied_pzt = float('nan')
         self.applied_observation = None
         self.applied_error_axis = 0.
+        self.integral_resume_after_s = None
         from ldcon.owners.dlcpro_pi_trial import PITrial
         self.pi_trial = PITrial(self)
 
@@ -541,7 +542,8 @@ class LaserOwner:
             return self.observation.quality_snapshot()
         o=self.read_optical()
         return dict(fresh=True,quality_valid=o.quality_valid,metrics=dict(o.metrics),
-                    acquired_s=o.frequency.acquired_s,single_mode=o.single_mode,mode_id=o.mode_id)
+                    acquired_s=o.frequency.acquired_s,acquired_unix_s=o.frequency.acquired_unix_s,
+                    single_mode=o.single_mode,mode_id=o.mode_id)
 
     def move(self, axis, value):
         self._healthy()
@@ -573,6 +575,7 @@ class LaserOwner:
             self.applied_observation = deepcopy(self.last_observation)
             self.integral = 0.
             self.last_acquisition = frequency.acquired_s
+            self.integral_resume_after_s = None
             self.last_valid = self.last_tec = self.last_client = self.clock()
             self.target_revision += 1
             self.mode = 'lock'
@@ -653,6 +656,8 @@ class LaserOwner:
             if self.mode == 'scan':
                 self.instrument.scan(self.channel, self.lease, center=0, amplitude=0, frequency=0, shape='triangle', enabled=False)
             self.pi_trial.preempt('lock_stop')
+            from ldcon.owners.dlcpro_parameter_trial import restore_ff_on_stop
+            restore_ff_on_stop(self)
             self.mode = 'idle'
             self.integral = 0.
             self.scan_spec = None
@@ -755,12 +760,18 @@ class LaserOwner:
                 fresh=self.read_control()
                 if previous_acquisition is not None and fresh.acquired_s<=previous_acquisition:
                     raise MeasurementUnavailable('No new feedback acquisition')
+                integral_start = previous_acquisition
+                boundary = self.integral_resume_after_s
+                if boundary is not None:
+                    if fresh.acquired_s <= boundary:
+                        raise MeasurementUnavailable('Await a new sample after the held parameter transaction')
+                    integral_start = max(boundary, integral_start) if integral_start is not None else boundary
                 error_axis=(self.target-fresh.frequency_hz)/slope
-                elapsed=0. if previous_acquisition is None else fresh.acquired_s-previous_acquisition
+                elapsed=0. if integral_start is None else fresh.acquired_s-integral_start
                 integral_error=error_axis*elapsed if elapsed<=self.policy['max_sample_age_s'] else 0.
-                if previous_acquisition is not None and hasattr(self.observation,'samples_after'):
-                    samples=[s for s in self.observation.samples_after(previous_acquisition) if s.acquired_s<=fresh.acquired_s]
-                    cursor=previous_acquisition;integral_error=0.
+                if integral_start is not None and hasattr(self.observation,'samples_after'):
+                    samples=[s for s in self.observation.samples_after(integral_start) if s.acquired_s<=fresh.acquired_s]
+                    cursor=integral_start;integral_error=0.
                     for s in samples:
                         # A bad packet may already have been replaced by a good
                         # latest sample. Never integrate it from the UDP ring.
@@ -783,6 +794,7 @@ class LaserOwner:
                 sequence=fresh.sequence,frequency_hz=fresh.frequency_hz,source_id=fresh.source_id,source_quality=fresh.quality)
             self.last_pi_write=self.clock()
             self.applied_pzt=applied
+            self.integral_resume_after_s=None
             self.applied_error_axis=(self.target-fresh.frequency_hz)/slope
             self.applied_observation=deepcopy(self.last_observation)
             if applied==trial['desired']:self.integral=trial['integral']

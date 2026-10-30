@@ -51,3 +51,5 @@ a new physical setup. See [test suite](tests/).
 laser definitions, decks and assignments, with output disabled and placeholder
 connections. Installation starts no hardware or service and includes no credentials.
 [Publishing](docs/publishing.html) · [MIT license](LICENSE)
+
+FanHarvard site configuration and deployment: [ldcon-fanharvard](https://github.com/FanHarvard/ldcon-fanharvard).

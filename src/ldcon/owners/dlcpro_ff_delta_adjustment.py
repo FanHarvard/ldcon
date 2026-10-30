@@ -1,8 +1,8 @@
-"""Qualified-delta FF trials on one exclusively held maintenance Instrument.
+"""Qualified-delta FF transactions on one exclusively held Instrument.
 
-This finite transaction does not expose a live-owner RPC or change ordinary FF
-policy. Physical linkage evidence is commissioned separately; no master selector
-or hidden reference is inferred, and unknown writes are never replayed.
+Maintenance studies and attached owner trials share this finite transaction.
+Physical linkage evidence is commissioned separately; no master selector or
+hidden reference is inferred, and unknown writes are never replayed.
 """
 from copy import deepcopy
 
@@ -14,7 +14,8 @@ from ldcon.owners.dlcpro_owner import inside
 
 
 def adjust_factor_qualified_delta(instrument, channel, lease, factor, *, evidence,
-                                  anchor, tolerance_ma, expected_factor):
+                                  anchor, tolerance_ma, expected_factor,
+                                  preserve_existing=False, prewrite=None):
     """Finite, exclusive coefficient trial using a qualified PZT-delta bound.
 
     ``evidence`` pins identity, independently read ``pzt_hardware_bounds_v`` and
@@ -23,10 +24,12 @@ def adjust_factor_qualified_delta(instrument, channel, lease, factor, *, evidenc
     larger than the full hardware span. Endpoint reads alone do not prove that
     contract or identify the inaccessible FF master. The caller commissions it.
 
-    ``anchor`` retains the study's original piezo_v, temperature_c and
-    total_current_ma across trials, including returns. This function neither
-    infers a reference nor qualifies a subsequent scan. The configured reference
-    supplies diagnostics only; current hold and absolute limits remain enforced.
+    ``anchor`` binds piezo_v, temperature_c and total_current_ma for this finite
+    transaction. Maintenance callers retain their study anchor; an attached
+    owner can supply fresh readback under its mutex. This function neither
+    infers a reference nor qualifies a subsequent scan. In managed-reference
+    mode the configured reference supplies diagnostics only; preserve-existing
+    mode does not read one. Current hold and absolute limits remain enforced.
     Success adopts only the in-memory factor; persistence belongs to the caller.
     """
     factor, expected_factor = finite(factor), finite(expected_factor)
@@ -54,15 +57,19 @@ def adjust_factor_qualified_delta(instrument, channel, lease, factor, *, evidenc
         state = instrument._state(channel, lease)
         policy = deepcopy(state['policy'])
         hardware = instrument.hardware['channels'][str(channel)]
-        if (policy.get('ff_mode') != 'managed_reference'
+        expected_mode = 'preserve_existing' if preserve_existing else 'managed_reference'
+        if (policy.get('ff_mode') != expected_mode
                 or hardware.get('ff_delta_verified') is not True):
-            raise ValueError('Explicit commissioned maintenance Instrument required')
+            raise ValueError('Explicit commissioned FF context required')
         if (policy['ff_enabled'] is not True
                 or policy['ff_factor_ma_per_v'] != expected_factor
                 or state['revision'] != digest(policy)):
             raise ValueError('Stale FF policy or expected coefficient')
         inside(factor, policy['ff_factor_bounds_ma_per_v'])
-        reference = finite(hardware['ff_reference_v'])  # Diagnostic, never inferred.
+        # An attached owner can preserve the commissioned physical FF linkage
+        # without ever reading or guessing its hidden reference. The qualified
+        # full-span delta bound, not this optional diagnostic, grants the move.
+        reference = None if preserve_existing else finite(hardware['ff_reference_v'])
         read_identity = instrument.driver.verify_identity(
             identity['serial_number'], identity['firmware_version'])
         read_endpoints = [instrument.driver.read(instrument.driver.path(channel, name))
@@ -110,8 +117,9 @@ def adjust_factor_qualified_delta(instrument, channel, lease, factor, *, evidenc
                     raise DeviceError('PZT/TEC differs from the original study anchor')
             receipt['identity_'+capture] = instrument.driver.verify_identity(
                 identity['serial_number'], identity['firmware_version'])
-            receipt['model_residual_ma'][capture] = (value['current']['total_setpoint']
-                - value['current']['setpoint'] - wanted*(value['piezo']['setpoint']-reference))
+            receipt['model_residual_ma'][capture] = (None if reference is None else
+                value['current']['total_setpoint'] - value['current']['setpoint']
+                - wanted*(value['piezo']['setpoint']-reference))
             return value
 
         before = snapshot(expected_factor, 'before')
@@ -140,7 +148,8 @@ def adjust_factor_qualified_delta(instrument, channel, lease, factor, *, evidenc
         instrument.audit(dict(event='ff_adjust_preflight', channel=channel, receipt=deepcopy(receipt)))
         try:
             receipt.update(phase='factor_write', physical_changed=None, outputs_uncertain=True)
-            instrument._write(channel, lease, instrument.driver.path(channel, 'cc:feedforward-factor'), factor)
+            instrument._write(channel, lease, instrument.driver.path(channel, 'cc:feedforward-factor'), factor,
+                              prewrite=prewrite)
             receipt['phase'] = 'intermediate_readback'
             intermediate = snapshot(factor, 'intermediate')['current']
             inside(intermediate['total_setpoint'], admitted['total_transition_ma'])
@@ -183,6 +192,12 @@ def adjust_factor_qualified_delta(instrument, channel, lease, factor, *, evidenc
             state.update(policy=policy, revision=receipt['revision_after'])
             return receipt
         except BaseException as error:
+            # A host acquisition recheck can explicitly refuse the first write
+            # after intent journaling. No physical effect occurred in that case.
+            timing = instrument.last_write_timing or {}
+            if receipt['phase'] == 'factor_write' and timing.get('outcome') == 'not_applied':
+                receipt.update(physical_changed=False, outputs_uncertain=False, phase='prewrite_rejected')
+                raise
             receipt.update(outputs_uncertain=True, policy_adopted=False,
                 failed_phase=receipt['phase'], phase='failed',
                 error=dict(type=type(error).__name__, reason=str(error)))

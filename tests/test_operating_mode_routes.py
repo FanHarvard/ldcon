@@ -79,10 +79,10 @@ def test_agent_environment_keeps_provider_key_but_not_owner_or_operator_authorit
     assert result['ANTHROPIC_API_KEY']=='intended-provider-credential'
 
 
-@pytest.mark.parametrize('kind',['ecdl.rig.owner','esp32servocon.native_current.owner'])
+@pytest.mark.parametrize('kind',['ecdl.rig.owner','esp32servocon.native_current.owner','dlcpro.laser.owner'])
 def test_mode_read_is_typed_no_lease_or_hardware_action(monkeypatch,kind):
     laser=dict(id='laser',devices={'owner':dict(type=kind,connection=dict(
-        endpoint='http://localhost:12345',instrument='rig',device_id='device'))})
+        endpoint='http://localhost:12345',instrument='rig',device_id='device',laser_id='laser'))})
     captured=[]
     class Reply:
         def __enter__(self):return self
@@ -94,6 +94,11 @@ def test_mode_read_is_typed_no_lease_or_hardware_action(monkeypatch,kind):
     assert client.request(laser)['revision']==0
     raw=captured[0].get('request',captured[0])
     assert raw['action']=='operating_mode_status' and 'lease' not in raw
+    if kind == 'dlcpro.laser.owner':
+        assert raw == dict(action='operating_mode_status',laser_id='laser')
+        laser['devices']['owner']['connection']['laser_id']='other'
+        with pytest.raises(ValueError,match='another laser'):client.request(laser)
+        assert len(captured)==1
     with pytest.raises(ValueError):client.request(laser,'claim')
 
 

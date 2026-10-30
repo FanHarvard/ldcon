@@ -24,6 +24,7 @@ def parameters(card, overrides):
                     execution_profile='', request_delegation=True,
                     lookback_s=3600., sample_interval_s=1., timeout_s=1800., monitor_job_id='', evidence_images=[],
                     adjustment_family='auto', adjustment_plan_card_id='agent-monitor', adjustment_objective='',
+                    adjustment_measurement_cards={},
                     adoption_mode='auto_within_approved')
     p = {**defaults, **card['parameters'], **overrides}
     if set(p) != set(defaults):
@@ -40,6 +41,10 @@ def parameters(card, overrides):
         raise ValueError('Invalid task prompt')
     # The native-only distribution need not install ECDL parameter adapters.
     if p['adjustment_family'] not in ('auto','current','pi','slow_loop','feedforward'):raise ValueError('Unknown adjustment family')
+    plans=p['adjustment_measurement_cards']
+    if not isinstance(plans,dict) or set(plans)-{'current','pi','slow_loop','feedforward'}:
+        raise ValueError('Invalid adjustment measurement cards')
+    for value in plans.values():identifier(value)
     if (not isinstance(p['adjustment_objective'],str) or '\x00' in p['adjustment_objective']
             or len(p['adjustment_objective'].encode())>4000):raise ValueError('Invalid adjustment objective')
     if card['operation']=='agent.history_review' and p['instruction_profile']!='research':
@@ -174,6 +179,8 @@ def run(directory, p, *, clock, sleep, cancel, emit, adapter_factory=None, bridg
                     work_started=True
                     if (invocation.get('adjustment_plan') or {}).get('kind') in ('dlc_pi_change_measure','dlc_pi_target_response'):
                         from ldcon.agents.dlc_pi_adjustment import run as adjust
+                    elif (invocation.get('adjustment_plan') or {}).get('kind') == 'dlc_adjustment':
+                        from ldcon.agents.dlc_parameter_adjustment import run as adjust
                     outcome=adjust(directory,p,clock=clock,sleep=sleep,cancel=cancel,emit=emit,
                         selected=parent,decision_session=child)
                     outcome['explanation']=child.explain(outcome)

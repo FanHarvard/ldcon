@@ -18,6 +18,13 @@
   {
    "class": "free",
    "live": "runtime",
+   "path": "cards.ecdl-pzt-ldc-tec.agent-adjust.adjustment_measurement_cards",
+   "source": "code:agent_task.DEFAULTS (resolver)",
+   "value": {}
+  },
+  {
+   "class": "free",
+   "live": "runtime",
    "path": "cards.ecdl-pzt-ldc-tec.agent-adjust.adjustment_objective",
    "source": "deck:lasers/sr422/config/interface-decks/ecdl-pzt-ldc-tec.yaml",
    "value": ""

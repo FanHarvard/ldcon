@@ -7,7 +7,7 @@ from urllib.request import Request, build_opener, ProxyHandler
 from ldcon.core.instrument_client import validate_endpoint
 from ldcon.agents.agent_cards import NoRedirect
 
-KINDS = ('ecdl.rig.owner', 'esp32servocon.native_current.owner')
+KINDS = ('ecdl.rig.owner', 'esp32servocon.native_current.owner', 'dlcpro.laser.owner')
 
 
 def _send(laser, values, what, limit=65536):
@@ -18,6 +18,10 @@ def _send(laser, values, what, limit=65536):
     endpoint = validate_endpoint(connection['endpoint'])
     if device['type'] == KINDS[1]:
         payload = dict(device_id=connection['device_id'], **values)
+    elif device['type'] == KINDS[2]:
+        if connection['laser_id'] != laser['id']:
+            raise ValueError('DLC owner connection belongs to another laser')
+        payload = dict(laser_id=connection['laser_id'], **values)
     elif connection.get('instrument'):
         payload = dict(action='ecdl', instrument=connection['instrument'], request=dict(values))
     else:

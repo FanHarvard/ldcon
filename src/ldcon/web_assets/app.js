@@ -332,7 +332,8 @@ function adjustmentExecutionEditor(bundle,deck,card,params){
  const limits=node('details');limits.append(node('summary','Approved plan for this run'),bounds);section.append(limits);
  function available(){
   const p=(()=>{try{return JSON.parse(params.value);}catch(_){return {};}})(),plan=deck.document.cards.find(c=>c.id===(p.adjustment_plan_card_id||'agent-monitor'));
-  const b={...(plan?.parameters||{}),...(deck.invocation_parameters?.[plan?.id]||{})}.background||{},allowed=b.families||['current'];
+  const mapped=p.adjustment_measurement_cards||{},dlc=Object.values(bundle.laser_definition?.document?.devices||{}).some(v=>v.type==='dlcpro.laser.owner');
+  const b=Object.keys(mapped).length?{enabled:true,families:Object.keys(mapped),measurement_cards:mapped,authority:'Each candidate is revalidated by the laser owner.'}:dlc&&plan?.operation==='measure.change'?{enabled:true,families:['pi'],measurement_card:plan.id}:{...(plan?.parameters||{}),...(deck.invocation_parameters?.[plan?.id]||{})}.background||{},allowed=b.families||['current'];
   for(const o of family.options)o.disabled=o.value!=='auto'&&!allowed.includes(o.value);
   bounds.textContent=JSON.stringify(b,null,2);
   const running=cardJob(bundle.id,agent.value)?.status==='running';

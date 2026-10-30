@@ -3,6 +3,7 @@ from copy import deepcopy
 import time
 
 from ldcon.core.contracts import DeviceError, MeasurementUnavailable
+from ldcon.core.interface_cards import CardCancelled
 from ldcon.core.instrument_client import BrokerError
 from ldcon.core.interface_schema import digest
 from ldcon.jobs.dlcpro_cards import Session
@@ -12,6 +13,7 @@ from ldcon.owners.dlcpro_pi_trial import KEYS, candidate
 class PIAdapter:
     def __init__(self, laser, identity, *, clock=time.monotonic, wall_clock=time.time):
         self.clock, self.wall_clock = clock, wall_clock
+        self.laser_id = laser['id']
         self.device = laser['devices'][laser['interfaces']['dlc_lock']['device']]
         if not laser['allow_output']: raise ValueError('Laser output disabled')
         self.session = Session(self.device)
@@ -31,16 +33,51 @@ class PIAdapter:
         self.receipt = None
         self.uncertain = False
         self.measurement_missing = False
+        self.family = 'pi'
+        self.monitor_grant = None
+        self.monitor_families = None
+        self.operating_mode_revision = None
+        self.operating_mode = self.state.get('operating_mode')
+        self.begin_attempted = False
+        self.begin_pending = False
+        self.begin_confirmed = False
+
+    def supervise(self, directory, p, laser):
+        from ldcon.agents.dlc_monitor_grant import bind, check_grant
+        from ldcon.agents.operating_mode_client import revision
+        self.monitor_grant = bind(directory, p, laser)
+        if self.monitor_grant is not None:
+            self.monitor_families = check_grant(self.laser_id, self.monitor_grant)['bounds']['families']
+        if self.operating_mode and self.operating_mode.get('mode') in ('measurement', 'characterization'):
+            self.operating_mode_revision = revision(self.operating_mode)
+        elif self.monitor_grant is not None:
+            raise ValueError('Monitored adjustment requires current owner operating mode')
 
     def begin(self):
-        receipt = self.session.rpc('pi_trial_begin', identity=self.identity,
-            device_revision=digest(self.device), target_revision=self.target_revision,
-            policy_revision=self.state['policy_revision'], watchdog_s=30.,target_program=self.target_program)
+        supervision = {}
+        if self.operating_mode_revision is not None:
+            supervision['expected_operating_mode_revision'] = self.operating_mode_revision
+        if self.monitor_grant is not None:supervision['monitor_grant'] = self.monitor_grant
+        if self.family != 'pi':supervision['family'] = self.family
+        self.begin_attempted = self.begin_pending = True
+        try:
+            receipt = self.session.rpc('pi_trial_begin', identity=self.identity,
+                device_revision=digest(self.device), target_revision=self.target_revision,
+                policy_revision=self.state['policy_revision'], watchdog_s=30.,target_program=self.target_program, **supervision)
+        except BrokerError as error:
+            if error.code in ('measurement','configuration','ownership','range'):self.begin_pending = False
+            raise
         self.token = receipt['token']
+        self.begin_pending = False
+        self.begin_confirmed = True
+        self.origin = deepcopy(receipt['settings'])
         self.check(force=True)
 
     def check(self, force=False):
         if not force and self.clock()-self.last_check < .2: return
+        if self.monitor_grant is not None:
+            from ldcon.agents.dlc_monitor_grant import check_grant
+            check_grant(self.laser_id, self.monitor_grant)
         if self.token:
             self.session.rpc('pi_trial_heartbeat', token=self.token)
             history = self.session.rpc('pi_trial_samples', token=self.token, after_s=self.last_sample)
@@ -58,6 +95,10 @@ class PIAdapter:
             self.measurement_missing = True
         self.last_check = self.clock()
         self.controls.append(deepcopy(self.state))
+        if self.operating_mode_revision is not None:
+            mode = self.state.get('operating_mode')
+            if not mode or mode.get('revision') != self.operating_mode_revision:
+                raise CardCancelled('Operating mode changed; adjustment ends')
         if self.state['mode'] != 'lock' or self.state['fault'] or self.state['target_revision'] != self.target_revision:
             raise DeviceError('Lock/target context changed; adjustment ends')
         if not self.measurement_missing and self.state['frequency']['acquired_s']>self.acquisition_fence and abs(self.state['frequency']['frequency_hz']-self.target) > self.state['control']['capture_hz']:
@@ -132,7 +173,9 @@ class PIAdapter:
         result['raw_source']='owner WSU1 acquisition history; control observations have their own timestamps'
 
     def close(self, adopt=False):
-        if self.token is None:return None
+        if self.token is None:
+            if self.begin_pending:raise DeviceError('PI begin outcome is unconfirmed; do not replay')
+            return None
         cached=self.session.rpc('pi_trial_receipt');state=cached['trial']
         if self.uncertain or cached['fault']:
             raise DeviceError('Unknown physical effect or owner fault; coefficient receipt is not output verification')
@@ -141,9 +184,28 @@ class PIAdapter:
             if not last or last['identity']!=self.identity:raise DeviceError('PI cleanup receipt unavailable')
             self.token=None
             return last
-        if cached['target_frequency_hz']!=self.origin_target:
-            self.session.rpc('pi_trial_restore_target',token=self.token)
-        result=self.session.rpc('pi_trial_finish',token=self.token,adopt=adopt)
+        try:
+            # Only the explicitly admitted target-response program owns target
+            # excursions. Current/TEC/FF and ordinary PI trials never restore it.
+            if self.family=='pi' and self.target_program is not None and cached['target_frequency_hz']!=self.origin_target:
+                self.uncertain=True
+                self.session.rpc('pi_trial_restore_target',token=self.token)
+                self.uncertain=False
+            self.uncertain=True
+            result=self.session.rpc('pi_trial_finish',token=self.token,adopt=adopt)
+            if result.get('confirmed') is not True:raise DeviceError('Trial finish is unconfirmed')
+            self.uncertain=False
+        except BrokerError as error:
+            if error.code not in ('configuration','ownership'):raise
+            self.uncertain=False  # Explicit pre-write refusal; reconcile only.
+            # Revocation can restore between the cached read and finish. This
+            # is a read-only reconciliation, never a second finish or adoption.
+            latest=self.session.rpc('pi_trial_receipt')
+            last=latest.get('trial',{}).get('last')
+            if (self.uncertain or latest.get('fault') or latest.get('trial',{}).get('active') is not None
+                    or not last or last.get('identity')!=self.identity or last.get('confirmed') is not True):
+                raise
+            result=last
         self.token=None
         return result
 

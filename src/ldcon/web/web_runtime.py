@@ -289,14 +289,9 @@ class WebRuntime:
         saved_parameters, input_artifacts=freeze_inputs(directory,p)
         invocation_payload={'card_id':card_id,'parameters':saved_parameters,
                             'input_artifacts':input_artifacts,'reference_source':reference_source}
-        if card['operation']=='agent.task' and p['instruction_profile']=='adjustment' and not p['monitor_job_id']:
-            from ldcon.agents.dlc_pi_plan import freeze as freeze_dlc_pi
-            invocation_payload['adjustment_plan']=freeze_dlc_pi(laser,deck,p,definition['invocation_parameters'])
-            if invocation_payload['adjustment_plan'] is None:
-                from ldcon.agents.agent_monitor import parameters as monitor_parameters
-                plan_card=next((c for c in deck['cards'] if c['id']==p['adjustment_plan_card_id'] and c['operation']=='agent.monitor'),None)
-                if not plan_card:raise ValueError('A saved approved adjustment plan is required')
-                invocation_payload['adjustment_plan']=monitor_parameters(plan_card,definition['invocation_parameters'].get(plan_card['id'],{}))
+        if card['operation']=='agent.task' and p['instruction_profile']=='adjustment':
+            from ldcon.agents.dlc_pi_plan import freeze_task
+            invocation_payload['adjustment_plan']=freeze_task(laser,deck,p,definition['invocation_parameters'])
         if card['operation'] in ('measure.change','measure.batch'):
             from ldcon.agents.measurement_grant import freeze_measurement_plan, measurement_plan_source
             invocation_payload['measurement_plan']=freeze_measurement_plan(laser)
