@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/FanHarvard/ldcon/main/docs/icon.png" alt="LDCon: laser beam and a feedback loop" width="64" height="64">
+
 # LDCon
 
 **Still in active development.**
