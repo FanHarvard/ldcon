@@ -1,0 +1,93 @@
+{
+  "instrument": "sdg2042x:SDG2XFBCA00839",
+  "kind": "awg",
+  "profile": "siglent_sdg2000x",
+  "host": "192.168.1.37",
+  "transport": "vxi11",
+  "visa_backend": "@py",
+  "resource": "TCPIP::192.168.1.37::INSTR",
+  "expected_identity": "Siglent Technologies,SDG2042X,SDG2XFBCA00839,2.01.01.39R7",
+  "description": "Shared SDG2042X: CH1 = sr422 TEC (DC), CH2 = sr1092 native FF modulation. ONE VXI-11 session.",
+  "channels": {
+    "1": {
+      "writes_enabled": true,
+      "role": "sr422 TEC DC (rig lease)"
+    },
+    "2": {
+      "writes_enabled": true,
+      "role": "sr1092 native FF modulation (relay lease)",
+      "require_channel_environment": true
+    }
+  },
+  "safe_start": {
+    "expect": {
+      "1": {
+        "waveform": "DC",
+        "value_range": [
+          0.2,
+          1.0
+        ],
+        "enabled": true,
+        "load": "HZ",
+        "polarity": "NOR",
+        "burst": "OFF",
+        "modulation": "OFF",
+        "sweep": "OFF"
+      },
+      "2": {
+        "waveform": "DC",
+        "burst": "OFF",
+        "modulation": "OFF",
+        "sweep": "OFF"
+      }
+    }
+  },
+  "timeout_s": 10.0,
+  "endpoint_lock": {
+    "port": 5025
+  },
+  "reconnect": "manual",
+  "bind": "127.0.0.1",
+  "port": 47151,
+  "state_dir": "/opt/ldcon/var/instrument-owners/sdg2042x-SDG2XFBCA00839",
+  "lock_dir": "/opt/ldcon/var/instrument-locks",
+  "instrument_settings": {
+    "mode": "enforce",
+    "check_interval_s": 60,
+    "items": [
+      {
+        "name": "reference_clock_source",
+        "write": "ROSC EXT",
+        "query": "ROSC?",
+        "expect": {
+          "source": "EXT"
+        },
+        "description": "SDG2042X .37 = SLAVE on the EXTERNAL 10 MHz from the new sr422 SDG2042X (awg-ldcon-sr422-sgl, SDG2XFBCA00845) = clock master (human 2026-10-22)"
+      }
+    ]
+  },
+  "projection_sources": {
+    "laser-sr422": {
+      "system_id": "sr422",
+      "key_env": "LDCON_PROJECTION_SR422",
+      "channels": [
+        1
+      ]
+    },
+    "laser-sr1092": {
+      "system_id": "Sr1092",
+      "key_env": "LDCON_PROJECTION_SR1092",
+      "channels": [
+        2
+      ]
+    }
+  },
+  "capabilities": {
+    "voltage_bounds_v": [
+      -10.0,
+      10.0
+    ],
+    "max_vpp": 20.0,
+    "max_points": 8000000
+  }
+}

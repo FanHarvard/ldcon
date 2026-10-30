@@ -1,0 +1,99 @@
+schema_version: 1
+id: sr1092
+laser_id: sr1092
+decks:
+- deck_id: dfb-dbr-ldc-tec
+  parameters:
+    change-operating-point:
+      verify_samples: 3
+      sample_interval_s: 0.5
+      timeout_s: 900.0
+    change-target:
+      verify_samples: 5
+      sample_interval_s: 1.0
+      timeout_s: 900.0
+    current-response:
+      timeout_s: 60.0
+      optimize_update_interval: false
+    native-operating-point:
+      settle_s: 2.0
+      stable_s: 5.0
+      average_samples: 3
+      max_step_codes: 3
+      target_frequency_hz: 274589143700000.0
+      tolerance_hz: 10000000.0
+    native-current-servo:
+      target_frequency_hz: null
+      tolerance_hz: 10000000.0
+      target_wavelength_nm: null
+      duration_s: null
+      acquisition_timeout_s: 300.0
+      sample_interval_s: 0.5
+      max_sample_age_s: 1.0
+    frequency-triangle:
+      shape: triangle
+      levels_hz:
+      - -1000000
+      - 1000000
+      dwell_s: 0.1
+      sample_rate_hz: 20000
+      duration_s: 600
+    frequency-staircase:
+      shape: staircase
+      levels_hz:
+      - -1000000
+      - 1000000
+      dwell_s: 0.1
+      sample_rate_hz: 20000
+      duration_s: 600
+    diagnostic-agent:
+      provider: claude
+      mode: create_or_connect
+      workspace: ''
+      session_id: ''
+      remote_control: null
+      execution_profile: ''
+      model: ''
+      effort: ''
+      request_timeout_s: 900.0
+      role: gateway
+    teams-notification:
+      webhook_env: LDCON_TEAMS_LASER_MONITOR
+    agent-monitor:
+      conditions:
+      - above: 10000000.0
+        clear_below: 5000000.0
+        cooldown_s: 900
+        id: frequency-offset
+        max_age_s: 10
+        metric: abs_error_hz
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.8
+        clear_below: 0.5
+        cooldown_s: 900
+        id: integral-use
+        max_age_s: 10
+        metric: native_integral_usage
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.25
+        baseline: 0.043953
+        clear_below: 0.1
+        cooldown_s: 900
+        id: source-cadence
+        max_age_s: 10
+        metric: source_interval_s
+        persistence_s: 60
+        repeat_s: 900
+      follow_quality_thresholds: false
+    target-response:
+      offsets_hz: null
+      expected_settle_s: 3.0
+      settling_goal_s: 3.0
+      execution_profile: ''
+      adoption_mode: report_only
+    agent-adjust:
+      request_delegation: true
+      execution_profile: ''
+      adoption_mode: auto_within_approved

@@ -1,0 +1,90 @@
+{
+  "bind": "192.168.1.5",
+  "port": 47130,
+  "instruments": {
+    "repump_1092_controller": {
+      "profile": "cld1015",
+      "resource": "auto",
+      "channels": [
+        0
+      ],
+      "current_limits_a": null,
+      "temperature_limits_c": [
+        16.5,
+        17.5
+      ],
+      "temperature_conditions_file": "/opt/ldcon/var/device-owners/sr422/compat/sr1092-broker.yaml",
+      "policy_device": "ldc",
+      "timeout_s": 5
+    },
+    "repump_1092": {
+      "resource": "TCPIP::192.168.1.37::INSTR",
+      "profile": "siglent_sdg2000x",
+      "channels": [
+        2
+      ],
+      "timeout_s": 10.0,
+      "visa_backend": "@py",
+      "expected_identity": "Siglent Technologies,SDG2042X,SDG2XFBCA00839,2.01.01.39R7",
+      "relay_to_owner": {
+        "instrument": "sdg2042x:SDG2XFBCA00839",
+        "endpoint": "http://127.0.0.1:47151"
+      }
+    }
+  },
+  "ecdl_rigs": {
+    "sr422": {
+      "laser_file": "/opt/ldcon/var/lasers/sr422/config/lasers/sr422.yaml",
+      "audit_file": "/opt/ldcon/var/device-owners/sr422/audit.jsonl",
+      "instrument_owners": {
+        "tec_awg": {
+          "instrument": "sdg2042x:SDG2XFBCA00839",
+          "endpoint": "http://127.0.0.1:47151",
+          "channels": [
+            1
+          ],
+          "observe": [
+            2
+          ],
+          "resource": "TCPIP::192.168.1.37::INSTR",
+          "profile": "siglent_sdg2000x",
+          "projection": {
+            "principal": "laser-sr422",
+            "key_env": "LDCON_PROJECTION_SR422"
+          }
+        },
+        "current_awg": {
+          "instrument": "sdg2042x:SDG2XFBCA00845",
+          "endpoint": "http://127.0.0.1:47153",
+          "channels": [
+            1,
+            2
+          ],
+          "observe": [],
+          "resource": "TCPIP::192.168.1.38::INSTR",
+          "profile": "siglent_sdg2000x",
+          "projection": {
+            "principal": "laser-sr422",
+            "key_env": "LDCON_PROJECTION_SR422"
+          }
+        }
+      }
+    }
+  },
+  "sensors": {
+    "sr1092_optical": {
+      "laser_file": "/opt/ldcon/var/device-owners/sr422/compat/sr1092-broker.yaml",
+      "device": "wavemeter"
+    }
+  },
+  "retained_instrument_faults": {
+    "repump_1092_controller": {
+      "resource": "auto",
+      "fault": "[Errno 110] Operation timed out"
+    }
+  },
+  "registry": {
+    "endpoint": "http://127.0.0.1:47150",
+    "state_dir": "/opt/ldcon/var/instrument-owners"
+  }
+}

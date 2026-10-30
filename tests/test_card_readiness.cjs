@@ -1,0 +1,22 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {JSDOM}=require('jsdom');
+const assets=process.env.LDCON_TEST_ASSETS||path.resolve(__dirname,'../src/ldcon/web_assets');
+const text=fs.readFileSync(path.join(assets,'app.js'),'utf8');
+const code=text.slice(text.indexOf('function readinessLabel('),text.indexOf('function cardTable('));
+const dom=new JSDOM('<button id="start"></button><textarea></textarea><td></td><p></p>',{runScripts:'outside-only'}),w=dom.window;
+let calls=0,updates=0,ready=true;
+w.api=async(route,method,body)=>{calls++;assert(route.endsWith('/validate'));assert.equal(method,'POST');return {runnable:ready,blocked_reasons:ready?[]:['One matching live controller is required']}};
+w.updateCardStatus=()=>updates++;
+w.eval(code+';window.runCheck=checkAttachedReadiness;window.label=readinessLabel;');
+const start=w.document.querySelector('button'),params=w.document.querySelector('textarea'),status=w.document.createElement('span'),p=w.document.querySelector('p');params.value='{}';
+(async()=>{
+ assert.equal(w.label(['A running stationary PID controller is required']),'Waiting for controller');
+ assert.equal(w.label(['A recorded map artifact or same-laser job reference is required']),'Requires measurement');
+ assert.equal(w.label(['Native FF route plays staircases only']),'Unsupported route');
+ assert.equal(w.label(['Agent card and prompt are required']),'Enter request');
+ const run=()=>w.runCheck({id:'laser',revision:'rev'},{id:'deck'},{id:'pid',operation:'tune.pid_factor_reduction'},params,start,status,p);
+ run();await new Promise(r=>setTimeout(r,0));assert.equal(start.dataset.runnable,'true');assert.equal(status.dataset.ready,'true');
+ ready=false;run();await new Promise(r=>setTimeout(r,0));assert.equal(start.dataset.runnable,'false');
+ ready=true;run();params.value='{"new":1}';await new Promise(r=>setTimeout(r,0));assert.equal(start.dataset.runnable,'false');
+ assert.equal(calls,3);assert.equal(updates,2);dom.window.close();console.log('Runtime readiness and edit-race checks passed; validation only.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

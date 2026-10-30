@@ -1,0 +1,18 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>温度による周波数取得カード</title>
+<style>body{font:17px/1.8 system-ui;max-width:960px;margin:3em auto;padding:0 1em}pre{background:#eef3f7;padding:1em;overflow:auto}</style>
+<h1>tune.temperature_onceと機器ごとの温度校正</h1>
+<p>このカードは目標周波数へ温度だけで有限時間内に接近します。LD/TEC出力は既に有効でなければ動作せず、出力のON/OFFは操作しません。目標・許容誤差・取得期限は呼出しパラメーター、温度による周波数変化の校正係数はレーザーに割り当てた温度機器の設定です。</p>
+<h2>校正の保存先</h2>
+<pre>devices:
+  ldc:
+    control_settings:
+      temperature:
+        output_update_interval_s: 0.5
+        frequency_hz_per_c: null</pre>
+<p>frequency_hz_per_cは温度1°C当たりの光周波数変化（Hz/°C）です。符号を含む有限の非ゼロ値だけを受け付けます。上のnullは校正未設定を表します。測定済みの当該レーザーの値を設定し、別のレーザーの値を流用しないでください。型付きTemperaturePortがこの値を公開し、broker接続時にはownerのcontrol_settings.temperatureとの完全一致を確認します。設定が食い違うと出力を書き込む前に拒否します。</p>
+<h2>未校正時の同定</h2>
+<p>係数がnullまたは未設定でidentify_slopeがtrueなら、安全範囲内の温度往復を行い、周波数応答・雑音・元点への戻りを確認して局所係数を求めます。得た値はこの実行だけに使い、レーザー設定へ自動保存しません。既知の機器係数があればそれを使います。identify_slopeがfalseで機器係数もなければ開始できません。既に目標を満たしている未校正状態では、新しい有効標本で安定を確認し、同定のためだけに動かしません。</p>
+<p>絶対温度範囲、最大ステップ、温度変化速度、LD/TEC状態、測定鮮度、同定の戻り確認、有限の欠測待機は維持します。ログのtemperature_calibrationでdevice_settingsとinvocation_identificationを区別します。</p>
+<h2>旧設定からの移行</h2>
+<p>旧カード・割当のfrequency_hz_per_c:nullは互換性のため受け付けて除去します。非nullの係数は、機器設定へ移す必要がある旨を示して拒否します。明示値を持つ古い有限ジョブのinvocationを新workerでそのまま再実行しないでください。移行準備で対応する機器設定へ値を移し、複数カード・割当・既存機器設定で矛盾がないことと、ownerが同じ設定を持つことを確認してください。</p>
+<p>実行中の連続ロックの動作やownerをこの変更で自動更新しません。本変更の確認は模擬機器・localhost ownerで行い、実機の温度取得や再起動は行っていません。</p></html>

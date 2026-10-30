@@ -1,0 +1,82 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>物理量と保存先を分離したメトリクス取得</title>
+<style>body{font:17px/1.8 system-ui;max-width:1000px;margin:3em auto;padding:0 1em}pre{background:#eef3f7;padding:1em;overflow:auto}td,th{border:1px solid #ccc;padding:.5em}table{border-collapse:collapse}</style>
+<h1>物理量と保存先を分離したメトリクス取得</h1>
+<p>acquire.metricsカードは、欲しい物理量IDと取得窓だけを指定します。metric_readerインターフェースがレーザー固有の取得設定を解決し、VictoriaMetricsまたはSQLiteドライバから読取り、単位と品質情報を統一して返します。カード内にURL、データベース名、メトリクス名、SQLを埋め込みません。</p>
+<table><tr><th>層</th><th>責務</th><th>実装</th></tr>
+<tr><td>物理量定義</td><td>意味・標準単位・解釈上の注意。保存先を知らない</td><td>metric_quantities.py</td></tr>
+<tr><td>カード</td><td>quantity ID、時間窓、鮮度条件を指定し、結果を記録</td><td>metric_cards.py / acquire.metrics</td></tr>
+<tr><td>インターフェース・対応設定</td><td>量→取得元、単位換算、品質・時刻・出典の統一</td><td>metric_interface.py / metric_reader</td></tr>
+<tr><td>ドライバ</td><td>保存先のアクセス方法・クエリー・生データの復号</td><td>drivers/metric_sources.py</td></tr></table>
+<h2>物理的な意味を混ぜない</h2>
+<p>optical.frequencyはHz、optical.wavelengthは真空波長nmです。electrical.current（A）とcontrol.current_voltage（V）、thermal.temperature（K）とcontrol.tec_voltage（V）は別の量です。校正なしで入力電圧を電流や温度に読み替えません。ディザー応答もnm/Vとnm/Aを別IDにし、モード純度や窓境界との距離を直接表す量とはしません。</p>
+<p>物理量一覧はAPI <code>api/metric-quantities</code> またはmetric_quantities.pyで確認できます。新しい量はこの定義へ意味・単位・制約を追加します。B/Cなど解析法依存の指標は、分母・ピーク選択・解析版まで意味を定義してから登録し、単なる同名フィールドだけを同じ物理量と扱わないでください。</p>
+<h2>カードとレーザー設定の例</h2>
+<pre># デッキ: 保存先に依存しない
+interfaces:
+  metrics: metric_reader
+cards:
+- id: metrics
+  operation: acquire.metrics
+  uses: [metrics]
+  parameters:
+    quantities: [optical.frequency]
+    window_s: 60
+    max_sample_age_s: 5</pre>
+<pre># レーザーのdevices内: 保存先と具体的なクエリー
+telemetry:
+  type: metrics.victoriametrics
+  connection:
+    endpoint: http://127.0.0.1:8428
+  absolute_conditions: {}
+  control_settings:
+    bindings:
+      optical.frequency:
+        source_unit: Hz
+        time_basis: recording
+        description: Ownerの光学周波数。export時刻であり測定時刻は未検証。
+        query:
+          selector: 'ldcon_frequency_hz{laser="EXAMPLE",kind="owner_sample",simulation="false"}'
+          quality_selector: 'ldcon_frequency_valid{laser="EXAMPLE",kind="owner_sample",simulation="false"}'
+# レーザーのinterfaces内
+metrics:
+  device: telemetry
+  capability: metric_reader</pre>
+<p>上記は既存レーザーとデッキへ追加する設定断片です。EXAMPLEは実際の対象へ置換し、データの意味とtimestampの由来を確認してください。URIやクエリーはレーザー設定としてコードから分離し、配備後はvar/lasersに保存します。共通デッキはvar/interface-decksへ置き、対象レーザーの割当に追加します。acquire.metricsは共通の取得機能としてカタログに残しますが、取得元を設定するまで現行デッキには割り当てません。</p>
+<p><code>tests/fixtures/metric-acquisition/laser.yaml</code>と<code>deck.yaml</code>は、スキーマとworkerを機器・実データに接続せず検証するテスト専用fixtureです。運用対象のレーザー・デッキでも配備用の設定例でもなく、ダッシュボードへの登録や本番へのコピーは行いません。</p>
+<h2>SQLiteへの差し替え</h2>
+<pre>type: metrics.sqlite
+connection:
+  path: /opt/ldcon/var/jobs/LASER/JOB/telemetry.sqlite3
+absolute_conditions: {}
+control_settings:
+  bindings:
+    optical.frequency:
+      source_unit: Hz
+      time_basis: acquisition
+      description: このrunの光学取得時刻と品質を記録したtrace
+      query:
+        run_id: RUN_UUID
+        kind: trace
+        value_field: frequency_hz
+        time_field: sample_acquired_unix_s
+        quality_field: sample_valid</pre>
+<p>フィールド名は実際のpayloadに合わせます。この例の時刻フィールドが存在する保証はありません。monotonic時間や記録時刻をUNIX取得時刻の代用にしません。timestampが欠けた系列は拒否します。SQLiteはmode=roで開き、run_id/kindをパラメーター化した固定SQLで取得します。任意SQLを実行する機能はありません。</p>
+<h2>量ごとに別の保存先を使う</h2>
+<pre># 各保存先を別deviceとして定義したうえでルーターを指定
+metric-routing:
+  type: metrics.router
+  connection: {}
+  absolute_conditions: {}
+  control_settings:
+    routes:
+      optical.frequency: vm-source
+      control.current_voltage: sqlite-source
+# metricsインターフェースのdeviceをmetric-routingへ変更</pre>
+<p>各sourceは割り当てられた量を自身のbindingsで定義します。ルーターを変更してもカードのquantitiesは変えません。未登録量・未対応単位・存在しない参照は開始前に拒否します。新しい保存先は同じread(query,start,end)契約のドライバと型登録を追加して拡張できます。</p>
+<h2>品質・鮮度・出典</h2>
+<p>結果は量ID、標準単位、値、source_unix_s、acquired_unix_s、qualityを持ちます。timestampがrecordingの場合はacquired_unix_s=null、品質はtimestamp_unverified（元品質が有効な場合）、fresh=falseです。品質を取得できない場合はunknownとし、値が有限でも自動でvalidにはしません。NaN/Inf・物理範囲違反はinvalid。鮮度は測定品質と別に示し、古い有効標本を新しい標本へ置き換えません。</p>
+<p>VictoriaMetricsは <a href="https://docs.victoriametrics.com/victoriametrics/single-server-victoriametrics/">公式JSON export API</a> の元のミリ秒timestampを使用します。query_rangeの評価時刻や補間・lookbackによる値を取得時刻と誤認することを避けるため、初版は生系列selectorに限定します。複数系列が一致した場合は平均せず拒否します。品質は完全に一致したtimestampで照合します。応答8MiB・2万点・時間窓1日を上限とし、超過時に黙って切り捨てません。</p>
+<p>カードは一回の時間窓を取得し、metric_bindingに量の意味・取得元・具体クエリー・単位・時刻解釈を記録し、metric_sampleに各標本を保存します。保存先は通常のジョブログです。空系列はsample_counts=0とempty_quantitiesへ明記します。取得成功は測定の正常性・ロック正常・制御への採用可能を保証しません。</p>
+<h2>既存コードとの境界</h2>
+<p>Grafanaの保存先依存の既存式はmetric_query_profiles.pyへ分離し、既存の図と品質マスクを維持しました。表示用の集約式はmetric_readerの生標本とは区別します。稼働中ownerの安全判定・専用ディザーフィット入力はこの作業で一般ログ取得へ置換していません。一般メトリクスを制御入力へ接続するときは独立の時刻・品質・単一owner契約を検証してください。</p>
+<p>整理worktreeへの実装とoffline試験であり、本番配備や実データ取得は行っていません。CLIと結果はdoc/command.mdに記録します。</p></html>

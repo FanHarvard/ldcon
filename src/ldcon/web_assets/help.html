@@ -1,0 +1,22 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LDCon 運用ガイド</title><style>body{font:16px/1.8 system-ui;max-width:1050px;margin:3rem auto;padding:0 24px;color:#243844}h1,h2{line-height:1.3}pre{background:#edf2f5;padding:18px;white-space:pre-wrap;overflow-wrap:anywhere}td,th{padding:10px;border:1px solid #ccd7de;text-align:left}table{border-collapse:collapse;width:100%}a{color:#176b64}</style><h1>LDCon 運用ガイド</h1><p>共有コードと運用データを分離した配備案です。この作業では実機サービスの停止・再起動・ファーム書込みは行いません。</p>
+<h2>配置</h2><table><tr><th>場所</th><th>内容</th></tr><tr><td>/opt/ldcon/app</td><td>共通カード・所有者・Webコード。FanLabAdmin:FanLabAdmin、グループ書込み可。</td></tr><tr><td>/opt/ldcon/venv</td><td>専用Python環境。appをeditable install。</td></tr><tr><td>/opt/ldcon/var/lasers/&lt;ID&gt;.yaml</td><td>レーザーの機器、安全条件、制御設定。</td></tr><tr><td>var/interface-decks、var/assignments</td><td>共通デッキとレーザー別割当・既定値。</td></tr><tr><td>var/laser-assets/&lt;ID&gt;/scripts、evidence</td><td>レーザー固有スクリプト、検証証拠・所有者記録。</td></tr><tr><td>var/jobs/&lt;laser-id&gt;/&lt;job-id&gt;</td><td>実行ログ・SQLite・開始時の不変設定。</td></tr><tr><td>var/archive-index</td><td>圧縮後も残る検索索引とHTMLレポート。</td></tr><tr><td>コンソール指定バックアップ/&lt;laser-id&gt;/&lt;job-id&gt;.tar.gz</td><td>期限超過の終了済みログ。</td></tr><tr><td>/etc/systemd/system、/etc/sudoers.d</td><td>root所有のサービスと厳密な操作許可。</td></tr></table>
+<h2>準備とインストール</h2><pre>bash scripts/install.sh --destdir /tmp/ldcon-install-preview
+# rootで実際にインストール。ここではサービスを起動・enableしない。
+sudo bash scripts/install.sh
+# 必要な場合だけsudoersも検査して配置する。
+sudo bash scripts/install.sh --install-sudoers</pre><p>最後の2コマンドは代替です。二重実行しません。既存appがあれば上書きを拒否します。更新時は全ジョブ・リースが空、旧所有者停止、出力保持を確認した後にappをapp.previousとして保全してください。依存パッケージの導入にはネットワークとpython3-venvが必要です。</p>
+<h2>現行状態の移行</h2><pre>python3 scripts/migrate_state.py --source-root /home/kshu/work/development/ldcon   --instrument-config /home/kshu/work/development/ldcon/examples/instruments/sr1092-interface.json --plan
+# 旧Web・旧所有者を停止し、全リース空・出力保持を本人の運用手順で確認してから:
+sudo -u FanLabAdmin -g FanLabAdmin /opt/ldcon/venv/bin/python /opt/ldcon/app/scripts/migrate_state.py   --source-root /home/kshu/work/development/ldcon   --instrument-config /home/kshu/work/development/ldcon/examples/instruments/sr1092-interface.json</pre><p>移行は読めるソースと空の配備先を必要とします。FanLabAdminへソースの読取り権限を与えるか、レビュー済みの停止時コピーを渡してください。実行中ジョブ、Webのserver.lock、既存データがあれば拒否します。srcや過去の不変ジョブ設定は変更しません。現在設定の既知の証拠パスだけを新配置へ変換し、SHA256のmanifestを保存します。途中失敗は自動で上書き再開せず、manifestとコピー状態を調べて復元します。旧リポジトリと新所有者を同時に起動しません。特にUIDの異なる所有者には旧per-userロックだけでは重複防止できません。</p>
+<h2>権限と起動順</h2><p>既存ユーザーをFanLabAdminグループに追加する操作は管理者が実施します。USB機器が必要なら既存udev規則・デバイスグループの権限を確認してください。API認証トークンがある場合はvar/service.envへ保存しFanLabAdmin:FanLabAdminの0660とします。権限を緩めて機器の認証を迂回しません。Webは既定で127.0.0.1のみです。LAN公開は既存の認証付きプロキシまたは管理者のunit overrideで設定してください。</p><pre>sudo /usr/bin/systemctl start ldcon-instruments.service
+sudo /usr/bin/systemctl start ldcon-web.service
+systemctl status ldcon-instruments.service ldcon-web.service
+# 停止はWebのカードを通常停止して所有者解放を確認した後:
+sudo /usr/bin/systemctl stop ldcon-web.service
+sudo /usr/bin/systemctl stop ldcon-instruments.service
+# 再起動は実行ジョブ・所有者がidleのときだけ:
+sudo /usr/bin/systemctl restart ldcon-instruments.service
+sudo /usr/bin/systemctl restart ldcon-web.service</pre><p>sudoersはこの2サービスについてstart/stop/restartの6コマンドだけを許可します。ワイルドカード、edit、daemon-reload、任意unit、shellは許可しません。statusはsudo不要です。自動再起動は設定せず、予期しない再開でハードウェア所有権を重複させません。</p><pre>sudo visudo -cf deploy/ldcon.sudoers
+sudo install -o root -g root -m 0440 deploy/ldcon.sudoers /etc/sudoers.d/ldcon</pre>
+<h2>ログ保管</h2><p>他設定タブで保持日数（1〜36500）とサービスユーザーが書けるバックアップフォルダを指定し、有効化します。既定は30日・無効で、保存先指定前に移動しません。終了後の最終ファイル変更時刻から期限を計算し、稼働中・解放中・symlinkを含むジョブは対象外です。圧縮後に全内容のSHA256を検証し、archive・索引・HTMLを永続化してから元ディレクトリを削除します。容量不足・接続切断・検証失敗は元ログを保持して他設定にエラー表示します。同名バックアップを上書きしません。HTMLレポートと索引には自動削除期限を設けません。運用に必要な検証証拠・所有者auditは実行ログとは別に保存し、このローテーションでは削除しません。</p>
+<h2>復元</h2><p>旧実機所有者の停止を確認してから新所有者へ切り替えます。切替失敗時は新サービスを止め、全ジョブ・リースと実出力を照合して旧配置へ戻します。旧コードの復旧元はreorganization-baselineの初期コミットです。バックアップはまず別フォルダで内容一覧・ハッシュを確認し、元のlaser-id/job-idへ戻してください。展開を稼働中ジョブに上書きしません。</p></html>

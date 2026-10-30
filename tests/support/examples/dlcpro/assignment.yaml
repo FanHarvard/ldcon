@@ -1,0 +1,6 @@
+schema_version: 1
+id: dlc-simulation
+laser_id: dlc-simulation
+decks:
+  - deck_id: ecdl-dlcpro
+    parameters: {}

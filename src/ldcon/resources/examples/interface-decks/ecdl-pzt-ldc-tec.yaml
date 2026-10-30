@@ -1,0 +1,698 @@
+# Illustrative configuration only; hardware output is disabled.
+schema_version: 1
+id: ecdl-pzt-ldc-tec
+name: ECDL ; PZT/LDC/TEC
+interfaces:
+  servo_modulation: servo_modulation
+  observation: optical_mode_monitor
+  piezo: bounded_axis
+  temperature: bounded_axis
+  current: bounded_axis
+  loop: open_loop_state
+  lock: ecdl_stationary_lock
+cards:
+- id: mode-map
+  operation: study.ecdl_mode_map
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: recovery
+  operation: prepare.ecdl_recovery
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: tec-branch-alignment
+  operation: tune.ecdl_operating_point
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: steady-lock
+  operation: servo.ecdl_steady_lock
+  uses:
+  - lock
+  parameters:
+    strategy: hold
+    duration_s: null
+- id: grafana-dashboard
+  operation: report.grafana_dashboard
+  uses: []
+  parameters: {}
+- id: window-center
+  operation: tune.ecdl_window_center
+  uses:
+  - lock
+  parameters:
+    controller_card_id: steady-lock
+    mode: center_only
+    observables:
+    - dither_response
+    - metrics.side_peak_prominence_max
+    - metrics.side_peak_height_max
+    - metrics.main_fwhm_fraction
+    timeout_s: 3600.0
+- id: frequency-triangle
+  operation: sweep.servo_modulation
+  uses:
+  - servo_modulation
+  parameters:
+    shape: triangle
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: frequency-staircase
+  operation: sweep.servo_modulation
+  uses:
+  - servo_modulation
+  parameters:
+    shape: staircase
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: diagnostic-agent
+  operation: agent.resident
+  uses: []
+  parameters:
+    provider: claude
+    mode: create_or_connect
+    workspace: ''
+    session_id: ''
+- id: agent-request
+  operation: agent.request
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: ''
+- id: teams-notification
+  operation: notify.teams
+  uses: []
+  parameters:
+    webhook_env: ''
+    message: LDCon notification
+- id: change-operating-point
+  operation: tune.operating_point
+  uses: []
+  parameters: {}
+- id: change-target
+  operation: tune.lock_target
+  uses: []
+  parameters: {}
+- id: mode-recovery
+  operation: recover.ecdl_mode_hop
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: agent-adjust
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    instruction_profile: adjustment
+    execution_profile: ''
+    request_delegation: true
+    timeout_s: 1800.0
+    lookback_s: 3600.0
+    prompt: Teams notifications are disabled. Do not post or enqueue Teams messages.
+      Use current owner and recorded evidence; old failure records are not authority
+      to restart locks. Do not change target, absolute physical limits, slew limits,
+      calibration, firmware, or persistent PI settings. Human and program foreground
+      operations take priority. Use only this task background grant for automatic
+      effects. If the system is healthy, explain why no adjustment is needed. Do not
+      repeatedly disturb a healthy lock. Do not force observation of a multimode state.
+      Use historical drift/recovery behavior to judge practical quality. Keep the
+      local result concise in English, with evidence, actual outcome and uncertainty.
+      Optimize the current operating point only when justified. Start with small measured
+      moves; the full existing owner range is a ceiling, not a target jump. Measure
+      fresh dither and position-free side peaks at every point. Record all explored
+      points and keep the best practical measured point, even if a full window is
+      not identified. Do not claim unobserved boundaries. Automatic scope now includes
+      current, slow_loop and feedforward. Read background capabilities and actual
+      runtime parameters first. For slow_loop use parameter_candidate with tec_gain,
+      supervision_interval_s or piezo_center_dac; for feedforward use current_per_temperature.
+      The approved bounds are TEC gain .01..5e-1, period 1..100 s, PZT center 30000..36000
+      count, TEC-current FF .5..2 V/V. Current/TEC excursion ceilings are 20/10 mV
+      per intervention; the owner publishes a tighter effective return envelope when
+      needed for the unchanged 20 s foreground deadline. Never treat a bound as a
+      target jump. tec_dt_cap_s is not a tuning candidate. The worker requires four
+      actual slow cycles plus fresh distinct native/optical evidence; a long period
+      may need several minutes. No thermal excitation or poor optical quality means
+      inconclusive, not a reason to force motion or weaken thresholds. Select a family
+      justified by evidence; do not keep repeating a rejected trial. Save no candidate
+      into persistent calibration/PI settings. Foreground operations preempt and restore
+      this intervention checkpoint; never restore an old target. Teams remains disabled.
+    adjustment_family: auto
+    adjustment_plan_card_id: agent-monitor
+    adjustment_objective: ''
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: agent-monitor
+  operation: agent.monitor
+  uses: []
+  parameters:
+    task_card_id: agent-adjust
+    agent_card_id: diagnostic-agent
+    interval_s: 3600.0
+    lookback_s: 3600.0
+    sample_interval_s: 2.0
+    conditions:
+    - id: dither-high
+      metric: dither_response
+      above: 0.003
+      clear_below: 0.0024
+      persistence_s: 60
+      cooldown_s: 900
+      max_age_s: 10
+    - id: frequency-offset
+      metric: abs_error_hz
+      above: 20000000.0
+      clear_below: 10000000.0
+      persistence_s: 60
+      cooldown_s: 900
+      max_age_s: 10
+    background:
+      enabled: true
+      families:
+      - current
+      - slow_loop
+      - feedforward
+      half_span_v: 0.6
+      max_points: 128
+      timeout_s: 1800.0
+      handoff_timeout_s: 20.0
+      adjustment_parameters:
+        slow_loop:
+          objective: frequency_rms_hz
+          window_s: 120.0
+          min_samples: 60
+          settle_s: 30.0
+          max_sample_gap_s: 3.0
+          timeout_s: 900.0
+          minimum_improvement_fraction: 0.1
+          maximum_cadence_fraction: 0.2
+          minimum_tec_excursion_v: 0.0
+        feedforward:
+          objective: frequency_rms_hz
+          window_s: 120.0
+          min_samples: 60
+          settle_s: 30.0
+          max_sample_gap_s: 3.0
+          timeout_s: 900.0
+          minimum_improvement_fraction: 0.1
+          maximum_cadence_fraction: 0.2
+          minimum_tec_excursion_v: 0.0002
+    prompt: Teams notifications are disabled. Do not post or enqueue Teams messages.
+      Use current owner and recorded evidence; old failure records are not authority
+      to restart locks. Do not change target, absolute physical limits, slew limits,
+      calibration, firmware, or persistent PI settings. Human and program foreground
+      operations take priority. Use only this task background grant for automatic
+      effects. If the system is healthy, explain why no adjustment is needed. Do not
+      repeatedly disturb a healthy lock. Do not force observation of a multimode state.
+      Use historical drift/recovery behavior to judge practical quality. Keep the
+      local result concise in English, with evidence, actual outcome and uncertainty.
+      Automatic scope now includes current, slow_loop and feedforward. Read background
+      capabilities and actual runtime parameters first. For slow_loop use parameter_candidate
+      with tec_gain, supervision_interval_s or piezo_center_dac; for feedforward use
+      current_per_temperature. The approved bounds are TEC gain .01..5e-1, period
+      1..100 s, PZT center 30000..36000 count, TEC-current FF .5..2 V/V. Current/TEC
+      excursion ceilings are 20/10 mV per intervention; the owner publishes a tighter
+      effective return envelope when needed for the unchanged 20 s foreground deadline.
+      Never treat a bound as a target jump. tec_dt_cap_s is not a tuning candidate.
+      The worker requires four actual slow cycles plus fresh distinct native/optical
+      evidence; a long period may need several minutes. No thermal excitation or poor
+      optical quality means inconclusive, not a reason to force motion or weaken thresholds.
+      Select a family justified by evidence; do not keep repeating a rejected trial.
+      Save no candidate into persistent calibration/PI settings. Foreground operations
+      preempt and restore this intervention checkpoint; never restore an old target.
+      Teams remains disabled.
+- id: target-response
+  operation: measure.target_response
+  uses: []
+  parameters:
+    offsets_hz:
+    - 20000000.0
+    - 0.0
+    baseline_s: 2.0
+    observation_s: 10.0
+    expected_settle_s: 1.0
+    evaluation_window_s: 1.0
+    check_interval_s: 0.1
+    confirmation_s: 2.0
+    mean_error_max_hz: 10000000.0
+    rms_error_max_hz: 10000000.0
+    peak_error_max_hz: null
+    minimum_samples: 10
+    max_gap_s: 0.2
+    data_wait_s: 15.0
+    command_timeout_s: 90.0
+    execution_profile: ''
+- id: branch-hop
+  operation: tune.ecdl_branch_hop
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters:
+    axis: current
+    direction: decrease
+    step_size: 0.0001
+    max_excursion: 0.02
+    hop_threshold_hz: 1000000000.0
+    confirmation_span_hz: 100000000.0
+    confirm_samples: 3
+    confirm_s: 1.0
+    confirmation_timeout_s: 10.0
+    dwell_s: 0.5
+    sample_interval_s: 0.5
+    max_sample_age_s: 1.0
+    measurement_timeout_s: 30.0
+    timeout_s: 600.0
+    max_steps: 200
+- id: observe
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: current-response
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: temperature-response
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: piezo-response
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: pi-comparison
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: coordinated
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: target-change-measurement
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: centering-response
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: tec-current-feedforward
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: piezo-current-feedforward
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: batch-measurement
+  operation: measure.batch
+  uses: []
+  parameters:
+    steps: []
+    timeout_s: 3600.0
+- id: settling-optimization
+  operation: optimize.settling_criteria
+  uses: []
+  parameters:
+    offsets_hz: null
+    optimization_goal: settling_criteria
+    baseline_s: 2.0
+    observation_s: 10.0
+    expected_settle_s: 3.0
+    settling_goal_s: 3.0
+    ff_max_roundtrips: 12
+    ff_budget_s: 1200.0
+    evaluation_window_s: 1.0
+    check_interval_s: 0.1
+    confirmation_s: 2.0
+    mean_error_max_hz: 10000000.0
+    rms_error_max_hz: 10000000.0
+    peak_error_max_hz: null
+    minimum_samples: 10
+    max_gap_s: 0.2
+    data_wait_s: 15.0
+    command_timeout_s: 90.0
+    workflow_parent_id: ''
+    shift_hz: null
+    shift_search: null
+    abort_integral_fraction_max: 0.95
+    execution_mode: agent
+    agent_card_id: diagnostic-agent
+    agent_timeout_s: 300.0
+    execution_profile: ''
+    adoption_mode: report_only
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: target-ff-optimization
+  operation: optimize.target_feedforward
+  uses: []
+  parameters:
+    offsets_hz: null
+    optimization_goal: settling_and_feedforward
+    baseline_s: 2.0
+    observation_s: 10.0
+    expected_settle_s: 3.0
+    settling_goal_s: 3.0
+    ff_max_roundtrips: 12
+    ff_budget_s: 1200.0
+    evaluation_window_s: 1.0
+    check_interval_s: 0.1
+    confirmation_s: 2.0
+    mean_error_max_hz: 10000000.0
+    rms_error_max_hz: 10000000.0
+    peak_error_max_hz: null
+    minimum_samples: 10
+    max_gap_s: 0.2
+    data_wait_s: 15.0
+    command_timeout_s: 90.0
+    workflow_parent_id: ''
+    shift_hz: null
+    shift_search: null
+    abort_integral_fraction_max: 0.95
+    execution_mode: agent
+    agent_card_id: diagnostic-agent
+    agent_timeout_s: 300.0
+    execution_profile: ''
+    adoption_mode: report_only
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: pi-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: Use the registered PI adjustment instructions and the existing approved
+      plan. Assess whether PI tuning is justified from fresh owner evidence, target-centred
+      error, drift, saturation and control activity. Compare P and I independently
+      and integral limits where the owner supports them. Adopt only a measured improvement;
+      otherwise retain the checkpoint. Do not change the target, physical bounds,
+      slew limits, calibration or firmware. Foreground operations take priority. Report
+      evidence and uncertainty. Teams notifications remain disabled.
+    instruction_profile: adjustment
+    execution_profile: ''
+    request_delegation: true
+    lookback_s: 3600.0
+    sample_interval_s: 1.0
+    timeout_s: 1800.0
+    monitor_job_id: ''
+    evidence_images: []
+    adjustment_family: pi
+    adjustment_plan_card_id: agent-monitor
+    adjustment_objective: ''
+    adoption_mode: auto_within_approved
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: current-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: Use the registered current adjustment instructions and the existing approved
+      plan. If optical quality warrants adjustment, investigate small evidence-guided
+      current changes, use the selected fresh observables and retain the best practical
+      measured point. Do not require a multimode observation or invent unmeasured
+      boundaries. Review quality thresholds against ordinary variability, drift and
+      practical intervention frequency. Preserve the target, physical bounds, slew
+      limits, calibration and firmware. Foreground operations take priority. Report
+      evidence and uncertainty. Teams notifications remain disabled.
+    instruction_profile: adjustment
+    execution_profile: ''
+    request_delegation: true
+    lookback_s: 3600.0
+    sample_interval_s: 1.0
+    timeout_s: 1800.0
+    monitor_job_id: ''
+    evidence_images: []
+    adjustment_family: current
+    adjustment_plan_card_id: agent-monitor
+    adjustment_objective: ''
+    adoption_mode: auto_within_approved
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: tec-centering-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: Use the registered outer-loop adjustment instructions and the existing
+      approved plan. Assess current TEC/PZT centering evidence and compare supported
+      centering parameters only when justified. Use fresh measured results, avoid
+      unnecessary disturbance, and report an inconclusive result when excitation or
+      evidence is insufficient. Preserve the target, physical bounds, slew limits,
+      calibration and firmware. Foreground operations take priority. Report evidence
+      and uncertainty. Teams notifications remain disabled.
+    instruction_profile: adjustment
+    execution_profile: ''
+    request_delegation: true
+    lookback_s: 3600.0
+    sample_interval_s: 1.0
+    timeout_s: 1800.0
+    monitor_job_id: ''
+    evidence_images: []
+    adjustment_family: slow_loop
+    adjustment_plan_card_id: agent-monitor
+    adjustment_objective: ''
+    adoption_mode: auto_within_approved
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: tec-ff-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: Use the registered feedforward adjustment instructions and the existing
+      approved plan. Compare the supported runtime feedforward coefficient only when
+      fresh evidence and adequate naturally observed excitation justify it. Do not
+      force additional unapproved excitation. Adopt only a measured improvement; otherwise
+      retain the checkpoint. Preserve the target, physical bounds, slew limits, calibration
+      and firmware. Foreground operations take priority. Report evidence and uncertainty.
+      Teams notifications remain disabled.
+    instruction_profile: adjustment
+    execution_profile: ''
+    request_delegation: true
+    lookback_s: 3600.0
+    sample_interval_s: 1.0
+    timeout_s: 1800.0
+    monitor_job_id: ''
+    evidence_images: []
+    adjustment_family: feedforward
+    adjustment_plan_card_id: agent-monitor
+    adjustment_objective: ''
+    adoption_mode: auto_within_approved
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: target-thermal-optimization
+  operation: optimize.target_thermal
+  uses: []
+  parameters:
+    offsets_hz: null
+    optimization_goal: settling_feedforward_and_tec
+    baseline_s: 2.0
+    observation_s: 10.0
+    expected_settle_s: 3.0
+    settling_goal_s: 3.0
+    ff_max_roundtrips: 12
+    ff_budget_s: 1200.0
+    evaluation_window_s: 1.0
+    check_interval_s: 0.1
+    confirmation_s: 2.0
+    mean_error_max_hz: 10000000.0
+    rms_error_max_hz: 10000000.0
+    peak_error_max_hz: null
+    minimum_samples: 10
+    max_gap_s: 0.2
+    data_wait_s: 15.0
+    command_timeout_s: 90.0
+    workflow_parent_id: ''
+    shift_hz: null
+    shift_search: null
+    abort_integral_fraction_max: 0.95
+    execution_mode: agent
+    agent_card_id: diagnostic-agent
+    agent_timeout_s: 300.0
+    execution_profile: ''
+    adoption_mode: report_only
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []

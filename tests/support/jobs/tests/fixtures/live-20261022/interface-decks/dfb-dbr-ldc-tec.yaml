@@ -1,0 +1,152 @@
+schema_version: 1
+id: dfb-dbr-ldc-tec
+name: 'DFB;DBR : LDC;TEC'
+interfaces:
+  native_current: native_current_lock
+  current_modulation: current_modulation
+  wavelength: frequency_monitor
+  temperature: temperature_controller
+  current: current_controller
+cards:
+- id: wavelength-monitor
+  operation: monitor.wavelength
+  uses:
+  - wavelength
+  parameters:
+    duration_s: 60.0
+    sample_interval_s: 0.5
+    max_sample_age_s: 1.0
+- id: temperature-acquire
+  operation: tune.temperature_once
+  uses:
+  - wavelength
+  - temperature
+  parameters:
+    timeout_s: 600.0
+    sample_interval_s: 0.5
+    max_sample_age_s: 1.0
+    approach_time_s: 10.0
+    gain: 0.25
+    stable_samples: 3
+    settle_tolerance_c: 0.001
+- id: current-servo
+  operation: servo.current_pid
+  uses:
+  - wavelength
+  - current
+  parameters:
+    measurement_recovery_timeout_s: 120.0
+- id: current-response
+  operation: identify.current_response
+  uses:
+  - wavelength
+  - current
+  parameters: {}
+- id: native-operating-point
+  operation: tune.native_current
+  uses:
+  - native_current
+  parameters:
+    settle_s: 2.0
+    stable_s: 5.0
+    average_samples: 3
+    max_step_codes: 3
+- id: native-current-servo
+  operation: servo.native_current
+  uses:
+  - native_current
+  parameters: {}
+- id: native-online-pid
+  operation: tune.pid_online
+  uses: []
+  parameters:
+    controller_card_id: native-current-servo
+    window_s: 20.0
+    min_samples: 20
+    timeout_s: 180.0
+    gain_factors:
+    - 0.5
+- id: online-pid
+  operation: tune.pid_online
+  uses: []
+  parameters:
+    controller_card_id: current-servo
+- id: frequency-triangle
+  operation: sweep.current_modulation
+  uses:
+  - current_modulation
+  parameters:
+    shape: triangle
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: frequency-staircase
+  operation: sweep.current_modulation
+  uses:
+  - current_modulation
+  parameters:
+    shape: staircase
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: diagnostic-agent
+  operation: agent.resident
+  uses: []
+  parameters:
+    provider: claude
+    mode: create_or_connect
+    workspace: ''
+    session_id: ''
+- id: agent-log-watch
+  operation: agent.log_watch
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    interval_s: 300
+    lookback_s: 600
+    sample_interval_s: 1
+    prompt: ''
+- id: agent-request
+  operation: agent.request
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: ''
+- id: teams-notification
+  operation: notify.teams
+  uses: []
+  parameters:
+    webhook_env: ''
+    message: LDCon notification
+- id: grafana-dashboard
+  operation: report.grafana_dashboard
+  uses: []
+  parameters:
+    datasource_uid: dfdmpri8s8miob
+    title: Sr1092
+    offset_range_mhz: 100
+    reference_card_id: native-current-servo
+    report_card_ids:
+    - native-current-servo
+    report_quantity_ids:
+    - controller.state
+    - optical.frequency
+    - electrical.current
+    - control.current_dac
+    - model.current_estimate
+    - optical.wavelength
+    - controller.actions
+- id: change-operating-point
+  operation: tune.operating_point
+  uses: []
+  parameters: {}
+- id: change-target
+  operation: tune.lock_target
+  uses: []
+  parameters: {}

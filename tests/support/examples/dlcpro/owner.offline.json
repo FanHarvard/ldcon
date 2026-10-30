@@ -1,0 +1,46 @@
+{
+  "host": "example.invalid",
+  "expected_serial_number": "COMMISSION_REQUIRED",
+  "listen_host": "127.0.0.1",
+  "listen_port": 47999,
+  "socket_timeout_s": 2,
+  "tick_s": 0.05,
+  "state_directory": "COMMISSION_REQUIRED",
+  "laser_files": [
+    "laser.offline.yaml"
+  ],
+  "hardware": {
+    "axes": {
+      "piezo": {
+        "bounds": [
+          0,
+          140
+        ]
+      },
+      "temperature": {
+        "bounds": [
+          15,
+          35
+        ]
+      },
+      "current": {
+        "bounds": [
+          0,
+          200
+        ]
+      }
+    },
+    "channels": {
+      "1": {
+        "laser_id": "dlc-simulation",
+        "output_filters_verified": false,
+        "ff_reference_v": 69.5,
+        "pzt_scan_output_channel": null,
+        "scan_frequency_bounds_hz": [
+          0.01,
+          10
+        ]
+      }
+    }
+  }
+}

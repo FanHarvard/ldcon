@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ldcon"
+version = "0.2.0"
+description = "Laser operations, physical owners and fleet presentation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "FanHarvard contributors"}]
+classifiers = ["Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: POSIX :: Linux",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = ["experiment-core==0.1.0", "numpy>=1.24", "PyYAML>=6,<7"]
+
+[project.scripts]
+ldcon-instruments = "ldcon.cli:instruments_main"
+ldcon-web = "ldcon.cli:web_main"
+ldcon-examples = "ldcon.example_config:main"
+ldcon-simulate = "ldcon.simulation:main"
+
+[project.optional-dependencies]
+agents = ["fanharvard-agentbridge==0.1.0"]
+instruments = ["pyvisa>=1.15", "pyvisa-py>=0.8", "pyusb>=1.2", "websocket-client>=1.8,<2"]
+web = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "httpx>=0.27,<1", "websockets>=15,<18"]
+analysis = ["scipy>=1.10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ldcon = ["web_assets/*.html", "web_assets/*.css", "web_assets/*.js", "web_assets/cards/*.html", "resources/*.json", "resources/examples/**/*.yaml", "resources/examples/*.html", "resources/agent_contract/*.txt", "resources/report_template/*.cls", "resources/report_template/*.tex"]
+
+[tool.setuptools]
+include-package-data = false
+
+[project.urls]
+Homepage = "https://github.com/FanHarvard/ldcon"
+Repository = "https://github.com/FanHarvard/ldcon"
+Issues = "https://github.com/FanHarvard/ldcon/issues"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib"
+norecursedirs = ["support"]

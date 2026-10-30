@@ -1,0 +1,47 @@
+% Standard report template v1.0. Build with: python -m ldcon.report_pdf build .
+% Reports are English. Retain .tex, original vector figures, data and receipt.
+% Figures and analysis: CERN ROOT + roothelper (card-system-design section J).
+% Use roothelper automatic formatting/DataSaver; keep .root objects with the PDF.
+% Create legends with roothelper PutLegend (transparent/no border), not raw TLegend.
+% After setting graph ranges: pad.Modified(); pad.Update(); roothelper.SetAxes(graph).
+% Use ProcessPDF for rotation normalization or conversion to other vector formats.
+\documentclass{ldconreport}
+\renewcommand{\reportshorttitle}{Scientific report template}
+\title{Experiment or maintenance report}
+\author{Task author / model and effort}
+\date{YYYY-MM-DD HH:MM local timezone (UTC offset)}
+\begin{document}
+\maketitle
+\ReportNotice{Template only. Replace every placeholder before publishing. No measurement or hardware action is claimed.}
+\section{Outcome}
+State the result first. Distinguish proposed, attempted, owner-confirmed and adopted changes.
+\section{Scope and conditions}
+Record laser identity, task/job IDs, operating mode and revision, current owner policy revision,
+model and effort, instruction revision, objective, permissions and exclusions.
+\section{Data and timing}
+Identify source files and queries, acquisition clock, local timezone, relative time origin,
+sampling rate, missing/invalid points, and the interval actually evaluated.
+\section{Method}
+Describe the baseline, candidate selection, suggested step sizes, actual applied steps,
+comparison windows and interruptions. Suggestions are not hard limits or permission.
+\section{Results and decisions}
+\begin{tabularx}{\linewidth}{@{}lXX@{}}
+\toprule
+Quantity (unit) & Before & After / interpretation \\
+\midrule
+Example quantity & Recorded value & Recorded value or unavailable \\
+\bottomrule
+\end{tabularx}
+% Put the vector original under figures/. PDF inclusion preserves vector paths.
+% \ReportFigure{figures/response.pdf}{Response from identified source data.}{fig:response}
+% Select a page explicitly if needed:
+% \ReportFigure[width=\linewidth,page=2]{figures/multipage.pdf}{Caption.}{fig:page}
+Explain adoption or rejection using evidence. Show uncertainty, sample counts and invalid data.
+Use sentence-case axis titles with units in parentheses; numeric ticks need no repeated units.
+\section{Limitations and next action}
+Separate unresolved questions, deferred online checks and required human decisions.
+\section{Evidence and reproducibility}
+List source revisions, immutable artifact hashes, analysis/build commands and output filenames.
+Record the ROOT version and roothelper provenance. Retain native ROOT objects alongside vector PDFs.
+Never include secrets, bearer URLs or authentication tokens. Do not use screenshots of vector plots.
+\end{document}

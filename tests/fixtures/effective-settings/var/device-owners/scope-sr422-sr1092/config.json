@@ -1,0 +1,11 @@
+{
+  "device_id": "scope-sr422-sr1092",
+  "host": "scope-sr422-sr1092.localnet",
+  "scpi_port": 5555,
+  "serial": "DHO9A26BM00256",
+  "bind": "127.0.0.1",
+  "api_port": 47140,
+  "interval_s": 5,
+  "max_age_s": 15,
+  "status_file": "/opt/ldcon/var/device-owners/scope-sr422-sr1092/status.json"
+}

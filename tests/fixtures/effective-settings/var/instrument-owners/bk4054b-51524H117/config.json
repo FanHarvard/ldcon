@@ -1,0 +1,77 @@
+{
+  "instrument": "bk4054b:51524H117",
+  "kind": "awg",
+  "profile": "bk4050b",
+  "host": "192.168.1.21",
+  "transport": "vxi11",
+  "visa_backend": "@py",
+  "resource": "TCPIP::192.168.1.21::INSTR",
+  "expected_identity": "BK,4054B,51524H117,1.01.01.33R8",
+  "description": "BK 4054B of the sr422 rig: CH1 = LDC current (dither ARB / LDC FF), CH2 = servo modulation (sweep staircase). ONE VXI-11 session (ARB uploads on the same session).",
+  "channels": {
+    "1": {
+      "writes_enabled": true,
+      "role": "sr422 LDC current (rig lease)"
+    },
+    "2": {
+      "writes_enabled": true,
+      "role": "sr422 servo modulation (rig lease)"
+    }
+  },
+  "safe_start": {
+    "expect": {
+      "1": {
+        "waveform": "ARB",
+        "enabled": true,
+        "load": "HZ",
+        "polarity": "NOR",
+        "burst": "OFF",
+        "modulation": "OFF",
+        "sweep": "OFF"
+      },
+      "2": {
+        "waveform": "DC",
+        "value": 1.0,
+        "tolerance_v": 0.001,
+        "enabled": true,
+        "load": "HZ",
+        "burst": "OFF",
+        "modulation": "OFF",
+        "sweep": "OFF"
+      }
+    }
+  },
+  "timeout_s": 10.0,
+  "endpoint_lock": {
+    "port": 5025
+  },
+  "reconnect": "manual",
+  "bind": "127.0.0.1",
+  "port": 47152,
+  "state_dir": "/opt/ldcon/var/instrument-owners/bk4054b-51524H117",
+  "lock_dir": "/opt/ldcon/var/instrument-locks",
+  "instrument_settings": {
+    "mode": "enforce",
+    "check_interval_s": 60,
+    "items": [
+      {
+        "name": "reference_clock_source",
+        "write": "ROSC INT",
+        "query": "ROSC?",
+        "expect": {
+          "source": "INT"
+        },
+        "description": "BK 4054B runs on its internal reference (human request 2026-10-22); reverts at power cycle"
+      },
+      {
+        "name": "reference_output_10mhz",
+        "write": "ROSC 10MOUT,ON",
+        "query": "ROSC?",
+        "expect": {
+          "10MOUT": "ON"
+        },
+        "description": "10 MHz reference OUTPUT ON: feeds the SDG2042X 10 MHz in (human request 2026-10-22); reverts at power cycle"
+      }
+    ]
+  }
+}

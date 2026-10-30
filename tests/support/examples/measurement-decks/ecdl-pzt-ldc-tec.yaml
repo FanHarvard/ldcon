@@ -1,0 +1,422 @@
+schema_version: 1
+id: ecdl-pzt-ldc-tec
+name: ECDL ; PZT/LDC/TEC
+interfaces:
+  servo_modulation: servo_modulation
+  observation: optical_mode_monitor
+  piezo: bounded_axis
+  temperature: bounded_axis
+  current: bounded_axis
+  loop: open_loop_state
+  lock: ecdl_stationary_lock
+cards:
+- id: mode-map
+  operation: study.ecdl_mode_map
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: tec-branch-alignment
+  operation: tune.ecdl_operating_point
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: steady-lock
+  operation: servo.ecdl_steady_lock
+  uses:
+  - lock
+  parameters:
+    strategy: hold
+    duration_s: null
+- id: frequency-triangle
+  operation: sweep.servo_modulation
+  uses:
+  - servo_modulation
+  parameters:
+    shape: triangle
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: frequency-staircase
+  operation: sweep.servo_modulation
+  uses:
+  - servo_modulation
+  parameters:
+    shape: staircase
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: teams-notification
+  operation: notify.teams
+  uses: []
+  parameters:
+    webhook_env: ''
+    message: LDCon notification
+- id: observe
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: current-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: temperature-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: piezo-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: pi-comparison
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: coordinated
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: target-change-measurement
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: centering-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: tec-current-feedforward
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: piezo-current-feedforward
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: batch-measurement
+  operation: measure.batch
+  uses: []
+  parameters:
+    steps: []
+    timeout_s: 3600.0
+- id: gateway-agent
+  operation: agent.resident
+  uses: []
+  parameters:
+    provider: claude
+    mode: create_or_connect
+    workspace: ''
+    session_id: ''
+- id: agent-request
+  operation: agent.request
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    prompt: ''
+- id: agent-adjust
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: auto
+- id: agent-monitor
+  operation: agent.monitor
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    task_card_id: agent-adjust
+    background:
+      enabled: false
+- id: target-response
+  operation: measure.target_response
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+- id: settling-optimization
+  operation: optimize.settling_criteria
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+- id: target-ff-optimization
+  operation: optimize.target_feedforward
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+- id: laser-off
+  operation: laser.emission
+  uses: []
+  parameters:
+    state: 'off'
+- id: laser-on
+  operation: laser.emission
+  uses: []
+  parameters:
+    state: 'on'
+- id: pi-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: pi
+- id: current-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: current
+- id: tec-centering-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: slow_loop
+- id: tec-ff-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: feedforward
+- id: window-center
+  operation: tune.ecdl_window_center
+  uses:
+  - lock
+  parameters:
+    controller_card_id: steady-lock
+    measure_dither: false
+    observables:
+    - metrics.side_peak_height_max
+    - metrics.side_peak_prominence_max
+    boundary_limits: {}
+    require_single_mode: false
+- id: recovery-prepare
+  operation: prepare.ecdl_recovery
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: mode-recovery
+  operation: recover.ecdl_mode_hop
+  uses:
+  - observation
+  - piezo
+  - temperature
+  - current
+  - loop
+  parameters: {}
+- id: target-thermal-optimization
+  operation: optimize.target_thermal
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+
+# Illustrative only: replace candidates and evaluation criteria with laser-specific reviewed values.
+- id: sweep-ff-optimization
+  operation: optimize.sweep_feedforward
+  uses: []
+  parameters:
+    sweep_card_id: frequency-staircase
+    candidates:
+    - id: baseline
+      ldc_ff_v_per_hz: 0.0
+      pzt_ff_gain_scale: 1.0
+    - id: paired
+      ldc_ff_v_per_hz: -1.0e-12
+      pzt_ff_gain_scale: 1.1
+    baseline_candidate_id: baseline
+    conditions:
+    - id: illustrative-fast
+      levels_hz: &id001
+      - -20000000.0
+      - 0.0
+      - 20000000.0
+      - 0.0
+      dwell_s: 0.5
+      edge_s: 0.0
+      lead_s: 1.0
+      tail_s: 1.0
+      repetitions: 2
+      precondition_s: 2.0
+    - id: illustrative-slow
+      levels_hz: *id001
+      dwell_s: 2.0
+      edge_s: 0.0
+      lead_s: 1.0
+      tail_s: 1.0
+      repetitions: 2
+      precondition_s: 2.0
+    criteria:
+      error_tolerance_hz: 1000000.0
+      confirmation_s: 0.2
+      min_samples: 3
+      max_sample_gap_s: 0.1
+      max_late_drift_hz_per_s: 1000000.0
+      hop_jump_hz: 200000000.0
+      hop_confirmation_s: 0.2
+      require_optical_quality: false
+      max_quality_age_s: 0.5
+    max_baseline_shift_hz: 1000000.0
+    confirmation_runs: 1
+    max_trials: 10
+    timeout_s: 3600.0
+    poll_s: 0.1
+    cleanup_timeout_s: 120.0
+    analysis_wait_s: 60.0
+    sweep_parameters:
+      sample_rate_hz: 20000.0
+      sample_interval_s: 0.1
+      max_sample_age_s: 1.0
+      duration_s: 120.0
+      ready: {}
+      recentre_before_ff: false
+      full_data_log_ms: 0

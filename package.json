@@ -1,0 +1,1 @@
+{"name":"ldcon-browser-tests","private":true,"description":"Offline DOM test dependencies","devDependencies":{"jsdom":"^26.1.0"}}

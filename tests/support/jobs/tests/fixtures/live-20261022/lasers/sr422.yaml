@@ -1,0 +1,319 @@
+schema_version: 1
+id: sr422
+name: Sr422
+allow_output: true
+target:
+  frequency_hz: 710962838507871.5
+  bounds_hz:
+  - 710862838507871.5
+  - 711062838507871.5
+  max_change_hz: 100000000.0
+  note: 'human 2026-10-22, target range +-100 GHz around the lock target, at most 100 MHz per card run'
+devices:
+  rig:
+    type: ecdl.rig.owner
+    connection:
+      endpoint: http://192.168.1.5:47130
+      resources:
+        piezo:
+          host: 192.168.1.9
+        current_awg:
+          host: 192.168.1.21
+          channel: 1
+          preserve_channels:
+          - 2
+        tec_awg:
+          host: 192.168.1.37
+          channel: 1
+          preserve_channels:
+          - 2
+      wavemeter:
+        endpoint: http://192.168.1.22:8765
+        channel: 3
+        cycle: 0
+        expected_laser: Sr422
+        trust_source_clock: true
+      instrument: sr422
+    absolute_conditions:
+      axes:
+        piezo:
+          bounds:
+          - 0.0
+          - 65535.0
+          activation_range:
+          - -65535.0
+          - 65535.0
+          max_step: null
+          max_slew_per_s: null
+        current:
+          bounds:
+          - 0.6
+          - 1.2
+          activation_range:
+          - -0.2
+          - 0.2
+          max_step: 0.002
+          max_slew_per_s: 0.004
+        temperature:
+          bounds:
+          - 0.0
+          - 1.0
+          activation_range:
+          - -0.1
+          - 0.1
+          max_step: 0.0005
+          max_slew_per_s: 0.0003333333333333333
+    control_settings:
+      prepare_open_loop: true
+      max_sample_age_s: 1.0
+      tec_idn_contains: SDG2042X
+      axes:
+        piezo:
+          unit: count
+          identity: Sr422/piezo
+          revision: user-approved-20261019
+          update_interval_s: 0.1
+          settle_s: 2.0
+          frequency_hz_per_unit: null
+          resolution: 1.0
+          readback_tolerance: 1.0
+        current:
+          unit: V
+          identity: Sr422/current
+          revision: sr422-bc-fast-search-20261019
+          update_interval_s: 0.5
+          settle_s: 0.5
+          frequency_hz_per_unit: null
+          resolution: 0.0001
+          readback_tolerance: 0.00011
+        temperature:
+          unit: V
+          identity: Sr422/temperature
+          revision: user-approved-20261020-adaptive-max20mV-per-min
+          update_interval_s: 1.5
+          settle_s: 30.0
+          frequency_hz_per_unit: 94419376065.13603
+          resolution: 0.0001
+          readback_tolerance: 0.00011
+          coefficient_source: 'ECDLcontrol TEC calibration 2026-10-16: -56 fm/mV;
+            provisional until live sign check'
+      optical:
+        interferometer: '2'
+        mode_bands:
+        - id: desired
+          low_hz: 710951147558089.4
+          high_hz: 710973066296704.8
+        single_mode_max:
+          side_peak_height_max: 0.28
+          side_peak_prominence_max: 0.13
+          main_fwhm_fraction: 0.23
+          near_main_peak_prominence_max: 0.0
+        warning_max:
+          side_peak_height_max: 0.35
+          side_peak_prominence_max: 0.18
+          main_fwhm_fraction: 0.27
+          near_main_peak_prominence_max: 0.0
+        reference_status: 'Conservative commissioning fringe proxy: archived clean
+          and raw doubled-fringe negative, plus same-context live diagnostic; no modal-power
+          claim. Neighbor references do not relax limits.'
+        current_recovery_source_states:
+        - - -14
+          - 2
+        - - 0
+          - 4
+        metric_method: phase_free_v1
+        period_reference_px: 105.7
+        period_tolerance_fraction: 0.12
+        classification_enabled: true
+      steady_lock:
+        revision: sr422-user-approved-i20000-20261019
+        native_handover_verified: true
+        handover_evidence: /opt/ldcon/var/device-owners/sr422/pi-commission-fcb585c6a3294cee956909a8a65008fc.json
+        firmware_version: 2026.10.21-antiwindup
+        native_input:
+          valid_data_index: 2
+          channel: 3
+          cycle: 0
+          src: 192.168.1.22
+        p_sample: 0.1
+        g_sample: 0.5
+        wavelength_nm_per_count: -5.4e-08
+        native_interval_bounds_s:
+        - 0.01
+        - 0.25
+        capture_hz: 50000000.0
+        integral_limit_count: 20000.0
+        target_slew_hz_per_s: 337200000.0
+        watchdog_s: 90.0
+        supervision_interval_s: 10.0
+        current_span: 0.05
+        tec_center_fraction: 0.5
+        counts_per_temperature_unit: 1040000.0
+        tec_gain: 0.2
+        tec_dt_cap_s: 15.0
+        window:
+          step: 0.001
+          max_span: 0.015
+          max_duration_s: 2400.0
+          edge_response: 0.003
+          margin: 0.003
+          ttl_s: 3600.0
+          temperature_tolerance: 0.0005
+          settle_cycles: 4
+          cooldown_s: 600.0
+          warning_response: 0.0024
+          start_on_acquisition: true
+          response_average_count: 3
+          upper_bound: 0.838
+        dither:
+          verified: true
+          frequency_hz: 0.25
+          effective_amplitude_peak: 0.000250007629627369
+          window_s: 32.0
+          minimum_samples: 50
+          delivery_delay_s: 3.0
+          telemetry_endpoint: http://127.0.0.1:8428
+          selector: '{__name__=~"ESP32ServoController_(dac_val|is_new_system_value)",host="192.168.1.9",db="laserlab"}'
+          requested_vpp: 0.0005
+          setting_source: User requested the lowest tested frequency and amplitude;
+            campaign tested 0.25 Hz / 1 mVpp and 0.5 Hz / 0.5 mVpp separately. Combined
+            0.25 Hz / 0.5 mVpp is untested.
+          programming:
+            name: ldcd0
+            points: 8192
+            frequency_hz: 0.25
+            requested_vpp: 0.0005
+            programmed_vpp: 0.000500015259254738
+            nominal_amplitude_vpp: 0.002
+            offset_v: 0.9126
+            payload_sha256: 9320dd1d793e2a67f774820828ae6e0a7dddbdde0c93ec86629f83e83e83a481
+            amplitude_basis: signed 16-bit ARB codes and unchanged nominal carrier;
+              no independent voltage measurement
+          evidence: /opt/ldcon/var/device-owners/sr422/dither-reviewed-45588a0da1144540ba6214c4d53256a7.json
+        nearby_modes:
+          revision: sr422-position-free-commissioning-20261020
+          interpretation: Phase-free fringe proxy; not a modal power fraction.
+          components:
+            side_peak_height_max:
+              obvious_threshold: 0.35
+            side_peak_prominence_max:
+              obvious_threshold: 0.18
+            main_fwhm_fraction:
+              obvious_threshold: 0.27
+        tec_center_reference: activation
+        commissioning:
+          hold_s: 30.0
+          final_hold_s: 5.0
+          step_hz: 10000000.0
+          timeout_s: 900.0
+          max_correction_count: 1200.0
+        native_interval_reference_s: 0.042
+        online_pid:
+          enabled: true
+          max_step_count: 10.0
+          settle_s: 3.0
+          max_sample_gap_s: 3.0
+          minimum_gain_factor: 0.25
+        entry_gate:
+          mode_id: desired
+          branch_tolerance_hz: 700000000.0
+          metrics_max:
+            side_peak_height_max: 0.35
+            side_peak_prominence_max: 0.18
+            main_fwhm_fraction: 0.27
+          approval: Existingphasefreewarningvalues; originaluserpositionfreeinstruction/currentABCcorrection/Clauded973971e24aa
+        current_safety:
+          metrics_max:
+            side_peak_height_max: 0.35
+            side_peak_prominence_max: 0.18
+            main_fwhm_fraction: 0.27
+          direction: toward_interior
+          step: 0.001
+          max_correction: 0.003
+        retained_tec_reference_evidence: 'User20261020: fixedDAC achieved at completedTEC
+          approach; retain acrosshop/rearm'
+        tec_current_feedforward:
+          current_per_temperature: 1.25
+          mode: incremental
+          evidence: 2026-10-20prior; no local optimum calibration
+        hot_control:
+          dither_max: 0.002
+          initial_tec_ff_paused: false
+        calibration_priors:
+          tec_current_feedforward:
+            current_per_temperature: 1.25
+            date: '2026-10-20'
+            dac_start: 14700
+            dac_end: 29604
+            hops_observed: 0
+            feedforward_started_at_tec_v: 0.4842
+            not_fitted: true
+        retained_tec_reference_dac: 31673.0
+      temperature_compensation:
+        enabled: true
+        ohm_per_v: 2000.0
+        minimum_interval_s: 0.01
+        authorization: User20261020:0..1V, compensation rate unrestricted; normal20mV/min
+        source: TED200C20kOhmrange TUNEIN gain, nominal +/-5%
+      locked_sweep:
+        revision: sr422-locked-sweep-20261022-v1
+        awg:
+          channel: 2
+          ch2_bounds_v: [0.1, 1.9]          # linear part of the ESP32 mod ADC (ECDLcontrol sweep.py U_LO/U_HI)
+          max_vpp: 1.3                      # +-600 MHz at 1 GHz/V = 1.2 Vpp
+          amp_min_vpp: 0.002
+          max_points: 32768                 # BK 4054B ARB length
+          max_sample_rate_hz: 2000.0        # 12.3 s record + lead/tail fits 32768 points
+          ch1_range_amp_max_vpp: 0.058      # BK lowest output range (ECDLcontrol sweep.py CH1_AMP_MAX)
+          ch1_range_offset_v: [0.69, 0.95]  # ECDLcontrol sweep.py CH1_ARB_OFST_MIN/MAX
+        ext_mod:
+          hz_per_v: 1000000000.0                  # design choice: target modulation is exact by construction
+          adc_counts_per_v_nominal: 19539.0 # mod_raw 19539 with CH2 at DC 1.0 V (read-only GET 2026-10-22); measured per process
+          adc_scale_tolerance: 0.05
+          adc_margin_counts: 1500.0
+          calibration_step_v: 0.1
+          calibration_settle_s: 0.3
+          calibration_max_age_s: 43200.0
+          analog_path_dac_tolerance: 100.0  # DAC counts; the armed PI would move the DAC if CH2 reached the PZT
+          baseline_tolerance_counts: 60.0
+        firmware:
+          target_time_match: 1
+          target_delay_us: 12000            # ECDLcontrol plan_ff_tune.py (wavemeter exposure/latency)
+          system_margin_hz: 100000000.0     # acceptance window = plan span + 100 MHz each side, only during the sweep
+        ldc_ff:
+          max_abs_v_per_hz: 3.0e-11         # ECDLcontrol current path ~ -1.33e-11 V/Hz (-8 mV at +600 MHz)
+        limits:
+          max_half_span_hz: 600000000.0
+          max_duration_s: 40.0
+          max_levels: 400
+          heartbeat_timeout_s: 10.0
+          abort_error_hz: 50000000.0        # = steady_lock.capture_hz
+          abort_samples: 5
+          approach_hz_per_s: 1000000000.0
+          settle_timeout_s: 20.0
+          lifetime_max_s: 900.0
+          max_integral_fraction: 0.5
+interfaces:
+  observation:
+    device: rig
+    capability: optical_mode_monitor
+  piezo:
+    device: rig
+    capability: bounded_axis
+  temperature:
+    device: rig
+    capability: bounded_axis
+  current:
+    device: rig
+    capability: bounded_axis
+  loop:
+    device: rig
+    capability: open_loop_state
+  lock:
+    device: rig
+    capability: ecdl_stationary_lock
+  servo_modulation:
+    device: rig
+    capability: servo_modulation
+telemetry:
+  telegraf_endpoint: udp://127.0.0.1:8094

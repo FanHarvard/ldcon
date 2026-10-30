@@ -1,0 +1,7 @@
+# Illustrative configuration only; hardware output is disabled.
+schema_version: 1
+id: thf685
+laser_id: thf685
+decks:
+- deck_id: ecdl-dlcpro
+  parameters: {}

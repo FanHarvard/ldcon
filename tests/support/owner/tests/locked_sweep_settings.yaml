@@ -1,0 +1,40 @@
+# DRAFT block for devices.rig.control_settings.locked_sweep in /opt/ldcon/var/deployments/sr422/lasers/sr422.yaml
+# (inserted by preparations/ff-sweep-20261022/sr422-25-make-config.py; the same file is the test fixture).
+locked_sweep:
+  revision: sr422-locked-sweep-20261022-v1
+  awg:
+    channel: 2
+    ch2_bounds_v: [0.1, 1.9]          # linear part of the ESP32 mod ADC (ECDLcontrol sweep.py U_LO/U_HI)
+    max_vpp: 1.3                      # +-600 MHz at 1 GHz/V = 1.2 Vpp
+    amp_min_vpp: 0.002
+    max_points: 32768                 # BK 4054B ARB length
+    max_sample_rate_hz: 2000.0        # 12.3 s record + lead/tail fits 32768 points
+    ch1_range_amp_max_vpp: 0.058      # BK lowest output range (ECDLcontrol sweep.py CH1_AMP_MAX)
+    ch1_range_offset_v: [0.69, 0.95]  # ECDLcontrol sweep.py CH1_ARB_OFST_MIN/MAX
+  ext_mod:
+    hz_per_v: 1000000000.0                  # design choice: target modulation is exact by construction
+    adc_counts_per_v_nominal: 19539.0 # mod_raw 19539 with CH2 at DC 1.0 V (read-only GET 2026-10-22); measured per process
+    adc_scale_tolerance: 0.05
+    adc_margin_counts: 1500.0
+    calibration_step_v: 0.1
+    calibration_settle_s: 0.3
+    calibration_max_age_s: 43200.0
+    analog_path_dac_tolerance: 100.0  # DAC counts; the armed PI would move the DAC if CH2 reached the PZT
+    baseline_tolerance_counts: 60.0
+  firmware:
+    target_time_match: 1
+    target_delay_us: 12000            # ECDLcontrol plan_ff_tune.py (wavemeter exposure/latency)
+    system_margin_hz: 100000000.0     # acceptance window = plan span + 100 MHz each side, only during the sweep
+  ldc_ff:
+    max_abs_v_per_hz: 3.0e-11         # ECDLcontrol current path ~ -1.33e-11 V/Hz (-8 mV at +600 MHz)
+  limits:
+    max_half_span_hz: 600000000.0
+    max_duration_s: 40.0
+    max_levels: 400
+    heartbeat_timeout_s: 10.0
+    abort_error_hz: 50000000.0        # = steady_lock.capture_hz
+    abort_samples: 5
+    approach_hz_per_s: 1000000000.0
+    settle_timeout_s: 20.0
+    lifetime_max_s: 900.0
+    max_integral_fraction: 0.5

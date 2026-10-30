@@ -1,0 +1,94 @@
+schema_version: 1
+id: sr1092
+name: Sr1092
+allow_output: false
+devices:
+  ldc:
+    type: thorlabs.cld1015.broker
+    connection:
+      endpoint: http://192.168.1.5:47130
+      instrument: repump_1092_controller
+      resource: auto
+    absolute_conditions:
+      current_a:
+        bounds_a: null
+        max_slew_a_per_s: null
+        max_step_a: null
+        min_update_interval_s: 0.1
+        expressions:
+        - state.ld_enabled and state.tec_enabled
+      temperature_c:
+        bounds_c:
+        - 16.5
+        - 17.5
+        max_slew_c_per_s: 0.01
+        max_step_c: 0.005
+        expressions:
+        - state.tec_enabled and state.ld_enabled
+    control_settings:
+      current:
+        enabled: false
+        output_update_interval_s: null
+        activation_range_a: null
+        pid:
+          kp_a_per_hz: null
+          ki_a_per_hz_s: null
+          kd_a_s_per_hz: 0.0
+          derivative_filter_s: 1.0
+          integral_limit_a: null
+        response:
+          step_a: null
+          hold_s: 10.0
+          samples: 8
+          min_snr: 5.0
+      temperature:
+        output_update_interval_s: 0.5
+        frequency_hz_per_c: null
+      slow_control:
+        output_resolution: 5.0e-05
+        sensitivity: -1098776750312.4685
+        measurement_filter_s: 1.0
+        error_deadband: 0.0
+        quantization_hysteresis: 0.1
+  current_awg:
+    type: siglent.sdg2000x.broker
+    connection:
+      endpoint: http://192.168.1.5:47130
+      instrument: repump_1092
+      resource: TCPIP::awg-ldcon-0.localnet::INSTR
+      channel: 2
+    absolute_conditions:
+      modulation_v:
+        bounds_v: null
+        max_slew_v_per_s: null
+      preserve_channels:
+      - 1
+  wavemeter:
+    type: fizeau.http
+    connection:
+      endpoint: http://192.168.1.22:8765
+      channel: 4
+      cycle: 0
+      trust_source_clock: true
+      expected_laser: Sr1092
+    absolute_conditions: {}
+interfaces:
+  wavelength:
+    device: wavemeter
+    capability: frequency_monitor
+  temperature:
+    device: ldc
+    capability: temperature_controller
+  current:
+    device: ldc
+    capability: current_controller
+  current_modulation:
+    device: current_awg
+    capability: current_modulation
+  measurement:
+    device: wavemeter
+    capability: scalar_sensor
+  actuator:
+    device: ldc
+    capability: slow_actuator
+    axis: current

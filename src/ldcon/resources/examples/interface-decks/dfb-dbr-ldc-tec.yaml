@@ -1,0 +1,430 @@
+# Illustrative configuration only; hardware output is disabled.
+schema_version: 1
+id: dfb-dbr-ldc-tec
+name: 'DFB;DBR : LDC;TEC'
+interfaces:
+  native_current: native_current_lock
+  current_modulation: current_modulation
+  wavelength: frequency_monitor
+  temperature: temperature_controller
+  current: current_controller
+cards:
+- id: current-response
+  operation: identify.current_response
+  uses:
+  - wavelength
+  - current
+  parameters: {}
+- id: native-operating-point
+  operation: tune.native_current
+  uses:
+  - native_current
+  parameters:
+    settle_s: 2.0
+    stable_s: 5.0
+    average_samples: 3
+    max_step_codes: 3
+- id: native-current-servo
+  operation: servo.native_current
+  uses:
+  - native_current
+  parameters: {}
+- id: frequency-triangle
+  operation: sweep.current_modulation
+  uses:
+  - current_modulation
+  parameters:
+    shape: triangle
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: frequency-staircase
+  operation: sweep.current_modulation
+  uses:
+  - current_modulation
+  parameters:
+    shape: staircase
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: diagnostic-agent
+  operation: agent.resident
+  uses: []
+  parameters:
+    provider: claude
+    mode: create_or_connect
+    workspace: ''
+    session_id: ''
+- id: agent-request
+  operation: agent.request
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: ''
+- id: teams-notification
+  operation: notify.teams
+  uses: []
+  parameters:
+    webhook_env: ''
+    message: LDCon notification
+- id: grafana-dashboard
+  operation: report.grafana_dashboard
+  uses: []
+  parameters:
+    datasource_uid: dfdmpri8s8miob
+    title: Sr1092
+    offset_range_mhz: 100
+    reference_card_id: native-current-servo
+    report_card_ids:
+    - native-current-servo
+    report_quantity_ids:
+    - controller.state
+    - optical.frequency
+    - electrical.current
+    - control.current_dac
+    - model.current_estimate
+    - optical.wavelength
+    - controller.actions
+- id: change-operating-point
+  operation: tune.operating_point
+  uses: []
+  parameters: {}
+- id: change-target
+  operation: tune.lock_target
+  uses: []
+  parameters: {}
+- id: agent-adjust
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    instruction_profile: adjustment
+    execution_profile: ''
+    request_delegation: true
+    timeout_s: 1800.0
+    lookback_s: 3600.0
+    prompt: Teams notifications are disabled. Do not post or enqueue Teams messages.
+      Use current owner and recorded evidence; old failure records are not authority
+      to restart locks. Do not change target, absolute physical limits, slew limits,
+      calibration, firmware, or persistent PI settings. Human and program foreground
+      operations take priority. Use only this task background grant for automatic
+      effects. If the system is healthy, explain why no adjustment is needed. Do not
+      repeatedly disturb a healthy lock. Do not force observation of a multimode state.
+      Use historical drift/recovery behavior to judge practical quality. Keep the
+      local result concise in English, with evidence, actual outcome and uncertainty.
+      Sr1092 has no optical-mode quality channels configured. Current is the frequency
+      actuator, not an independent operating-point axis at fixed target. Assess source
+      cadence and error/activity history. For justified PI tuning, read the actual
+      runtime Kp/Ki and raw integral limits from native_config; submit one explicit
+      pi_candidate with kp_count_per_nm, ki_count_per_nm_s, integral_limit_count via
+      background_adjustment_step begin family pi. Increases, decreases and symmetric
+      integral-bound changes are allowed only if the owner proves its existing physical
+      envelope, output continuity and return budget. A refusal excludes that candidate,
+      not continued locking. Compare before/trial; adoption is runtime-only.
+    adjustment_family: auto
+    adjustment_plan_card_id: agent-monitor
+    adjustment_objective: ''
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: agent-monitor
+  operation: agent.monitor
+  uses: []
+  parameters:
+    task_card_id: agent-adjust
+    agent_card_id: diagnostic-agent
+    interval_s: 3600.0
+    lookback_s: 3600.0
+    sample_interval_s: 2.0
+    conditions:
+    - id: frequency-offset
+      metric: abs_error_hz
+      above: 10000000.0
+      clear_below: 5000000.0
+      persistence_s: 60
+      cooldown_s: 900
+      max_age_s: 10
+    - id: integral-use
+      metric: native_integral_usage
+      above: 0.8
+      clear_below: 0.5
+      persistence_s: 60
+      cooldown_s: 900
+      max_age_s: 10
+    - id: source-cadence
+      metric: source_interval_s
+      above: 0.25
+      clear_below: 0.1
+      persistence_s: 60
+      cooldown_s: 900
+      max_age_s: 10
+      baseline: 0.043953
+    background:
+      enabled: true
+      families:
+      - pi
+      handoff_timeout_s: 20.0
+      timeout_s: 300.0
+      pid_parameters:
+        controller_card_id: native-current-servo
+        strategy: validated_candidates
+        window_s: 30.0
+        min_samples: 20
+        timeout_s: 300.0
+        minimum_improvement: 0.1
+        activity_weight: 0.1
+        save_settings: false
+    prompt: Teams notifications are disabled. Do not post or enqueue Teams messages.
+      Use current owner and recorded evidence; old failure records are not authority
+      to restart locks. Do not change target, absolute physical limits, slew limits,
+      calibration, firmware, or persistent PI settings. Human and program foreground
+      operations take priority. Use only this task background grant for automatic
+      effects. If the system is healthy, explain why no adjustment is needed. Do not
+      repeatedly disturb a healthy lock. Do not force observation of a multimode state.
+      Use historical drift/recovery behavior to judge practical quality. Keep the
+      local result concise in English, with evidence, actual outcome and uncertainty.
+- id: target-response
+  operation: measure.target_response
+  uses: []
+  parameters:
+    offsets_hz:
+    - 20000000.0
+    - 0.0
+    baseline_s: 2.0
+    observation_s: 10.0
+    expected_settle_s: 1.0
+    evaluation_window_s: 1.0
+    check_interval_s: 0.1
+    confirmation_s: 2.0
+    mean_error_max_hz: 10000000.0
+    rms_error_max_hz: 10000000.0
+    peak_error_max_hz: null
+    minimum_samples: 10
+    max_gap_s: 0.2
+    data_wait_s: 15.0
+    command_timeout_s: 90.0
+    execution_profile: ''
+- id: pi-response
+  operation: tune.pi_response
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    adjustment_card_id: agent-adjust
+    response_card_id: target-response
+    execution_profile: deepseek-flash-max
+    step_hz: null
+    baseline_s: 8.0
+    observation_s: 20.0
+    timeout_s: 2400.0
+    pi_timeout_s: 1500.0
+- id: observe
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: current-change-measurement
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: temperature-response
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: pi-comparison
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: coordinated
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: target-change-measurement
+  operation: measure.change
+  uses: []
+  parameters:
+    target_frequency_hz: null
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: batch-measurement
+  operation: measure.batch
+  uses: []
+  parameters:
+    steps: []
+    timeout_s: 3600.0
+- id: settling-optimization
+  operation: optimize.settling_criteria
+  uses: []
+  parameters:
+    offsets_hz: null
+    optimization_goal: settling_criteria
+    baseline_s: 2.0
+    observation_s: 10.0
+    expected_settle_s: 3.0
+    settling_goal_s: 3.0
+    ff_max_roundtrips: 12
+    ff_budget_s: 1200.0
+    evaluation_window_s: 1.0
+    check_interval_s: 0.1
+    confirmation_s: 2.0
+    mean_error_max_hz: 10000000.0
+    rms_error_max_hz: 10000000.0
+    peak_error_max_hz: null
+    minimum_samples: 10
+    max_gap_s: 0.2
+    data_wait_s: 15.0
+    command_timeout_s: 90.0
+    workflow_parent_id: ''
+    shift_hz: null
+    shift_search: null
+    abort_integral_fraction_max: 0.95
+    execution_mode: agent
+    agent_card_id: diagnostic-agent
+    agent_timeout_s: 300.0
+    execution_profile: ''
+    adoption_mode: report_only
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: target-ff-optimization
+  operation: optimize.target_feedforward
+  uses: []
+  parameters:
+    offsets_hz: null
+    optimization_goal: settling_and_feedforward
+    baseline_s: 2.0
+    observation_s: 10.0
+    expected_settle_s: 3.0
+    settling_goal_s: 3.0
+    ff_max_roundtrips: 12
+    ff_budget_s: 1200.0
+    evaluation_window_s: 1.0
+    check_interval_s: 0.1
+    confirmation_s: 2.0
+    mean_error_max_hz: 10000000.0
+    rms_error_max_hz: 10000000.0
+    peak_error_max_hz: null
+    minimum_samples: 10
+    max_gap_s: 0.2
+    data_wait_s: 15.0
+    command_timeout_s: 90.0
+    workflow_parent_id: ''
+    shift_hz: null
+    shift_search: null
+    abort_integral_fraction_max: 0.95
+    execution_mode: agent
+    agent_card_id: diagnostic-agent
+    agent_timeout_s: 300.0
+    execution_profile: ''
+    adoption_mode: report_only
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []
+- id: pi-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: diagnostic-agent
+    prompt: Use the registered PI adjustment instructions and the existing approved
+      plan. Assess whether PI tuning is justified from fresh owner evidence, target-centred
+      error, drift, saturation and control activity. Compare P and I independently
+      and integral limits where the owner supports them. Adopt only a measured improvement;
+      otherwise retain the checkpoint. Do not change the target, physical bounds,
+      slew limits, calibration or firmware. Foreground operations take priority. Report
+      evidence and uncertainty. Teams notifications remain disabled.
+    instruction_profile: adjustment
+    execution_profile: ''
+    request_delegation: true
+    lookback_s: 3600.0
+    sample_interval_s: 1.0
+    timeout_s: 1800.0
+    monitor_job_id: ''
+    evidence_images: []
+    adjustment_family: pi
+    adjustment_plan_card_id: agent-monitor
+    adjustment_objective: ''
+    adoption_mode: auto_within_approved
+  agent_execution:
+    mode: required
+    difficulty: standard
+    escalation_profiles: []

@@ -1,0 +1,91 @@
+schema_version: 1
+id: sr1092
+laser_id: sr1092
+decks:
+- deck_id: dfb-dbr-ldc-tec
+  parameters:
+    change-operating-point:
+      verify_samples: 3
+      sample_interval_s: 0.5
+      timeout_s: 900.0
+    change-target:
+      verify_samples: 5
+      sample_interval_s: 1.0
+      timeout_s: 900.0
+    wavelength-monitor:
+      duration_s: 60.0
+      sample_interval_s: 0.5
+      max_sample_age_s: 1.0
+    temperature-acquire:
+      timeout_s: 600.0
+      sample_interval_s: 0.5
+      max_sample_age_s: 1.0
+      approach_time_s: 10.0
+      gain: 0.25
+      stable_samples: 3
+      settle_tolerance_c: 0.001
+      target_frequency_hz: null
+      target_wavelength_nm: null
+      tolerance_hz: null
+      requested_slew_c_per_s: 0.01
+      max_excursion_c: null
+    current-servo:
+      measurement_recovery_timeout_s: 120.0
+    current-response:
+      timeout_s: 60.0
+      optimize_update_interval: false
+    native-operating-point:
+      settle_s: 2.0
+      stable_s: 5.0
+      average_samples: 3
+      max_step_codes: 3
+      target_frequency_hz: 274589143700000.0
+      tolerance_hz: 10000000.0
+    native-current-servo:
+      target_frequency_hz: 274589143700000.0
+      tolerance_hz: 10000000.0
+      target_wavelength_nm: null
+      duration_s: null
+      acquisition_timeout_s: 300.0
+      sample_interval_s: 0.5
+      max_sample_age_s: 1.0
+    native-online-pid:
+      controller_card_id: native-current-servo
+      window_s: 20.0
+      min_samples: 20
+      timeout_s: 240.0
+      gain_factors:
+      - 0.8
+      minimum_improvement: 0.1
+      save_settings: true
+    online-pid:
+      controller_card_id: current-servo
+    frequency-triangle:
+      shape: triangle
+      levels_hz:
+      - -1000000
+      - 1000000
+      dwell_s: 0.1
+      sample_rate_hz: 20000
+      duration_s: 600
+    frequency-staircase:
+      shape: staircase
+      levels_hz:
+      - -1000000
+      - 1000000
+      dwell_s: 0.1
+      sample_rate_hz: 20000
+      duration_s: 600
+    diagnostic-agent:
+      provider: claude
+      mode: create_or_connect
+      workspace: ''
+      session_id: ''
+    agent-log-watch:
+      agent_card_id: diagnostic-agent
+      interval_s: 3600
+      lookback_s: 3600
+      sample_interval_s: 1
+      prompt: 直近1時間の担当レーザーを読取りで確認してください。正常・変化なしは通知せず、新しい重要問題、意味のある変化、本人判断が必要な場合だけ既存通知ルールで知らせてください。現在のjob/ownerと過去の意図した移行停止を区別してください。
+    teams-notification:
+      webhook_env: LDCON_TEAMS_LASER_MONITOR

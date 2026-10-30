@@ -1,0 +1,207 @@
+schema_version: 1
+id: dfb-dbr-ldc-tec
+name: 'DFB;DBR : LDC;TEC'
+interfaces:
+  native_current: native_current_lock
+  current_modulation: current_modulation
+  wavelength: frequency_monitor
+  temperature: temperature_controller
+  current: current_controller
+cards:
+- id: native-current-servo
+  operation: servo.native_current
+  uses:
+  - native_current
+  parameters: {}
+- id: frequency-triangle
+  operation: sweep.current_modulation
+  uses:
+  - current_modulation
+  parameters:
+    shape: triangle
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: frequency-staircase
+  operation: sweep.current_modulation
+  uses:
+  - current_modulation
+  parameters:
+    shape: staircase
+    levels_hz:
+    - -1000000
+    - 1000000
+    dwell_s: 0.1
+    sample_rate_hz: 20000
+    duration_s: 600
+- id: teams-notification
+  operation: notify.teams
+  uses: []
+  parameters:
+    webhook_env: ''
+    message: LDCon notification
+- id: observe
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: current-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: temperature-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: pi-comparison
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: coordinated
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: target-change-measurement
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: batch-measurement
+  operation: measure.batch
+  uses: []
+  parameters:
+    steps: []
+    timeout_s: 3600.0
+- id: gateway-agent
+  operation: agent.resident
+  uses: []
+  parameters:
+    provider: claude
+    mode: create_or_connect
+    workspace: ''
+    session_id: ''
+- id: agent-request
+  operation: agent.request
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    prompt: ''
+- id: agent-adjust
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: auto
+- id: agent-monitor
+  operation: agent.monitor
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    task_card_id: agent-adjust
+    background:
+      enabled: false
+- id: target-response
+  operation: measure.target_response
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+- id: settling-optimization
+  operation: optimize.settling_criteria
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+- id: target-ff-optimization
+  operation: optimize.target_feedforward
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+- id: laser-off
+  operation: laser.emission
+  uses: []
+  parameters:
+    state: 'off'
+- id: laser-on
+  operation: laser.emission
+  uses: []
+  parameters:
+    state: 'on'
+- id: pi-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: pi

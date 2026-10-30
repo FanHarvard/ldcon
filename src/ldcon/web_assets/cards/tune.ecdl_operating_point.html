@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>TEC branch alignment</title>
+<h1>TEC branch alignment</h1>
+<p><code>tune.ecdl_operating_point</code> approaches the requested frequency using calibrated TEC response and current feedforward, with PI off.</p>
+<table><tr><th>Parameter</th><th>Meaning</th></tr>
+<tr><td>recovery_artifact / recovery_ref</td><td>A same-laser v2 recovery artifact or hashed job reference. Its relative route and selection criteria are used; its archived return frequency is not an admission target.</td></tr>
+<tr><td>tec_ff</td><td>Signed frequency change per TEC input unit; defaults to the present temperature-axis calibration.</td></tr>
+<tr><td>ldc_ff</td><td>Explicit current-input change per TEC input unit. Calibration stays separate from recovery evidence.</td></tr>
+<tr><td>approach_gain</td><td>Fraction of the measured frequency error to correct per iteration.</td></tr>
+<tr><td>tec_settle_s</td><td>Wait after the bounded TEC/current move before measuring again.</td></tr>
+<tr><td>max_tec_excursion_v</td><td>Requested total TEC excursion from this run's start, additionally bounded by the owner.</td></tr>
+<tr><td>pzt_trim</td><td>Optional final bounded PZT trim. Its coefficient comes from the current piezo axis or an explicit value.</td></tr></table>
+<p>Each intentional step starts from a freshly measured stable checkpoint. The card compares the measured frequency change with the prediction. On a hop it restores its own recent TEC/PZT context, then executes the shared v2 current route. It never substitutes an old map's absolute branch reference. Only a completed route whose fresh return verification fails can retry within the configured finite budget; unknown writes and owner errors are not replayed.</p>
+<p>Quality is recorded separately. Success requires the configured target tolerance and stable observation window. The card leaves PI disabled; lock start is a separate operation.</p></html>

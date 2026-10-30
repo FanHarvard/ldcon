@@ -1,0 +1,197 @@
+schema_version: 1
+id: ecdl-dlcpro
+name: ECDL / DLC Pro Ethernet (offline commissioning required)
+interfaces:
+  observation: optical_mode_monitor
+  axis: bounded_axis
+  loop: open_loop_state
+  dlc_lock: dlcpro_frequency_control
+  wavelength: frequency_monitor
+cards:
+- id: pzt-frequency-calibration
+  operation: identify.axis_frequency
+  uses:
+  - observation
+  - axis
+  - loop
+  parameters:
+    offsets:
+    - -0.1
+    - 0
+    - 0.1
+    repeats: 2
+    samples_per_point: 5
+    settle_s: 0.2
+    sample_interval_s: 0.05
+    max_sample_age_s: 0.2
+    timeout_s: 120
+    point_timeout_s: 10
+    max_discontinuity_hz: 1000000000
+    max_fit_residual_hz: 10000000
+    max_hysteresis_hz: 20000000
+    min_signal_hz: 1000000
+    require_single_mode: false
+    quality_limits: {}
+    restore_origin: true
+    write_report: true
+- id: steady-lock
+  operation: servo.dlcpro_frequency
+  uses:
+  - dlc_lock
+  parameters:
+    target_frequency_hz: null
+    duration_s: 86400
+    sample_interval_s: 0.1
+    kp: 0.3
+    ki_per_s: 0.5
+    integral_limit_v: 1
+    capture_hz: 100000000
+    tolerance_hz: 10000000
+    tec_gain: 0.1
+    tec_period_s: 10
+    pzt_center_v: null
+- id: frequency-triangle
+  operation: sweep.dlcpro_frequency
+  uses:
+  - dlc_lock
+  parameters:
+    target_frequency_hz: null
+    duration_s: 60
+    sample_interval_s: 0.1
+    kp: 0.3
+    ki_per_s: 0.5
+    integral_limit_v: 1
+    capture_hz: 100000000
+    tolerance_hz: 10000000
+    tec_gain: 0.1
+    tec_period_s: 10
+    pzt_center_v: null
+    period_s: 10
+    span_hz: 100000000
+    shape: triangle
+    center_lock: true
+    max_gap_s: 0.2
+    boundary_tolerance_s: 0.2
+- id: frequency-sine
+  operation: sweep.dlcpro_frequency
+  uses:
+  - dlc_lock
+  parameters:
+    target_frequency_hz: null
+    duration_s: 60
+    sample_interval_s: 0.1
+    kp: 0.3
+    ki_per_s: 0.5
+    integral_limit_v: 1
+    capture_hz: 100000000
+    tolerance_hz: 10000000
+    tec_gain: 0.1
+    tec_period_s: 10
+    pzt_center_v: null
+    period_s: 10
+    span_hz: 100000000
+    shape: sine
+    center_lock: true
+    max_gap_s: 0.2
+    boundary_tolerance_s: 0.2
+- id: observe
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: current-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: temperature-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: piezo-response
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: piezo-current-feedforward
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: ordered
+    measurements:
+      wavelength: true
+      optical_quality: true
+      dither: false
+    baseline_s: 2.0
+    wait_s: 0.0
+    duration_s: 10.0
+    history_wait_s: 2.0
+    minimum_samples: 3
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 300.0
+- id: batch-measurement
+  operation: measure.batch
+  uses: []
+  parameters:
+    steps: []
+    timeout_s: 3600.0

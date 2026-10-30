@@ -1,0 +1,36 @@
+{
+  "host": "dlc-thf685.localnet",
+  "expected_serial_number": "DLC PRO_042070",
+  "listen_host": "127.0.0.1",
+  "listen_port": null,
+  "socket_timeout_s": 2,
+  "tick_s": 0.05,
+  "state_directory": "/opt/ldcon/var/lasers/thf685/dlcpro-owner",
+  "laser_files": [
+    "laser.yaml"
+  ],
+  "hardware": {
+    "axes": {
+      "piezo": {
+        "bounds": null
+      },
+      "temperature": {
+        "bounds": null
+      },
+      "current": {
+        "bounds": null
+      }
+    },
+    "channels": {
+      "1": {
+        "laser_id": "thf685",
+        "output_filters_verified": false,
+        "ff_reference_v": null,
+        "pzt_scan_output_channel": 50,
+        "scan_frequency_bounds_hz": null,
+        "ff_delta_verified": false
+      }
+    }
+  },
+  "expected_firmware_version": "1.9.0.27a1cf0"
+}

@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Card-driven Grafana dashboard export</title><style>body{max-width:1000px;margin:40px auto;padding:0 24px;font:16px/1.8 system-ui}pre{background:#eef2f5;padding:16px;overflow:auto}table{border-collapse:collapse}td,th{border:1px solid #ccd;padding:.5em}</style>
+<h1 data-i18n="title">Card-driven Grafana dashboard export</h1><p><code>report.grafana_dashboard</code></p>
+<p data-i18n="operation">Generates importable JSON by collecting the physical quantities declared by the selected deck cards. ECDL cards contribute PZT, fringe and dither quantities; DFB/DBR cards contribute measured current, current modulation DAC and current estimates. Runs alongside a lock without opening devices or changing outputs.</p>
+<h2 data-i18n="selectionTitle">Choose cards and quantities</h2><p data-i18n="selection">Leave the selections unset to include all quantities reported by the deck. Select card IDs and quantity IDs to narrow the report. Shared quantities are deduplicated, and the manifest retains every contributing card. An unavailable explicit selection is rejected with a reason; unsupported automatic source bindings are listed as unavailable. Empty lists deliberately select nothing.</p>
+<pre>report_card_ids: null
+report_quantity_ids: null
+# Example: a DFB/DBR current report
+# report_card_ids: [native-current-servo]
+# report_quantity_ids:
+#   - electrical.current
+#   - model.current_estimate
+#   - control.current_dac
+reference_card_id: null
+reference_wavelength_nm: null
+reference_frequency_hz: null
+display_tolerance_hz: null
+datasource_uid: ""
+offset_range_mhz: 1000000</pre>
+<h2 data-i18n="referenceTitle">Reference at execution time</h2><p data-i18n="reference">An explicit reference wavelength or frequency wins. Otherwise, the selected running card target takes precedence over its assigned target. The resolved vacuum wavelength is frozen into editable line_nm. A display tolerance comes from that same target snapshot or an explicit value. No laser-specific lock tolerance or red/green frequency threshold is imposed. Missing targets cause an explanatory error.</p>
+<h2 data-i18n="layoutTitle">Layout and physical meaning</h2><p data-i18n="layout">Summary values and the optional controller timeline follow the selected quantities; detailed plots use four columns. DAC counts, measured voltage, measured current and estimated current remain separate. A TEC input voltage is not temperature. Relevant device coordinates come from the laser snapshot, without selecting panels by a laser name or hard-coded laser family.</p>
+<p data-i18n="limits">Fringe fill, secondary peaks and dither response are qualified proxies, not universal proofs of mode purity. Dither uses valid fits; missing data remains absent rather than zero. Each quantity has a semantic contract, while an independent query profile chooses its storage fields. Existing VictoriaMetrics bindings of acquire.metrics can be reused; a SQLite-only binding is explicitly unavailable for this Prometheus dashboard. Generating JSON does not import or publish it to Grafana.</p>
+<h2 data-i18n="filesTitle">Saved artifacts</h2><p><code>grafana-dashboard.json</code> / <code>grafana-manifest.json</code></p><p data-i18n="files">The manifest records the frozen reference and tolerance, contributing cards, selected quantity meanings and units, actual queries, and unavailable source bindings. Invocation settings and export events remain in the normal job logs.</p><script src="../assets/grafana-help.js"></script></html>

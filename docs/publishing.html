@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Publishing ldcon</title>
+<style>body{font:16px/1.7 system-ui;max-width:900px;margin:3rem auto;padding:0 1rem}pre{background:#f2f4f6;padding:1rem;overflow:auto}code{font-size:.9em}</style>
+<h1>Publishing ldcon</h1><p>Public repository: <a href="https://github.com/FanHarvard/ldcon">FanHarvard/ldcon</a>.
+Initial version: 0.2.0. No production service is activated by publication.</p>
+<h2>One-time PyPI setup</h2><p>A PyPI account owner creates a pending publisher at
+<a href="https://pypi.org/manage/account/publishing/">PyPI publishing settings</a> with:</p>
+<table><tr><th>Project name</th><td>ldcon</td></tr><tr><th>Owner</th><td>FanHarvard</td></tr>
+<tr><th>Repository</th><td>ldcon</td></tr><tr><th>Workflow</th><td>release.yml</td></tr>
+<tr><th>Environment</th><td>pypi</td></tr></table>
+<p>Use the repository's <code>pypi</code> environment to restrict release access. Authentication uses
+GitHub OIDC and PyPI Trusted Publishing; no long-lived PyPI API token belongs in this repository.
+See the <a href="https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/">official PyPI setup</a>.</p>
+<h2>Release</h2><p>Publish experiment-core before LDCon. LDCon pins the verified compatible core version.
+Update package metadata and the LDCon CI core tag together for a future version.</p>
+<pre>python -m build
+python -m twine check --strict dist/*
+python scripts/check_dist.py dist
+python scripts/check_secrets.py
+python -m pytest -q
+git tag v0.2.0
+git push origin v0.2.0</pre>
+<p>Create a GitHub Release for the tag to run <code>release.yml</code>, or dispatch that workflow at
+the tag. The workflow checks the tag against package metadata, builds and audits distributions,
+tests the wheel, and publishes through the dedicated environment. Do not reuse an uploaded PyPI version.
+The CI workflow also checks Python 3.10, 3.12 and 3.13.</p>
+<h2>Public/private boundary</h2><p>Public: source, tests, documentation, MIT license and reviewed examples.
+Private: credentials, .env/.pypirc files, runtime databases, job logs, agent conversations,
+approval receipts, local deployment history and live service configuration. New public repositories
+start from a reviewed snapshot; the internal Git history is not uploaded.</p>
+<p>The secret scanner compares findings against individually reviewed non-secret fixtures and code
+literals in <code>.secrets.baseline</code>. New findings fail CI. This complements artifact inspection;
+it is not a proof that arbitrary future data is safe to publish.</p></html>

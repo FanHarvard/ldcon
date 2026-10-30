@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LDCon — 結果による予約実行</title><link rel="stylesheet" href="assets/app.css"><script src="assets/reservations.js" defer></script></head>
+<body><header><a class="brand" href="./">LDCon</a><span>結果による予約実行</span></header><main>
+<h1>結果による予約実行</h1><p>指定ジョブの終了、または継続中のロックを確認してからカードを実行します。失敗時にエージェントがあれば復旧を依頼し、予約と期限の進行を保留します。理由と実行時の設定を保存します。</p>
+<p id="reservation-notice" role="status"></p>
+<form id="reservation-form"><fieldset><legend>予約するカード</legend>
+<label>レーザー<select id="reservation-set" required></select></label><label>デッキ<select id="reservation-deck" required></select></label><label>カード<select id="reservation-card" required></select></label>
+<label>実行する理由<textarea id="reservation-reason" rows="3" required maxlength="2000" placeholder="例: 動作点取得が成功した後、その設定で定常ロックを開始する"></textarea></label>
+<label>予約の期限（秒後）<input id="reservation-timeout" type="number" min="1" max="604800" value="1800" required></label>
+<details><summary>今回の実行パラメーター</summary><label>カードのパラメーター<textarea id="reservation-parameters" rows="14" required></textarea></label></details></fieldset>
+<fieldset><legend>すべて満たす前提条件</legend><p>対象ジョブはIDで固定します。「ロック確認」は新しい有効測定を3回以上、指定時間にわたって確認します。</p><div id="reservation-prerequisites"></div><button id="reservation-add" type="button">条件を追加</button></fieldset>
+<label id="reservation-controller-label" hidden>最適化する継続ジョブ<select id="reservation-controller"></select></label>
+<p>エージェントがない場合は簡易診断を通知カードに送り、通常の終了待ち予約には失敗コードを渡します。ロック確認や明示した結果条件は失敗コードで満たしません。設定変更・取消・期限切れ・安全確認待ちでは開始しません。Web停止中は開始を保留し、再開後も復旧待ちを維持します。予約取消は実行中ジョブを停止しません。</p>
+<button type="submit" class="primary" id="reservation-submit">理由付きで予約</button></form>
+<h2>予約と結果</h2><button id="reservation-refresh" type="button">更新</button><div class="table-wrap"><table><thead><tr><th>作成 / 状態</th><th>実行先 / 理由</th><th>前提 / 結果</th><th>期限 / 操作</th></tr></thead><tbody id="reservation-list"></tbody></table></div>
+</main></body></html>

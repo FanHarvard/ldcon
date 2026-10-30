@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Laser electrical ON/OFF</title>
+<body><h1>Laser electrical ON/OFF</h1>
+<p><code>laser.emission</code> accepts <code>state: on|off</code> and an optional bounded <code>timeout_s</code>. The laser owner selects the commissioned method and all safety parameters.</p>
+<p>For a direct laser-diode driver, the card switches the LD enable output and preserves the TEC. For current modulation, it removes the current dither at the same offset, ramps within the approved step and slew limits, and checks new measured-current acquisitions between steps. Both methods require post-command electrical verification.</p>
+<p>The card first records an inhibit, cancels this laser's active physical cards through their normal cleanup, and waits for the owner to confirm PI/FF stopped and leases released. Resident monitoring and other lasers are not stopped. An OFF inhibit survives process restart and blocks automatic relocking or late restoration commands.</p>
+<p>ON ends at <code>enabled_unlocked</code>: it does not start acquisition, PI, a scheduled program, or restore a prior dither. Run the intended acquisition/lock sequence explicitly. Current suppression does not prove optical extinction; optical state remains unknown. Cancellation never automatically restores ON.</p>
+<p>A missing, stale, clipped or uncalibrated current monitor refuses admission before cancelling a healthy lock. An uncertain output or failed post-write verification retains inhibition and requires owner/maintainer inspection; do not retry the physical command.</p>
+</body></html>

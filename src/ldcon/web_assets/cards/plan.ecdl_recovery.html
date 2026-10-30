@@ -1,0 +1,14 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ECDL復旧手順の作成</title><style>body{font:16px/1.85 system-ui;max-width:1100px;margin:3em auto;padding:0 1.3em;color:#182431}h1,h2{line-height:1.4}table{border-collapse:collapse;width:100%}th,td{border:1px solid #c7d2db;padding:.6em;text-align:left;vertical-align:top}th{background:#edf3f7}pre{background:#eef3f7;padding:1em;overflow:auto}code{font-size:.93em}.note{border-left:4px solid #45758e;padding:.4em 1em;background:#f4f8fa}</style><h1>ECDL復旧手順の作成</h1><p><code>plan.ecdl_recovery</code> は、成功した大域マップと選択枝から、準備経路・走査方向・元の光学状態の検証条件をまとめるカードです。機器を開かず、走っている定常ロックと並行して実行できます。</p>
+<h2>入力と計画</h2><p><code>map_ref</code> に同じレーザーの成功したマップjob IDと <code>artifact_sha256</code> を指定します。指定枝がなければマップの選択枝を使います。元のTEC/PZT文脈、conditioning、走査開始点への準備、その後の選択点までの一方向経路を保存します。元の電流に戻すだけの手順ではありません。</p>
+<pre>map_ref:
+  job_id: map-job-id
+  sha256: "マップ成果に記録された64桁のSHA256"
+selected_branch_id: null
+selection_author: automatic
+tolerance_hz: null
+hop_threshold_hz: null
+stable_s: 5
+confirm_samples: 3
+metric_limits: {}</pre>
+<p><code>tolerance_hz</code> は元の光学状態へ戻ったと認める周波数幅、<code>hop_threshold_hz</code> はホップ確認に使う変化幅です。どちらも測定目的・装置に応じて明示します。<code>metric_limits</code> は追加の光学指標上限、<code>stable_s</code> と <code>confirm_samples</code> は新しい有効取得で満たす確認条件です。</p>
+<h2>成果は提案</h2><p><code>recovery-plan.json</code> に元マップのSHA256、枝、校正・判定文脈、手順、検証条件を保存します。生成成功は復旧成功の実証ではなく、<code>verified: false</code> です。実証は <a href="test.ecdl_recovery.html">意図的ホップ・復旧試験</a>で別の成果として記録します。ホップ機構を自動断定しません。</p><h2>定常運転への受け渡し</h2><p>定常ロックにはこの計画だけでなく、同じ計画に基づく実ホップ復旧試験の成功成果も対で渡します。計画と試験のSHA256、レーザー、出発点・光学文脈を照合します。TEC/PZTを変更して取得した別文脈へ、元の証拠を自動的に引き延ばしません。</p></html>

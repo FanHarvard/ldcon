@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent settings · LDCon</title>
+<link rel="stylesheet" href="agent-settings-assets/agent-settings.css">
+<script defer src="agent-settings-assets/agent-settings.js"></script>
+</head>
+<body>
+<main>
+<header class="page-header"><div><a class="back" href="./#laser-settings">← Dashboard settings</a><p class="eyebrow">LDCon / Agent operations</p><h1>Agent settings</h1><p class="lead">Choose computation profiles and how operational updates reach you.</p></div><button id="reload" type="button">Reload saved settings</button></header>
+<p id="status" role="status" aria-live="polite">Loading saved settings…</p>
+<nav class="section-nav" aria-label="Settings sections"><a href="#routing">Difficulty routing</a><a href="#profiles">Execution profiles</a><a href="#notifications">Notifications</a><a href="#card-guides">Card guides</a></nav>
+<section id="routing" class="panel">
+<h2>Difficulty routing</h2>
+<p>Profile IDs are arbitrary names. This table alone maps each card difficulty and agent interface to a profile. A card may use the default difficulty. Explicit per-run profile selection takes precedence; active tasks keep their admitted profile.</p>
+<form id="routing-form">
+<label>Default task difficulty <select id="default-difficulty"></select></label>
+<div class="table-scroll"><table><thead><tr><th>Agent interface</th><th>Basic</th><th>Standard</th><th>Deep</th></tr></thead><tbody id="routing-rows"></tbody></table></div>
+<div class="toolbar"><label>Global gateway interface <select id="gateway-provider"></select></label><label>Global gateway difficulty <select id="gateway-difficulty"></select></label></div>
+<p>Each laser can save its own gateway interface and difficulty in Laser settings. Saving does not start, stop or reconnect a gateway.</p>
+<table><thead><tr><th>Laser override</th><th>Gateway interface</th><th>Difficulty</th></tr></thead><tbody id="routing-lasers"></tbody></table>
+<div class="form-footer"><p id="routing-revision" class="hint">Routing has not loaded.</p><button type="submit" id="save-routing" disabled>Save difficulty routing</button></div>
+</form>
+</section>
+<section id="profiles" class="panel">
+<div class="section-heading"><div><p class="eyebrow">Computation</p><h2>Execution profiles</h2></div><span id="profile-revision" class="revision">Revision not loaded</span></div>
+<p>Define profiles here, then assign them in the difficulty routing table above. Names such as basic or deep in a Profile ID have no special meaning.</p>
+<p>Profiles select a provider, exact model and resource budgets. Saved changes apply to new sessions and tasks; active runs keep their selected profile.</p>
+<p class="hint">Model and effort choices come from the locally verified capability list. Account access is checked when a task connects. Provider default leaves effort to that provider. Existing running tasks are unchanged.</p><details><summary>Resource budgets: Max turns / Input bytes</summary><p>Max turns caps the task’s model/decision rounds; it does not count hourly monitor wakeups. Input bytes caps the UTF-8 task instructions and evidence bundle, not tokens or total conversation history. Keep the saved budgets unless a task reaches its limit. The current adjustment profiles use 64 turns and 262144 bytes; reducing these can prevent a useful study. These budgets never expand device authority.</p></details><div class="notice"><strong>Authentication is not checked here.</strong> Executable availability does not prove login, model access or permission to run a task. This page does not connect to a model.</div>
+<div id="providers" class="provider-list" aria-label="Provider availability"></div>
+<form id="profile-form">
+<div class="table-scroll"><table class="profiles-table"><caption class="sr-only">Editable execution profiles</caption><thead><tr><th>Profile ID</th><th>Provider</th><th>Exact model</th><th>Effort</th><th>Timeout (s)</th><th>Max turns</th><th>Input bytes</th><th>Required tools / modalities</th><th>Action</th></tr></thead><tbody id="profile-rows"></tbody></table></div>
+<button id="add-profile" type="button">Add profile</button><details><summary>Legacy fallback defaults (unused when difficulty routing is configured)</summary><div class="toolbar"><label>Global resident default<select id="resident-profile"><option value="">Use existing card selection</option></select></label></div>
+<details><summary>Per-laser resident defaults · advanced JSON</summary><p>Use a laser ID and an existing profile ID. An absent laser inherits the global selection.</p><pre>{"laser-example": {"resident_profile": "analysis"}}</pre><label class="block-label" for="profile-lasers">Per-laser defaults</label><textarea id="profile-lasers" rows="6" spellcheck="false" aria-describedby="profile-lasers-help">{}</textarea><p id="profile-lasers-help" class="hint">Saving this registry does not change device permissions or the running laser configuration.</p></details>
+</details><div class="form-footer"><p id="profile-activation" class="hint">No profile is selected until a valid registry is loaded.</p><button type="submit" class="primary" id="save-profiles" disabled>Save execution profiles</button></div>
+</form>
+</section>
+<section id="notifications" class="panel">
+<div class="section-heading"><div><p class="eyebrow">Communication</p><h2>Notification policy</h2></div><span id="notification-revision" class="revision">Revision not loaded</span></div>
+<p>Automatic messages are brief English summaries. Human replies retain the original request language. Detailed evidence stays in local records at every preset.</p>
+<form id="notification-form">
+<div class="notification-controls"><label>Global preset<select id="notification-preset"><option value="quiet">Quiet</option><option value="standard">Standard</option><option value="investigation">Investigation</option></select></label><label>Progress cooldown (seconds)<input id="progress-interval" type="number" min="30" max="86400" step="any" value="300" required></label></div>
+<div class="preset-cards"><article><h3>Quiet</h3><p>Brief outcomes and actionable changes. Intermediate progress stays local.</p></article><article><h3>Standard</h3><p>Outcomes with selected quantities. Routine progress is combined into completion summaries.</p></article><article><h3>Investigation</h3><p>Also reports starts and bounded milestones, with cooldown and relevant uncertainty.</p></article></div>
+<p class="notice">New faults, unexpected stops and required human decisions remain immediate. Unchanged healthy checks stay local. Repeated events and questions are deduplicated.</p>
+<details><summary>Per-laser and temporary task overrides · advanced JSON</summary><p>Overrides may set <code>preset</code> and <code>progress_interval_s</code>. Unspecified fields inherit the previous scope.</p><label class="block-label" for="notification-lasers">Per-laser overrides</label><textarea id="notification-lasers" rows="5" spellcheck="false">{}</textarea><pre>{"laser-example": {"preset": "quiet"}}</pre><label class="block-label" for="notification-tasks">Temporary task overrides</label><textarea id="notification-tasks" rows="7" spellcheck="false">{}</textarea><pre>{"task-example": {"laser_id": "laser-example", "policy": {"preset": "investigation"}, "expires_unix_s": 1800000000, "completed": false}}</pre><p class="hint">Use the actual task ID. A task override expires at completion or its optional Unix deadline. Expired overrides remain visible for audit and no longer affect delivery.</p></details>
+<div class="effective"><h3>Saved effective settings</h3><p class="hint">This table reflects the last saved revision, including inheritance and expired task overrides.</p><div class="table-scroll"><table><thead><tr><th>Scope</th><th>Effective preset</th><th>Cooldown</th><th>Inherited preset</th><th>Source / lifetime</th></tr></thead><tbody id="effective-rows"></tbody></table></div></div>
+<div class="form-footer"><p id="notification-activation" class="hint">Changes apply to future events. Existing delivery records are retained.</p><button type="submit" class="primary" id="save-notifications" disabled>Save notification policy</button></div>
+</form>
+</section>
+<section id="card-guides" class="panel compact"><h2>Card guides</h2><div class="guide-links"><a href="cards/agent.task">Finite task agent</a><a href="cards/agent.monitor">Independent monitor</a><a href="cards/agent.history_review">Historical review</a></div></section>
+</main>
+</body></html>

@@ -1,0 +1,36 @@
+# Example only: offsets are in the bound axis unit (count on the existing ECDL).
+# Add axis: {device: rig, capability: bounded_axis, axis: piezo} to a REVIEWED laser definition.
+schema_version: 1
+id: ecdl-axis-calibration
+name: Shared axis frequency calibration / existing ECDL
+interfaces:
+  observation: optical_mode_monitor
+  axis: bounded_axis
+  loop: open_loop_state
+cards:
+- id: pzt-frequency-calibration
+  operation: identify.axis_frequency
+  uses:
+  - observation
+  - axis
+  - loop
+  parameters:
+    offsets:
+    - -100
+    - 0
+    - 100
+    repeats: 2
+    samples_per_point: 5
+    settle_s: 0.2
+    sample_interval_s: 0.05
+    max_sample_age_s: 0.2
+    timeout_s: 120
+    point_timeout_s: 10
+    max_discontinuity_hz: 1000000000
+    max_fit_residual_hz: 10000000
+    max_hysteresis_hz: 20000000
+    min_signal_hz: 1000000
+    require_single_mode: false
+    quality_limits: {}
+    restore_origin: true
+    write_report: true

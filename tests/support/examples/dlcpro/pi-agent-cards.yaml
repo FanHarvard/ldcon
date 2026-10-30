@@ -1,0 +1,141 @@
+# Shared agent.task + measure.batch presets; DLC-specific behavior is in the owner adapter.
+cards:
+- id: gateway-agent
+  operation: agent.resident
+  uses: []
+  parameters:
+    provider: claude
+    mode: create_or_connect
+    workspace: ''
+    session_id: ''
+- id: pi-observation
+  operation: measure.change
+  uses: []
+  parameters:
+    changes: []
+    apply_mode: atomic
+    measurements:
+      wavelength: true
+      optical_quality: false
+      dither: false
+    baseline_s: 0.0
+    wait_s: 5.0
+    duration_s: 60.0
+    history_wait_s: 0.0
+    minimum_samples: 100
+    sample_interval_s: 0.1
+    measurement_max_age_s: 2.0
+    max_sample_gap_s: 1.0
+    timeout_s: 90.0
+- id: pi-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: pi
+    adjustment_plan_card_id: pi-observation
+    timeout_s: 1800.0
+    adoption_mode: auto_within_approved
+    prompt: Diagnose the observed periodic frequency error and compare independent
+      P/I changes and the integral contribution limit when supported by evidence.
+      Use measured, time-stamped waveforms over several oscillation periods. Distinguish
+      periodic error, drift, saturation and TEC/PZT coupling. Adopt only repeatably
+      measured improvement; otherwise retain the checkpoint and state the limitation.
+      Physical bounds, target, TEC settings, feedforward, calibration and firmware
+      remain unchanged. Foreground operations take priority. The task model authors
+      the explanation. Do not send Teams or webhook messages.
+  agent_execution:
+    mode: required
+    difficulty: deep
+    escalation_profiles: []
+- id: target-response-pi-measurements
+  operation: measure.batch
+  uses: []
+  parameters:
+    steps:
+    - changes: []
+      apply_mode: atomic
+      measurements:
+        wavelength: true
+        optical_quality: false
+        dither: false
+      baseline_s: 0.0
+      wait_s: 0.0
+      duration_s: 60.0
+      history_wait_s: 0.0
+      minimum_samples: 100
+      sample_interval_s: 0.1
+      measurement_max_age_s: 2.0
+      max_sample_gap_s: 1.0
+      timeout_s: 90.0
+    - changes:
+      - parameter: target_frequency_hz
+        offset: 100000000.0
+      apply_mode: atomic
+      measurements:
+        wavelength: true
+        optical_quality: false
+        dither: false
+      baseline_s: 1.0
+      wait_s: 0.0
+      duration_s: 10.0
+      history_wait_s: 0.0
+      minimum_samples: 100
+      sample_interval_s: 0.1
+      measurement_max_age_s: 2.0
+      max_sample_gap_s: 1.0
+      timeout_s: 40.0
+    - changes:
+      - parameter: target_frequency_hz
+        offset: -100000000.0
+      apply_mode: atomic
+      measurements:
+        wavelength: true
+        optical_quality: false
+        dither: false
+      baseline_s: 1.0
+      wait_s: 0.0
+      duration_s: 10.0
+      history_wait_s: 0.0
+      minimum_samples: 100
+      sample_interval_s: 0.1
+      measurement_max_age_s: 2.0
+      max_sample_gap_s: 1.0
+      timeout_s: 40.0
+    - changes: []
+      apply_mode: atomic
+      measurements:
+        wavelength: true
+        optical_quality: false
+        dither: false
+      baseline_s: 0.0
+      wait_s: 0.0
+      duration_s: 60.0
+      history_wait_s: 0.0
+      minimum_samples: 100
+      sample_interval_s: 0.1
+      measurement_max_age_s: 2.0
+      max_sample_gap_s: 1.0
+      timeout_s: 90.0
+    timeout_s: 180.0
+- id: target-response-pi-optimization
+  operation: agent.task
+  uses: []
+  parameters:
+    agent_card_id: gateway-agent
+    instruction_profile: adjustment
+    adjustment_family: pi
+    adjustment_plan_card_id: target-response-pi-measurements
+    timeout_s: 1200.0
+    adoption_mode: auto_within_approved
+    prompt: Optimize the admitted target-step response and steady performance together
+      using the common response/PI policy. Compare independent P, I and integral-contribution
+      candidates where evidence justifies them, repeat a promising candidate, and
+      explain the measured speed/noise trade-off before adoption. Keep the frozen
+      target program, physical envelope, TEC, FF, calibration and firmware unchanged.
+      Foreground requests take priority. Do not send Teams or webhook messages.
+  agent_execution:
+    mode: required
+    difficulty: deep
+    escalation_profiles: []

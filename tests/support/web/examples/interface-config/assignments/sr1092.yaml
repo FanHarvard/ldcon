@@ -1,0 +1,12 @@
+schema_version: 1
+id: sr1092
+laser_id: sr1092
+decks:
+- deck_id: dfb-dbr-ldc-tec
+  parameters:
+    temperature-acquire:
+      target_frequency_hz: null
+      target_wavelength_nm: null
+      tolerance_hz: null
+      requested_slew_c_per_s: 0.01
+      max_excursion_c: null

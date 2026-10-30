@@ -1,0 +1,250 @@
+schema_version: 1
+id: sr1092
+name: Sr1092
+allow_output: true
+target:
+  frequency_hz: 274589143699999.97
+  max_change_hz: 100000000.0
+  note: human 2026-10-22, target range +-100 GHz around the lock target, at most 100
+    MHz per card run
+  allowed_change_hz:
+  - -99999999999.96875
+  - 100000000000.03125
+devices:
+  ldc:
+    type: thorlabs.cld1015.broker
+    connection:
+      endpoint: http://127.0.0.1:47143
+      instrument: repump_1092_controller
+      resource: USB0::4883::32847::M01343851::0::INSTR
+    absolute_conditions:
+      current_a:
+        bounds_a:
+        - 0.045
+        - 0.055
+        max_slew_a_per_s: 0.0005
+        max_step_a: 0.001
+        min_update_interval_s: 0.1
+        expressions:
+        - state.ld_enabled and state.tec_enabled
+      temperature_c:
+        bounds_c:
+        - 16.5
+        - 17.5
+        max_slew_c_per_s: 0.01
+        max_step_c: 0.005
+        expressions:
+        - state.tec_enabled and state.ld_enabled
+    control_settings:
+      current:
+        enabled: true
+        output_update_interval_s: 0.1
+        activation_range_a:
+        - -0.001
+        - 0.001
+        pid:
+          kp_a_per_hz: -1.820205969439418e-13
+          ki_a_per_hz_s: -3.640411938878836e-13
+          kd_a_s_per_hz: 0.0
+          derivative_filter_s: 0.1
+          integral_limit_a: 0.0005000000000000004
+        response:
+          step_a: 0.0001
+          hold_s: 6.0
+          samples: 12
+          min_snr: 5.0
+      temperature:
+        output_update_interval_s: 0.5
+      slow_control:
+        output_resolution: 5e-05
+        sensitivity: -1098776750312.4685
+        measurement_filter_s: 1.0
+        error_deadband: 0.0
+        quantization_hysteresis: 0.1
+  current_awg:
+    type: siglent.sdg2000x.broker
+    connection:
+      endpoint: http://127.0.0.1:47151
+      instrument: sdg2042x:SDG2XFBCA00839
+      resource: TCPIP::192.168.1.37::INSTR
+      channel: 2
+      projection:
+        principal: laser-sr1092
+        key_env: LDCON_PROJECTION_SR1092
+    absolute_conditions:
+      modulation_v:
+        bounds_v:
+        - 0.1
+        - 3.2
+        max_vpp_v: 1.5
+        max_slew_v_per_s: null
+      preserve_channels:
+      - 1
+    control_settings:
+      native_feedforward_awg:
+        profile: siglent_sdg2000x
+        expected_identity: Siglent Technologies,SDG2042X,SDG2XFBCA00839,2.01.01.39R7
+        load: HZ
+        reference: initial_offset
+        centre_tolerance_v: 0.05
+        rest_v: 1.0
+      sweep_api_defaults:
+        continuous:
+          max_s: 600.0
+          step_hz: 1000000.0
+          max_slope_hz_per_s: 1000000000.0
+  wavemeter:
+    type: fizeau.owner
+    connection:
+      endpoint: http://192.168.1.5:47130
+      instrument: sr1092_optical
+      source:
+        endpoint: http://192.168.1.22:8765
+        channel: 4
+        cycle: 0
+        trust_source_clock: true
+        expected_laser: Sr1092
+    absolute_conditions: {}
+  native_esp:
+    type: esp32servocon.native_current.owner
+    connection:
+      endpoint: http://127.0.0.1:47141
+      device_id: esp32servocon-sr1092
+    absolute_conditions: {}
+    control_settings:
+      native_current:
+        revision: sr1092-native-current-1ms-x10att-act3mA-20261021
+        firmware_version: 2026.10.21-antiwindup
+        writes_enabled: true
+        calibration:
+          bias_current_a: 0.0494
+          zero_voltage_v: 0.0
+          current_a_per_v: 0.015
+          gain_relative_uncertainty: 0.05
+          wavelength_nm_per_a: 4.147299961746285
+          evidence: 'Human confirmed x10 (20 dB, voltage ratio 10) attenuator between
+            ESP32 DAC and CLD modulation input. Nominal current_a_per_v scaling, not
+            re-measured. PI-off staircase job 7281ec297e1f42f18b85a1afaf660aa9: DAC32828
+            to32879, about53MHz, about-1.0MHz/code (+/-0.1; drift not excluded).'
+          verified: true
+          response_verified: true
+        dac:
+          bits: 16
+          min_voltage: -2.5
+          max_voltage: 2.5
+        adc:
+          bits: 16
+          min_voltage: 0.0
+          max_voltage: 3.3
+        current_bounds_a:
+        - 0.045
+        - 0.055
+        activation_range_a:
+        - -0.003
+        - 0.003
+        max_step_a: 0.001
+        max_slew_a_per_s: 0.0005
+        update_interval_s: 0.1
+        max_sample_age_s: 1.0
+        missing_timeout_s: 120.0
+        heartbeat_timeout_s: 30.0
+        preserved:
+          multiplier_control: 0
+          baseline_control: 32768
+          multiplier_target: 0
+          baseline_target: 32768
+          mod_valid_min: 0
+          mod_valid_max: 65535
+          software_modulation_enable: 0
+          polling_interval: 1
+          target_time_match: 0
+          target_delay_us: 0
+        native:
+          input:
+            valid_data_index: 3
+            channel: 4
+            cycle: 0
+            src: 192.168.1.22
+            udp_port: 5557
+          kp_count_per_nm: -100.0
+          ki_count_per_nm_s: -21069.129507383714
+          integral_limit_count: 100.0
+          capture_hz: 100000000.0
+          interval_bounds_s:
+          - 0.02
+          - 0.3
+          evidence: 'Human-approved x10 gain scaling for the attenuator; raw integral
+            limit unchanged. Complete envelope revalidated at approved target and
+            actual DAC under PI-off owner; no closed-loop performance claim. 2026-10-21:
+            human approved activation_range_a +-3 mA for native_esp (CLD software
+            PID stays +-1 mA); firmware PI+FF output not step/slew capped, host-written
+            moves keep 50 uA / 0.5 mA/s.'
+          arm_enabled: true
+          acceptance_hz: 10000000000.0
+          target_feedforward_scale: 1.0
+          target_feedforward_scale_bounds:
+          - 0.5
+          - 2.0
+          target_ramp_step_hz: 100000000.0
+        optical:
+          endpoint: http://192.168.1.22:8765
+          channel: 4
+          cycle: 0
+          expected_laser: Sr1092
+          trust_source_clock: true
+        cld_interlock:
+          endpoint: http://127.0.0.1:47143
+          instrument: repump_1092_controller
+          resource: USB0::4883::32847::M01343851::0::INSTR
+        udp_gate: null
+        external_modulation_step_slew_limited: false
+      native_ff_sweep:
+        enabled: true
+        revision: sr1092-native-ff-20261022-v1
+        firmware_version: 2026.10.21-antiwindup
+        window_rule: S1
+        frequency_hz_per_v: 1000000000.0
+        awg_center_v: 1.0
+        adc_center_count: 19530
+        adc_noise_counts: 60
+        adc_valid_bounds:
+        - 5875
+        - 33185
+        max_half_span_hz: 600000000.0
+        max_duration_s: 60.0
+        max_continuous_s: 600.0
+        heartbeat_timeout_s: 10.0
+        missing_timeout_s: 20.0
+        unwind_interval_s: 1.0
+        unwind_steps: 3
+        start_samples: 5
+        start_span_s: 2.0
+        start_integral_fraction_max: 0.5
+        abort_integral_fraction_max: 0.95
+        abort_error_hz: 200000000.0
+        ff_input_gap_s: 1.0
+interfaces:
+  wavelength:
+    device: wavemeter
+    capability: frequency_monitor
+  temperature:
+    device: ldc
+    capability: temperature_controller
+  current:
+    device: ldc
+    capability: current_controller
+  current_modulation:
+    device: current_awg
+    capability: current_modulation
+  measurement:
+    device: wavemeter
+    capability: scalar_sensor
+  actuator:
+    device: ldc
+    capability: slow_actuator
+    axis: current
+  native_current:
+    device: native_esp
+    capability: native_current_lock
+telemetry:
+  telegraf_endpoint: udp://192.168.1.5:8094

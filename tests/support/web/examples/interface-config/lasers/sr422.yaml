@@ -1,0 +1,113 @@
+schema_version: 1
+id: sr422
+name: Sr422
+allow_output: false
+devices:
+  rig:
+    type: ecdl.rig.owner
+    connection:
+      endpoint: http://127.0.0.1:47131
+      resources:
+        piezo:
+          host: esp32servocon-sr422.localnet
+        current_awg:
+          host: awg-ldcon-sr422.localnet
+          channel: 1
+          preserve_channels:
+          - 2
+        tec_awg:
+          host: awg-ldcon-sr422-sr1092.localnet
+          channel: 1
+          preserve_channels:
+          - 2
+      wavemeter:
+        endpoint: http://192.168.1.22:8765
+        channel: 3
+        cycle: 0
+        expected_laser: Sr422
+        trust_source_clock: true
+    absolute_conditions:
+      axes:
+        piezo:
+          bounds: null
+          activation_range: null
+          max_slew_per_s: null
+          max_step: null
+        current:
+          bounds: null
+          activation_range: null
+          max_slew_per_s: null
+          max_step: null
+        temperature:
+          bounds: null
+          activation_range: null
+          max_slew_per_s: null
+          max_step: null
+    control_settings:
+      prepare_open_loop: true
+      max_sample_age_s: 1.0
+      tec_idn_contains: SDG2042X
+      current_idn_contains: 4054B
+      axes:
+        piezo:
+          unit: count
+          identity: Sr422/piezo
+          revision: draft-awaiting-safety
+          update_interval_s: 1.0
+          settle_s: 1.0
+          frequency_hz_per_unit: null
+          resolution: 1.0
+          readback_tolerance: 1.0
+        current:
+          unit: V
+          identity: Sr422/current
+          revision: draft-awaiting-safety
+          update_interval_s: 1.0
+          settle_s: 30.0
+          frequency_hz_per_unit: null
+          resolution: 0.0001
+          readback_tolerance: 0.00011
+        temperature:
+          unit: V
+          identity: Sr422/temperature
+          revision: draft-awaiting-safety
+          update_interval_s: 1.0
+          settle_s: 30.0
+          frequency_hz_per_unit: null
+          resolution: 0.0001
+          readback_tolerance: 0.00011
+      optical:
+        interferometer: '2'
+        mode_bands:
+        - id: desired
+          low_hz: 710951147558089.4
+          high_hz: 710973066296704.8
+        single_mode_max:
+          F2: 0.26
+          B: 0.35
+          C: 0.22
+        warning_max:
+          F2: 0.24
+          B: 0.3
+          C: 0.18
+        reference_status: Historical fringe thresholds; verify against read-only current
+          patterns
+interfaces:
+  observation:
+    device: rig
+    capability: optical_mode_monitor
+  piezo:
+    device: rig
+    capability: bounded_axis
+  temperature:
+    device: rig
+    capability: bounded_axis
+  current:
+    device: rig
+    capability: bounded_axis
+  loop:
+    device: rig
+    capability: open_loop_state
+  lock:
+    device: rig
+    capability: ecdl_stationary_lock

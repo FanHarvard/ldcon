@@ -1,0 +1,89 @@
+{
+  "device_id": "cld1015_M01343851",
+  "instrument": "repump_1092_controller",
+  "resource": "USB0::4883::32847::M01343851::0::INSTR",
+  "identity": {
+    "manufacturer": "THORLABS",
+    "model": "CLD1015",
+    "serial": "M01343851"
+  },
+  "controller": {
+    "current_limits_a": [
+      0.045,
+      0.055
+    ],
+    "temperature_limits_c": [
+      16.5,
+      17.5
+    ],
+    "current_conditions": {
+      "bounds_a": [
+        0.045,
+        0.055
+      ],
+      "max_slew_a_per_s": 0.0005,
+      "max_step_a": 0.001,
+      "min_update_interval_s": 0.1,
+      "expressions": [
+        "state.ld_enabled and state.tec_enabled"
+      ]
+    },
+    "temperature_conditions": {
+      "bounds_c": [
+        16.5,
+        17.5
+      ],
+      "max_slew_c_per_s": 0.01,
+      "max_step_c": 0.005,
+      "expressions": [
+        "state.tec_enabled and state.ld_enabled"
+      ]
+    },
+    "control_settings": {
+      "current": {
+        "enabled": true,
+        "output_update_interval_s": 0.1,
+        "activation_range_a": [
+          -0.001,
+          0.001
+        ],
+        "pid": {
+          "kp_a_per_hz": -1.820205969439418e-13,
+          "ki_a_per_hz_s": -3.640411938878836e-13,
+          "kd_a_s_per_hz": 0.0,
+          "derivative_filter_s": 0.1,
+          "integral_limit_a": 0.0005000000000000004
+        },
+        "response": {
+          "step_a": 0.0001,
+          "hold_s": 6.0,
+          "samples": 12,
+          "min_snr": 5.0
+        }
+      },
+      "temperature": {
+        "output_update_interval_s": 0.5
+      },
+      "slow_control": {
+        "output_resolution": 5e-05,
+        "sensitivity": -1098776750312.4685,
+        "measurement_filter_s": 1.0,
+        "error_deadband": 0.0,
+        "quantization_hysteresis": 0.1
+      }
+    },
+    "current_writes_enabled": false,
+    "temperature_writes_enabled": false,
+    "modulation_role": "repump_1092_current"
+  },
+  "bind": "127.0.0.1",
+  "port": 47143,
+  "poll_s": 1,
+  "max_age_s": 5,
+  "io_timeout_s": 5,
+  "read_unavailable_timeout_s": 120,
+  "state_file": "/opt/ldcon/var/device-owners/cld1015-M01343851/state.json",
+  "handoff_file": "/opt/ldcon/var/device-owners/cld1015-M01343851/handoff.json",
+  "writes_enabled": false,
+  "system_id": "Sr1092"
+}

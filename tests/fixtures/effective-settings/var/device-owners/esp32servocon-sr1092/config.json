@@ -1,0 +1,134 @@
+{
+  "driver": "esp32servocon",
+  "device_id": "esp32servocon-sr1092",
+  "host": "esp32servocon-sr1092.localnet",
+  "device_port": 80,
+  "bind": "127.0.0.1",
+  "api_port": 47141,
+  "interval_s": 0.2,
+  "max_age_s": 1.0,
+  "status_file": "/opt/ldcon/var/device-owners/esp32servocon-sr1092/native-status.json",
+  "state_file": "/opt/ldcon/var/device-owners/esp32servocon-sr1092/measured-native-state.json",
+  "native_current": {
+    "activation_range_a": [
+      -0.003,
+      0.003
+    ],
+    "adc": {
+      "bits": 16,
+      "max_voltage": 3.3,
+      "min_voltage": 0.0
+    },
+    "calibration": {
+      "bias_current_a": 0.0494,
+      "current_a_per_v": 0.015,
+      "evidence": "Human confirmed x10 (20 dB, voltage ratio 10) attenuator between ESP32 DAC and CLD modulation input. Nominal current_a_per_v scaling, not re-measured. PI-off staircase job 7281ec297e1f42f18b85a1afaf660aa9: DAC32828 to32879, about53MHz, about-1.0MHz/code (+/-0.1; drift not excluded).",
+      "gain_relative_uncertainty": 0.05,
+      "response_verified": true,
+      "verified": true,
+      "wavelength_nm_per_a": 4.147299961746285,
+      "zero_voltage_v": 0.0
+    },
+    "cld_interlock": {
+      "endpoint": "http://127.0.0.1:47143",
+      "instrument": "repump_1092_controller",
+      "resource": "USB0::4883::32847::M01343851::0::INSTR"
+    },
+    "current_bounds_a": [
+      0.045,
+      0.055
+    ],
+    "dac": {
+      "bits": 16,
+      "max_voltage": 2.5,
+      "min_voltage": -2.5
+    },
+    "external_modulation_step_slew_limited": false,
+    "firmware_version": "2026.10.21-antiwindup",
+    "heartbeat_timeout_s": 30.0,
+    "max_sample_age_s": 1.0,
+    "max_slew_a_per_s": 0.0005,
+    "max_step_a": 0.001,
+    "missing_timeout_s": 120.0,
+    "native": {
+      "acceptance_hz": 10000000000.0,
+      "arm_enabled": true,
+      "capture_hz": 100000000.0,
+      "evidence": "Human-approved x10 gain scaling for the attenuator; raw integral limit unchanged. Complete envelope revalidated at approved target and actual DAC under PI-off owner; no closed-loop performance claim. 2026-10-21: human approved activation_range_a +-3 mA for native_esp (CLD software PID stays +-1 mA); firmware PI+FF output not step/slew capped, host-written moves keep 50 uA / 0.5 mA/s.",
+      "input": {
+        "channel": 4,
+        "cycle": 0,
+        "src": "192.168.1.22",
+        "udp_port": 5557,
+        "valid_data_index": 3
+      },
+      "integral_limit_count": 100.0,
+      "interval_bounds_s": [
+        0.02,
+        0.3
+      ],
+      "ki_count_per_nm_s": -21069.129507383714,
+      "kp_count_per_nm": -100.0,
+      "target_feedforward_scale": 1.0,
+      "target_feedforward_scale_bounds": [
+        0.5,
+        2.0
+      ],
+      "target_ramp_step_hz": 100000000.0
+    },
+    "optical": {
+      "channel": 4,
+      "cycle": 0,
+      "endpoint": "http://192.168.1.22:8765",
+      "expected_laser": "Sr1092",
+      "trust_source_clock": true
+    },
+    "preserved": {
+      "baseline_control": 32768,
+      "baseline_target": 32768,
+      "mod_valid_max": 65535,
+      "mod_valid_min": 0,
+      "multiplier_control": 0,
+      "multiplier_target": 0,
+      "polling_interval": 1,
+      "software_modulation_enable": 0,
+      "target_delay_us": 0,
+      "target_time_match": 0
+    },
+    "revision": "sr1092-native-current-1ms-x10att-act3mA-20261021",
+    "udp_gate": null,
+    "update_interval_s": 0.1,
+    "writes_enabled": true
+  },
+  "native_ff_sweep": {
+    "enabled": true,
+    "revision": "sr1092-native-ff-20261022-v1",
+    "firmware_version": "2026.10.21-antiwindup",
+    "window_rule": "S1",
+    "frequency_hz_per_v": 1000000000.0,
+    "awg_center_v": 1.0,
+    "adc_center_count": 19530,
+    "adc_noise_counts": 60,
+    "adc_valid_bounds": [
+      5875,
+      33185
+    ],
+    "max_half_span_hz": 600000000.0,
+    "max_duration_s": 60.0,
+    "heartbeat_timeout_s": 10.0,
+    "missing_timeout_s": 20.0,
+    "unwind_interval_s": 1.0,
+    "unwind_steps": 3,
+    "start_samples": 5,
+    "start_span_s": 2.0,
+    "start_integral_fraction_max": 0.5,
+    "abort_integral_fraction_max": 0.95,
+    "abort_error_hz": 200000000.0,
+    "ff_input_gap_s": 1.0,
+    "max_continuous_s": 600.0
+  },
+  "native_assembly": {
+    "laser_file": "/opt/ldcon/var/device-owners/esp32servocon-sr1092/assembly-definition.yaml"
+  },
+  "approvals_root": "/opt/ldcon/var/agent-approvals"
+}

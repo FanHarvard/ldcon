@@ -1,0 +1,11 @@
+schema_version: 1
+id: sr422
+laser_id: sr422
+decks:
+- deck_id: ecdl-pzt-ldc-tec
+  parameters:
+    mode-map:
+      target_frequency_hz: null
+    operating-point:
+      target_frequency_hz: null
+      tolerance_hz: null

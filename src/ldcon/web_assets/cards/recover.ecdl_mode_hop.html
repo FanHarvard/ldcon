@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Recover the pre-hop operating frequency</title>
+<h1>Recover the pre-hop operating frequency</h1>
+<p>Uses the latest stable pre-hop wavelength history in the same laser and target-operation epoch. The return
+frequency is frozen before any write. No branch map or stored physical mode identifier is required.</p>
+<p>The owner executes one relative-current-route algorithm. A matching frequency/context specialization selects
+its parameters; absent or ambiguous specializations use the explicitly configured fallback route. The complete
+path is validated before writes. TEC and PZT are held. All owner bounds, lease and write-verification rules remain.</p>
+<p>Return success requires fresh frequency samples inside the configured tolerance for the specified count and
+duration. Optical quality is reported separately. This card does not enable PI; capture and lock restart are
+separate operations. A new foreground request supersedes the recovery without restoring an old target.</p>
+<p>Missing stable pre-hop history, expired evidence or unknown write outcomes stop the procedure with an explicit
+reason. Historical class-based and map-replay policies require migration and are not silently substituted.</p></html>

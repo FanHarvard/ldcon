@@ -1,0 +1,9 @@
+#fleet-detail { width: 100%; padding: 1rem 0; border: 0; background: #fff; }
+#fleet-notice { padding: 1rem; border: 1px solid #b47719; }
+#fleet-selected-status { color: #556578; font-size: .9rem; }
+.fleet-state { font-weight: 650; }
+.fleet-state[data-code="3"] { color: #16703a; }
+.fleet-state[data-code="6"], .fleet-state[data-code="7"], .fleet-state[data-code="11"] { color: #946000; }
+.fleet-state[data-code="5"] { color: #b22b2b; }
+
+.fleet-state[data-code="22"], .fleet-state[data-code="23"] { color: #946000; }

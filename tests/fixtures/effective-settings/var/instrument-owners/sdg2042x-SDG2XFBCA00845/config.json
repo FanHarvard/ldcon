@@ -1,0 +1,100 @@
+{
+  "instrument": "sdg2042x:SDG2XFBCA00845",
+  "kind": "awg",
+  "profile": "siglent_sdg2000x",
+  "host": "192.168.1.38",
+  "transport": "vxi11",
+  "visa_backend": "@py",
+  "resource": "TCPIP::192.168.1.38::INSTR",
+  "expected_identity": "Siglent Technologies,SDG2042X,SDG2XFBCA00845,2.01.01.39R7",
+  "description": "SDG2042X (awg-ldcon-sr422-sgl.localnet) replacing the BK 4054B of the sr422 rig (2026-10-22): CH1 = LDC current (dither ARB / LDC FF), CH2 = PZT servo ext-mod (ESP32 .9 ADC; sweep staircase). ONE VXI-11 session (ARB uploads on the same session, WVDT with LENGTH).",
+  "channels": {
+    "1": {
+      "writes_enabled": true,
+      "role": "sr422 LDC current (rig lease)"
+    },
+    "2": {
+      "writes_enabled": true,
+      "role": "sr422 PZT ext-mod (rig lease)"
+    }
+  },
+  "timeout_s": 10.0,
+  "endpoint_lock": {
+    "port": 5025
+  },
+  "reconnect": "manual",
+  "bind": "127.0.0.1",
+  "port": 47153,
+  "state_dir": "/opt/ldcon/var/instrument-owners/sdg2042x-SDG2XFBCA00845",
+  "lock_dir": "/opt/ldcon/var/instrument-locks",
+  "safe_start": {
+    "expect": {
+      "1": {
+        "waveform": "ARB",
+        "value_range": [
+          0.6,
+          1.2
+        ],
+        "enabled": true,
+        "load": "HZ",
+        "polarity": "NOR",
+        "burst": "OFF",
+        "modulation": "OFF",
+        "sweep": "OFF"
+      },
+      "2": {
+        "waveform": "DC",
+        "value": 1.0,
+        "tolerance_v": 0.001,
+        "enabled": true,
+        "load": "HZ",
+        "polarity": "NOR",
+        "burst": "OFF",
+        "modulation": "OFF",
+        "sweep": "OFF"
+      }
+    }
+  },
+  "instrument_settings": {
+    "mode": "enforce",
+    "check_interval_s": 60,
+    "items": [
+      {
+        "name": "reference_clock_source",
+        "write": "ROSC INT",
+        "query": "ROSC?",
+        "expect": {
+          "source": "INT"
+        },
+        "description": "Clock MASTER (human 2026-10-22): internal reference; .37 is the EXT slave fed by this unit"
+      },
+      {
+        "name": "reference_output_10mhz",
+        "write": "ROSC 10MOUT,ON",
+        "query": "ROSC?",
+        "expect": {
+          "10MOUT": "ON"
+        },
+        "description": "Clock MASTER (human 2026-10-22): 10 MHz reference OUTPUT ON, feeding the .37 SDG (EXT slave)"
+      }
+    ]
+  },
+  "projection_sources": {
+    "laser-sr422": {
+      "system_id": "sr422",
+      "key_env": "LDCON_PROJECTION_SR422",
+      "channels": [
+        1,
+        2
+      ]
+    }
+  },
+  "capabilities": {
+    "voltage_bounds_v": [
+      -10.0,
+      10.0
+    ],
+    "max_vpp": 20.0,
+    "max_points": 8000000
+  }
+}

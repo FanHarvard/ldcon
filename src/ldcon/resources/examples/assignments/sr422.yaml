@@ -1,0 +1,677 @@
+# Illustrative configuration only; hardware output is disabled.
+schema_version: 1
+id: sr422
+laser_id: sr422
+decks:
+- deck_id: ecdl-pzt-ldc-tec
+  parameters:
+    change-operating-point:
+      verify_samples: 3
+      sample_interval_s: 0.5
+      timeout_s: 900.0
+    change-target:
+      verify_samples: 5
+      sample_interval_s: 1.0
+      timeout_s: 900.0
+    steady-lock:
+      strategy: hold
+      duration_s: null
+      target_frequency_hz: null
+      tolerance_hz: 20000000.0
+      recovery:
+        reference:
+          lookback_s: 120.0
+          stable_s: 5.0
+          min_samples: 5
+          max_gap_s: 2.0
+          guard_s: 1.0
+          max_stddev_hz: 5000000.0
+          max_slope_hz_per_s: 1000000.0
+        fallback:
+        - offset: 0.062419814999999934
+          dwell_s: 0.5
+        - offset: 0.06063732884615369
+          dwell_s: 0.5
+        - offset: 0.058854842692307674
+          dwell_s: 0.5
+        - offset: 0.05707235653846143
+          dwell_s: 0.5
+        - offset: 0.055289870384615414
+          dwell_s: 0.5
+        - offset: 0.05350738423076917
+          dwell_s: 0.5
+        - offset: 0.05172489807692293
+          dwell_s: 0.5
+        - offset: 0.04994241192307691
+          dwell_s: 0.5
+        - offset: 0.04815992576923067
+          dwell_s: 0.5
+        - offset: 0.04637743961538443
+          dwell_s: 0.5
+        - offset: 0.04459495346153841
+          dwell_s: 0.5
+        - offset: 0.04281246730769217
+          dwell_s: 0.5
+        - offset: 0.04102998115384615
+          dwell_s: 0.5
+        - offset: 0.03924749499999991
+          dwell_s: 0.5
+        - offset: 0.03746500884615367
+          dwell_s: 0.5
+        - offset: 0.03568252269230765
+          dwell_s: 0.5
+        - offset: 0.03390003653846141
+          dwell_s: 0.5
+        - offset: 0.03211755038461539
+          dwell_s: 0.5
+        - offset: 0.03033506423076915
+          dwell_s: 0.5
+        - offset: 0.028552578076922908
+          dwell_s: 0.5
+        - offset: 0.02677009192307689
+          dwell_s: 0.5
+        - offset: 0.024987605769230647
+          dwell_s: 0.5
+        - offset: 0.023205119615384406
+          dwell_s: 0.5
+        - offset: 0.021422633461538387
+          dwell_s: 0.5
+        - offset: 0.019640147307692146
+          dwell_s: 0.5
+        - offset: 0.017857661153846127
+          dwell_s: 0.5
+        - offset: 0.016075174999999886
+          dwell_s: 0.5
+        - offset: 0.014292688846153645
+          dwell_s: 0.5
+        - offset: 0.012510202692307626
+          dwell_s: 0.5
+        - offset: 0.010727716538461385
+          dwell_s: 0.5
+        - offset: 0.008945230384615366
+          dwell_s: 0.5
+        - offset: 0.007162744230769125
+          dwell_s: 0.5
+        - offset: 0.005380258076922884
+          dwell_s: 0.5
+        - offset: 0.0035977719230768646
+          dwell_s: 0.5
+        - offset: 0.0018152857692306235
+          dwell_s: 0.5
+        - offset: 3.2799615384382363e-05
+          dwell_s: 0.5
+        specializations: []
+        tolerance_hz: 100000000.0
+        hop_threshold_hz: 200000000.0
+        stable_s: 5.0
+        confirm_samples: 3
+        sample_interval_s: 0.5
+        max_sample_age_s: 2.0
+        measurement_timeout_s: 60.0
+        timeout_s: 900.0
+        history: []
+        event_time_s: null
+        operation_epoch: null
+        perturbations: []
+        execution: recover
+        execution_mode: deterministic
+        execution_profile: ''
+        agent_card_id: diagnostic-agent
+        agent_timeout_s: null
+      acquisition_tolerance_hz: 100000000.0
+      sample_interval_s: 1.0
+      measurement_timeout_s: 120.0
+      tec_ff_paused: false
+      window_guard:
+        enabled: false
+        agent_enabled: true
+        conditions:
+        - field: dither_response
+          operator: '>'
+          threshold: 3.0
+          unit: fm/mV
+        - field: metrics.side_peak_height_max
+          operator: '>'
+          threshold: 0.35
+          unit: '1'
+        - field: metrics.side_peak_prominence_max
+          operator: '>'
+          threshold: 0.18
+          unit: '1'
+        - field: metrics.main_fwhm_fraction
+          operator: '>'
+          threshold: 0.27
+          unit: '1'
+        combine: any
+        confirm_samples: 3
+        measurement_max_age_s: 5.0
+        dither_max_age_s: 30.0
+        cooldown_s: 1800.0
+        max_per_hour: 1
+        card_id: window-center
+        parameters:
+          step_fraction: 0.002512562814070352
+          max_span_fraction: 0.03015075376884422
+          max_steps: 60
+          settle_s: 33.0
+          measurement_max_age_s: 5.0
+          temperature_tolerance: 0.0005
+          seed_ttl_s: 3600.0
+          vote_count: 3
+          vote_window: 4
+          position_warning_fraction: 0.2
+          minimum_monotonicity: 0.9
+          model_max_error_fraction: 0.1
+          controller_card_id: steady-lock
+          mode: center_only
+          initial_interior_search: true
+          timeout_s: 3600.0
+          observables:
+          - dither_response
+          - metrics.side_peak_height_max
+          - metrics.side_peak_prominence_max
+          - metrics.main_fwhm_fraction
+          boundary_limits:
+            dither_response: 0.005290622
+            metrics.side_peak_height_max: 0.35
+            metrics.side_peak_prominence_max: 0.18
+            metrics.main_fwhm_fraction: 0.27
+          urgent_limits:
+            metrics.side_peak_height_max: 0.35
+            metrics.side_peak_prominence_max: 0.18
+            metrics.main_fwhm_fraction: 0.27
+          early_limits: {}
+          require_single_mode: false
+          average_samples: 5
+          average_max_wait_s: 10.0
+          average_statistic: median
+          fast_settle_s: 3.0
+          slow_observables:
+          - dither_response
+          measure_dither: true
+    window-center:
+      step_fraction: 0.002512562814070352
+      max_span_fraction: 0.03015075376884422
+      max_steps: 60
+      settle_s: 33.0
+      measurement_max_age_s: 5.0
+      temperature_tolerance: 0.0005
+      seed_ttl_s: 3600.0
+      vote_count: 3
+      vote_window: 4
+      position_warning_fraction: 0.2
+      minimum_monotonicity: 0.9
+      model_max_error_fraction: 0.1
+      controller_card_id: steady-lock
+      mode: center_only
+      initial_interior_search: true
+      timeout_s: 3600.0
+      observables:
+      - dither_response
+      - metrics.side_peak_height_max
+      - metrics.side_peak_prominence_max
+      - metrics.main_fwhm_fraction
+      boundary_limits:
+        dither_response: 0.005290622
+        metrics.side_peak_height_max: 0.35
+        metrics.side_peak_prominence_max: 0.18
+        metrics.main_fwhm_fraction: 0.27
+      urgent_limits:
+        metrics.side_peak_height_max: 0.35
+        metrics.side_peak_prominence_max: 0.18
+        metrics.main_fwhm_fraction: 0.27
+      early_limits: {}
+      require_single_mode: false
+      average_samples: 5
+      average_max_wait_s: 10.0
+      average_statistic: median
+      fast_settle_s: 3.0
+      slow_observables:
+      - dither_response
+      measure_dither: true
+    mode-map:
+      target_frequency_hz: 710962838507871.5
+      measurement_timeout_s: 120.0
+      current_start_fraction: 0.0
+      current_end_fraction: 1.0
+      current_step_fraction: 0.0045
+      dwell_s: 0.5
+      sample_interval_s: 0.15
+      max_sample_age_s: 1.0
+      timeout_s: 1800.0
+      discontinuity_hz: 500000000.0
+      capture_hz: 60000000000.0
+      min_branch_points: 3
+      selection_author: agent
+    diagnostic-agent:
+      provider: claude
+      mode: create_or_connect
+      workspace: ''
+      session_id: ''
+      remote_control: null
+      execution_profile: ''
+      model: ''
+      effort: ''
+      request_timeout_s: 900.0
+      role: gateway
+    teams-notification:
+      webhook_env: LDCON_TEAMS_LASER_MONITOR
+    agent-monitor:
+      prompt: 'Teams notifications are disabled. Do not post or enqueue Teams messages.
+        Use current owner and recorded evidence; old failure records are not authority
+        to restart locks. Do not change target, absolute physical limits, slew limits,
+        calibration, firmware, or persistent PI settings. Human and program foreground
+        operations take priority. Use only this task background grant for automatic
+        effects. If the system is healthy, explain why no adjustment is needed. Do
+        not repeatedly disturb a healthy lock. Do not force observation of a multimode
+        state. Use historical drift/recovery behavior to judge practical quality.
+        Keep the local result concise in English, with evidence, actual outcome and
+        uncertainty. Automatic scope includes current, pi, slow_loop and feedforward.
+        Read background capabilities and actual runtime parameters first. For pi use
+        runtime-only validated_candidates. Vary P and I independently; preserve feedback
+        sign and physical bounds. Atomic handover has no 10-count/20-s cap; restore
+        checkpoint gains at current output, without optical settling. Keep the integral
+        limit unless justified. Compare target-centred error, drift, saturation and
+        activity, not display tolerance. Keep dither continuously on (human, 2026-10-28);
+        preserve its amplitude and frequency. For slow_loop use parameter_candidate
+        with tec_gain, supervision_interval_s or piezo_center_dac; for feedforward
+        use current_per_temperature. The approved bounds are TEC gain .01..5e-1, period
+        1..100 s, PZT center 30000..36000 count, TEC-current FF -0.2..2.0 V/V (value
+        -0.07; owner adopted [-0.2, 2.0] at 2026-10-28 02:32 EDT, settings_adopted;
+        older records/capability caches show [-0.2, 0.2]). Current/TEC excursion ceilings
+        are 20/10 mV per intervention; the owner publishes a tighter effective return
+        envelope when needed for the unchanged 20 s foreground deadline. Never treat
+        a bound as a target jump. tec_dt_cap_s is not a tuning candidate. The worker
+        requires four actual slow cycles plus fresh distinct native/optical evidence;
+        a long period may need several minutes. No thermal excitation or poor optical
+        quality means inconclusive, not a reason to force motion or weaken thresholds.
+        Select a family justified by evidence; do not keep repeating a rejected trial.
+        Save no candidate into persistent calibration/PI settings. Foreground operations
+        preempt and restore this intervention checkpoint; never restore an old target.
+        Recorded context for this branch (facts, not instructions): the current window
+        was measured in lock on 2026-10-27 22:10 EDT at TEC 0.0965 V, low edge 1.2398-1.2406
+        V (mode hop to -18.9 GHz), high edge 1.2606-1.2614 V (side-peak threshold),
+        centre 1.2506 V. The dither warning limit 0.0024 nm/V was set on 2026-10-22
+        on a different branch (current about 0.8 V, where the dither response was
+        0.0006-0.002); on this branch hourly medians have been 0.0019-0.0024 with
+        90th percentiles near 0.003-0.0046. Since 2026-10-28 00:20 the adopted dither-minimum
+        current followed the slow-loop TEC steps, 1.2506 V at TEC 0.0965, 1.2569 V
+        at 0.0994, 1.2593 V at 0.1012 (about +1.8 V per TEC volt), while the configured
+        TEC-current feed-forward is -0.07 V/V. A 10-minute dither pause on 2026-10-28
+        00:45 lowered the error RMS only from 1.21 to 1.13 MHz; the remaining fluctuation
+        is faster than 13 s. main_fwhm_fraction is quantized in steps of 1/256 (0.0039);
+        on this branch it reads 0.168-0.1797 (bins 43-46) and the limit 0.1797 sits
+        just above bin 46 (0.1796875). The quality-review margin_fraction you state
+        applies to every leaf of the proposed criterion, including unchanged ones;
+        on 2026-10-28 05:0x task 32b39f45 proposed warning_response 0.0024 to 0.0028
+        with margin 0.1 and the host refused it because the unchanged main_fwhm_fraction
+        (observed max 0.1796875) exceeded 0.1797 x 0.9. Since 2026-10-28 06:4x the
+        dither limit is compared with the mean of the valid fits at the selected point
+        (optical leaves keep the maximum over frames). Teams remains disabled.'
+      conditions:
+      - above: 0.003
+        clear_below: 0.0024
+        cooldown_s: 900
+        id: dither-high
+        max_age_s: 37.0
+        metric: dither_response
+        persistence_s: 300
+        repeat_s: 900
+      - above: 20000000.0
+        clear_below: 10000000.0
+        cooldown_s: 900
+        id: frequency-offset
+        max_age_s: 10
+        metric: abs_error_hz
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.318
+        clear_below: 0.3021
+        cooldown_s: 900
+        id: quality-side-peak-height-max
+        max_age_s: 10
+        metric: fringe_metrics.side_peak_height_max
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.135
+        clear_below: 0.12825
+        cooldown_s: 900
+        id: quality-side-peak-prominence-max
+        max_age_s: 10
+        metric: fringe_metrics.side_peak_prominence_max
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.1797
+        clear_below: 0.17071499999999998
+        cooldown_s: 900
+        id: quality-main-fwhm-fraction
+        max_age_s: 10
+        metric: fringe_metrics.main_fwhm_fraction
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.005
+        clear_below: 0.00475
+        cooldown_s: 900
+        id: quality-near-main-peak-prominence-max
+        max_age_s: 10
+        metric: fringe_metrics.near_main_peak_prominence_max
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.25
+        baseline: 0.044995
+        clear_below: 0.1
+        cooldown_s: 900
+        id: source-cadence
+        max_age_s: 10
+        metric: source_interval_s
+        persistence_s: 60
+        repeat_s: 900
+      background:
+        enabled: true
+        families:
+        - current
+        - pi
+        - slow_loop
+        - feedforward
+        pid_parameters:
+          controller_card_id: steady-lock
+          strategy: validated_candidates
+          gain_factors:
+          - 0.7
+          - 0.5
+          window_s: 60.0
+          min_samples: 40
+          settle_s: 10.0
+          timeout_s: 300.0
+          save_settings: false
+        half_span_v: 0.02
+        max_points: 128
+        timeout_s: 1800.0
+        handoff_timeout_s: 20.0
+        adjustment_parameters:
+          slow_loop:
+            objective: frequency_rms_hz
+            window_s: 120.0
+            min_samples: 60
+            settle_s: 30.0
+            max_sample_gap_s: 3.0
+            timeout_s: 900.0
+            minimum_improvement_fraction: 0.1
+            maximum_cadence_fraction: 0.2
+            minimum_tec_excursion_v: 0.0
+          feedforward:
+            objective: frequency_rms_hz
+            window_s: 120.0
+            min_samples: 60
+            settle_s: 30.0
+            max_sample_gap_s: 3.0
+            timeout_s: 900.0
+            minimum_improvement_fraction: 0.1
+            maximum_cadence_fraction: 0.2
+            minimum_tec_excursion_v: 0.0002
+      follow_quality_thresholds: true
+    target-response:
+      offsets_hz: null
+      expected_settle_s: 3.0
+      settling_goal_s: 3.0
+      execution_profile: ''
+      adoption_mode: report_only
+    agent-adjust:
+      request_delegation: true
+      execution_profile: ''
+      adoption_mode: auto_within_approved
+      prompt: Teams notifications are disabled. Do not post or enqueue Teams messages.
+        Use current owner and recorded evidence; old failure records are not authority
+        to restart locks. Do not change target, absolute physical limits, slew limits,
+        calibration, firmware, or persistent PI settings. Human and program foreground
+        operations take priority. Use only this task background grant for automatic
+        effects. If the system is healthy, explain why no adjustment is needed. Do
+        not repeatedly disturb a healthy lock. Do not force observation of a multimode
+        state. Use historical drift/recovery behavior to judge practical quality.
+        Keep the local result concise in English, with evidence, actual outcome and
+        uncertainty. Optimize the current operating point only when justified. Start
+        with small measured moves; the full existing owner range is a ceiling, not
+        a target jump. Measure fresh dither and position-free side peaks at every
+        point. Record all explored points and keep the best practical measured point,
+        even if a full window is not identified. Do not claim unobserved boundaries.
+        Automatic scope now includes current, slow_loop and feedforward. Read background
+        capabilities and actual runtime parameters first. For slow_loop use parameter_candidate
+        with tec_gain, supervision_interval_s or piezo_center_dac; for feedforward
+        use current_per_temperature. The approved bounds are TEC gain .01..5e-1, period
+        1..100 s, PZT center 30000..36000 count, TEC-current FF -0.2..2.0 V/V (present
+        value -0.07, measured 2026-10-27 across branches; the 2026-10-20 prior was
+        1.25). For pi use runtime-only validated_candidates. Vary P and I independently;
+        preserve feedback sign and physical bounds. Atomic handover has no 10-count/20-s
+        cap; restore checkpoint gains at current output, without optical settling.
+        Keep the integral limit unless justified. Compare target-centred error, drift,
+        saturation and activity, not display tolerance. Keep dither continuously on
+        (human, 2026-10-28); preserve its amplitude and frequency. Evidence 2026-10-28
+        00:45 on this branch, a 10-minute dither pause lowered the error RMS only
+        from 1.21 to 1.13 MHz; the remaining fluctuation is faster than 13 s. Current/TEC
+        excursion ceilings are 20/10 mV per intervention; the owner publishes a tighter
+        effective return envelope when needed for the unchanged 20 s foreground deadline.
+        Never treat a bound as a target jump. tec_dt_cap_s is not a tuning candidate.
+        The worker requires four actual slow cycles plus fresh distinct native/optical
+        evidence; a long period may need several minutes. For slow-loop/feedforward
+        identification only, missing thermal excitation or invalid optical observations
+        make that comparison inconclusive; do not force motion to obtain excitation.
+        Current-family optical-quality limits may be revised after repeated best-practical
+        review; they are not physical safety bounds. Select a family justified by
+        evidence; do not keep repeating a rejected trial. Save no candidate into persistent
+        calibration/PI settings. Foreground operations preempt and restore this intervention
+        checkpoint; never restore an old target. Teams remains disabled.
+    mode-recovery:
+      reference:
+        lookback_s: 120.0
+        stable_s: 5.0
+        min_samples: 5
+        max_gap_s: 2.0
+        guard_s: 1.0
+        max_stddev_hz: 5000000.0
+        max_slope_hz_per_s: 1000000.0
+      fallback:
+      - offset: 0.062419814999999934
+        dwell_s: 0.5
+      - offset: 0.06063732884615369
+        dwell_s: 0.5
+      - offset: 0.058854842692307674
+        dwell_s: 0.5
+      - offset: 0.05707235653846143
+        dwell_s: 0.5
+      - offset: 0.055289870384615414
+        dwell_s: 0.5
+      - offset: 0.05350738423076917
+        dwell_s: 0.5
+      - offset: 0.05172489807692293
+        dwell_s: 0.5
+      - offset: 0.04994241192307691
+        dwell_s: 0.5
+      - offset: 0.04815992576923067
+        dwell_s: 0.5
+      - offset: 0.04637743961538443
+        dwell_s: 0.5
+      - offset: 0.04459495346153841
+        dwell_s: 0.5
+      - offset: 0.04281246730769217
+        dwell_s: 0.5
+      - offset: 0.04102998115384615
+        dwell_s: 0.5
+      - offset: 0.03924749499999991
+        dwell_s: 0.5
+      - offset: 0.03746500884615367
+        dwell_s: 0.5
+      - offset: 0.03568252269230765
+        dwell_s: 0.5
+      - offset: 0.03390003653846141
+        dwell_s: 0.5
+      - offset: 0.03211755038461539
+        dwell_s: 0.5
+      - offset: 0.03033506423076915
+        dwell_s: 0.5
+      - offset: 0.028552578076922908
+        dwell_s: 0.5
+      - offset: 0.02677009192307689
+        dwell_s: 0.5
+      - offset: 0.024987605769230647
+        dwell_s: 0.5
+      - offset: 0.023205119615384406
+        dwell_s: 0.5
+      - offset: 0.021422633461538387
+        dwell_s: 0.5
+      - offset: 0.019640147307692146
+        dwell_s: 0.5
+      - offset: 0.017857661153846127
+        dwell_s: 0.5
+      - offset: 0.016075174999999886
+        dwell_s: 0.5
+      - offset: 0.014292688846153645
+        dwell_s: 0.5
+      - offset: 0.012510202692307626
+        dwell_s: 0.5
+      - offset: 0.010727716538461385
+        dwell_s: 0.5
+      - offset: 0.008945230384615366
+        dwell_s: 0.5
+      - offset: 0.007162744230769125
+        dwell_s: 0.5
+      - offset: 0.005380258076922884
+        dwell_s: 0.5
+      - offset: 0.0035977719230768646
+        dwell_s: 0.5
+      - offset: 0.0018152857692306235
+        dwell_s: 0.5
+      - offset: 3.2799615384382363e-05
+        dwell_s: 0.5
+      specializations: []
+      tolerance_hz: 100000000.0
+      hop_threshold_hz: 200000000.0
+      stable_s: 5.0
+      confirm_samples: 3
+      sample_interval_s: 0.5
+      max_sample_age_s: 2.0
+      measurement_timeout_s: 60.0
+      timeout_s: 900.0
+      history: []
+      event_time_s: null
+      operation_epoch: null
+      perturbations: []
+      execution: recover
+      execution_mode: deterministic
+      execution_profile: ''
+      agent_card_id: diagnostic-agent
+      agent_timeout_s: null
+    frequency-staircase:
+      lead_s: 0.05
+      tail_s: 0.05
+    recovery:
+      reference:
+        lookback_s: 120.0
+        stable_s: 5.0
+        min_samples: 5
+        max_gap_s: 2.0
+        guard_s: 1.0
+        max_stddev_hz: 5000000.0
+        max_slope_hz_per_s: 1000000.0
+      fallback:
+      - offset: 0.062419814999999934
+        dwell_s: 0.5
+      - offset: 0.06063732884615369
+        dwell_s: 0.5
+      - offset: 0.058854842692307674
+        dwell_s: 0.5
+      - offset: 0.05707235653846143
+        dwell_s: 0.5
+      - offset: 0.055289870384615414
+        dwell_s: 0.5
+      - offset: 0.05350738423076917
+        dwell_s: 0.5
+      - offset: 0.05172489807692293
+        dwell_s: 0.5
+      - offset: 0.04994241192307691
+        dwell_s: 0.5
+      - offset: 0.04815992576923067
+        dwell_s: 0.5
+      - offset: 0.04637743961538443
+        dwell_s: 0.5
+      - offset: 0.04459495346153841
+        dwell_s: 0.5
+      - offset: 0.04281246730769217
+        dwell_s: 0.5
+      - offset: 0.04102998115384615
+        dwell_s: 0.5
+      - offset: 0.03924749499999991
+        dwell_s: 0.5
+      - offset: 0.03746500884615367
+        dwell_s: 0.5
+      - offset: 0.03568252269230765
+        dwell_s: 0.5
+      - offset: 0.03390003653846141
+        dwell_s: 0.5
+      - offset: 0.03211755038461539
+        dwell_s: 0.5
+      - offset: 0.03033506423076915
+        dwell_s: 0.5
+      - offset: 0.028552578076922908
+        dwell_s: 0.5
+      - offset: 0.02677009192307689
+        dwell_s: 0.5
+      - offset: 0.024987605769230647
+        dwell_s: 0.5
+      - offset: 0.023205119615384406
+        dwell_s: 0.5
+      - offset: 0.021422633461538387
+        dwell_s: 0.5
+      - offset: 0.019640147307692146
+        dwell_s: 0.5
+      - offset: 0.017857661153846127
+        dwell_s: 0.5
+      - offset: 0.016075174999999886
+        dwell_s: 0.5
+      - offset: 0.014292688846153645
+        dwell_s: 0.5
+      - offset: 0.012510202692307626
+        dwell_s: 0.5
+      - offset: 0.010727716538461385
+        dwell_s: 0.5
+      - offset: 0.008945230384615366
+        dwell_s: 0.5
+      - offset: 0.007162744230769125
+        dwell_s: 0.5
+      - offset: 0.005380258076922884
+        dwell_s: 0.5
+      - offset: 0.0035977719230768646
+        dwell_s: 0.5
+      - offset: 0.0018152857692306235
+        dwell_s: 0.5
+      - offset: 3.2799615384382363e-05
+        dwell_s: 0.5
+      specializations: []
+      tolerance_hz: 100000000.0
+      hop_threshold_hz: 200000000.0
+      stable_s: 5.0
+      confirm_samples: 3
+      sample_interval_s: 0.5
+      max_sample_age_s: 2.0
+      measurement_timeout_s: 60.0
+      timeout_s: 900.0
+      history: []
+      event_time_s: null
+      operation_epoch: null
+      perturbations: []
+      execution: prepare
+      execution_mode: deterministic
+      execution_profile: ''
+      agent_card_id: diagnostic-agent
+      agent_timeout_s: null
+    tec-branch-alignment:
+      tolerance_hz: 100000000.0
+      stable_s: 30.0
+      tec_settle_s: 45.0
+      approach_gain: 0.5
+      max_tec_excursion_v: 0.3
+      max_consecutive_recovery_failures: 3
+      recovery_artifact: null
+      recovery_ref: null
+      ldc_ff: -0.07
+      pzt_trim:
+        enabled: false

@@ -1,0 +1,102 @@
+# SYNTHETIC VALUES ONLY. Not reviewed hardware limits or calibrations.
+schema_version: 1
+id: dlc-simulation
+name: SIMULATION ONLY - uncommissioned DLC Pro
+allow_output: false
+target:
+  frequency_hz: 300000000000000.0
+  allowed_change_hz:
+  - -1000000000.0
+  - 1000000000.0
+  max_change_hz: 100000000.0
+devices:
+  dlc:
+    type: dlcpro.laser.owner
+    connection:
+      endpoint: http://127.0.0.1:47999
+      laser_id: dlc-simulation
+      channel: 1
+    absolute_conditions:
+      axes:
+        piezo:
+          bounds:
+          - 0
+          - 140
+        temperature:
+          bounds:
+          - 15
+          - 35
+        current:
+          bounds:
+          - 0
+          - 200
+      ff_factor_bounds_ma_per_v:
+      - -1
+      - 1
+    control_settings:
+      commissioned: false
+      policy:
+        axes:
+          piezo:
+            unit: V
+            frequency_hz_per_unit: 100000000.0
+            readback_tolerance: 1.0e-06
+            settle_s: 0.05
+            update_interval_s: 0.05
+          temperature:
+            unit: degC
+            frequency_hz_per_unit: 10000000000.0
+            readback_tolerance: 1.0e-06
+            settle_s: 0.05
+            update_interval_s: 0.05
+          current:
+            unit: mA
+            frequency_hz_per_unit: 1000000000.0
+            readback_tolerance: 1.0e-06
+            settle_s: 0.05
+            update_interval_s: 0.05
+        ff_enabled: true
+        ff_factor_ma_per_v: 0.1
+        max_sample_age_s: 0.2
+        measurement_timeout_s: 2
+        client_timeout_s: 2
+        pzt_center_v: 70.0
+      optical_source:
+        base_url: http://example.invalid
+        channel: 1
+        cycle: 0
+        trust_source_clock: true
+      optical:
+        interferometer: '0'
+        metric_method: phase_free_v1
+        period_reference_px: 100
+        classification_enabled: true
+        single_mode_max:
+          side_peak_height_max: 0.3
+          side_peak_prominence_max: 0.15
+          main_fwhm_fraction: 0.25
+  wavemeter:
+    type: fizeau.http
+    connection:
+      endpoint: http://example.invalid
+      channel: 1
+      cycle: 0
+      trust_source_clock: true
+    absolute_conditions: {}
+interfaces:
+  observation:
+    device: dlc
+    capability: optical_mode_monitor
+  axis:
+    device: dlc
+    capability: bounded_axis
+    axis: piezo
+  loop:
+    device: dlc
+    capability: open_loop_state
+  dlc_lock:
+    device: dlc
+    capability: dlcpro_frequency_control
+  wavelength:
+    device: wavemeter
+    capability: frequency_monitor

@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict'),fs=require('fs'),path=require('path'),{JSDOM}=require('jsdom');
+const dom=new JSDOM('<body></body>',{runScripts:'outside-only'}),w=dom.window,d=w.document;
+const source=fs.readFileSync(path.resolve(process.env.LDCON_TEST_ASSETS||path.join(__dirname,'../src/ldcon/web_assets'),'app.js'),'utf8');
+const start=source.indexOf('function taskExecutionEditor('),end=source.indexOf('\nfunction adjustmentExecutionEditor',start);
+const profiles={claude:{provider:'claude',model:'sonnet-exact',effort:'high'},codex:{provider:'codex',model:'sol-exact',effort:'high'},unapproved:{provider:'opencode',model:'other',effort:'max'}};
+w.api=async()=>({document:{profiles},providers:[{id:'claude',label:'Claude Code'},{id:'codex',label:'Codex'}]});
+w.act=fn=>fn();w.node=(tag,text='',css='')=>{const e=d.createElement(tag);e.textContent=text;e.className=css;return e;};
+w.eval(source.slice(start,end)+'\nwindow.editor=taskExecutionEditor');
+(async()=>{const p=d.createElement('textarea');p.value=JSON.stringify({execution_profile:'',request_delegation:true});
+ const card={operation:'agent.task',agent_execution:{mode:'required',provider_profiles:{claude:'claude',codex:'codex'},escalation_profiles:[]}};
+ const e=w.editor(card,p);d.body.append(e,p);await new Promise(r=>setTimeout(r,0));
+ const provider=e.querySelector('[aria-label="Task execution interface"]'),profile=e.querySelector('[aria-label="Task model / effort profile"]');
+ assert(profile.disabled);assert.equal(provider.value,'');assert(![...provider.options].some(o=>o.value==='opencode'));
+ provider.value='codex';provider.dispatchEvent(new w.Event('change'));assert.equal(JSON.parse(p.value).execution_profile,'codex');assert(!profile.disabled);
+ provider.value='';provider.dispatchEvent(new w.Event('change'));assert.equal(JSON.parse(p.value).execution_profile,'');assert.equal(JSON.parse(p.value).request_delegation,true);
+ assert(profile.disabled);assert(e.textContent.includes('claude'));console.log('Task profile UI: inherited interface, explicit profile, allowlist and delegation preserved.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

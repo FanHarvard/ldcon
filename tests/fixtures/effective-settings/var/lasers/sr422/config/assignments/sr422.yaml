@@ -1,0 +1,431 @@
+schema_version: 1
+id: sr422
+laser_id: sr422
+decks:
+- deck_id: ecdl-pzt-ldc-tec
+  parameters:
+    change-operating-point:
+      verify_samples: 3
+      sample_interval_s: 0.5
+      timeout_s: 900.0
+    change-target:
+      verify_samples: 5
+      sample_interval_s: 1.0
+      timeout_s: 900.0
+    steady-lock:
+      strategy: hold
+      duration_s: null
+      target_frequency_hz: null
+      tolerance_hz: 20000000.0
+      recovery:
+        recipes: []
+        hop_threshold_hz: 50000000.0
+        confirm_samples: 3
+        max_recoveries: null
+        stable_s: 5.0
+        tolerance_hz: 100000000.0
+        metric_limits: {}
+        timeout_s: 900.0
+        procedure:
+          classes:
+          - id: upper
+            delta_nm:
+            - - -0.08
+              - -0.05
+            sequence:
+            - action: current_excursion
+              offsets:
+              - -0.01
+              - -0.02
+              - -0.03
+              - -0.04
+              - -0.05
+          - id: lower
+            delta_nm:
+            - - -0.13
+              - -0.09
+            - - 0.06
+              - 0.09
+            sequence:
+            - action: current_excursion
+              offsets:
+              - 0.01
+              - 0.02
+              - 0.03
+              - 0.04
+          - id: unknown
+            delta_nm: null
+            sequence:
+            - action: current_excursion
+              offsets:
+              - -0.01
+              - 0.01
+              - -0.02
+              - 0.02
+              - -0.04
+              - 0.04
+          passes: 3
+          pass_wait_s: 15.0
+          current_end_dwell_s: 0.4
+          current_return_wait_s: 0.5
+          piezo_step: 500.0
+          piezo_step_interval_s: 0.11
+          piezo_end_dwell_s: 0.3
+          piezo_return_wait_s: 0.5
+          home_tolerance_hz: null
+          home_confirm_s: 5.0
+          home_mode_id: null
+          require_single_mode: false
+          approach: null
+          success_tolerance_hz: 100000000.0
+          timeout_s: 900.0
+          branch_match:
+            max_age_s: 86400.0
+            map_job_id: null
+            branch_id: null
+            separation_fraction: 0.25
+            min_points: 3
+            confirm_samples: 3
+            max_sample_age_s: 5.0
+            held_tolerances:
+              piezo: 0.0
+              temperature: 0.0
+      acquisition_tolerance_hz: 100000000.0
+      sample_interval_s: 1.0
+      measurement_timeout_s: 120.0
+      tec_ff_paused: false
+      window_guard:
+        enabled: false
+        agent_enabled: true
+        conditions:
+        - field: dither_response
+          operator: '>'
+          threshold: 3.0
+          unit: fm/mV
+        - field: metrics.side_peak_height_max
+          operator: '>'
+          threshold: 0.35
+          unit: '1'
+        - field: metrics.side_peak_prominence_max
+          operator: '>'
+          threshold: 0.18
+          unit: '1'
+        - field: metrics.main_fwhm_fraction
+          operator: '>'
+          threshold: 0.27
+          unit: '1'
+        combine: any
+        confirm_samples: 3
+        measurement_max_age_s: 5.0
+        dither_max_age_s: 30.0
+        cooldown_s: 1800.0
+        max_per_hour: 1
+        card_id: window-center
+        parameters:
+          step_fraction: 0.002512562814070352
+          max_span_fraction: 0.03015075376884422
+          max_steps: 60
+          settle_s: 33.0
+          measurement_max_age_s: 5.0
+          temperature_tolerance: 0.0005
+          seed_ttl_s: 3600.0
+          vote_count: 3
+          vote_window: 4
+          position_warning_fraction: 0.2
+          minimum_monotonicity: 0.9
+          model_max_error_fraction: 0.1
+          controller_card_id: steady-lock
+          mode: center_only
+          initial_interior_search: true
+          timeout_s: 3600.0
+          observables:
+          - dither_response
+          - metrics.side_peak_height_max
+          - metrics.side_peak_prominence_max
+          - metrics.main_fwhm_fraction
+          boundary_limits:
+            dither_response: 0.005290622
+            metrics.side_peak_height_max: 0.35
+            metrics.side_peak_prominence_max: 0.18
+            metrics.main_fwhm_fraction: 0.27
+          urgent_limits:
+            metrics.side_peak_height_max: 0.35
+            metrics.side_peak_prominence_max: 0.18
+            metrics.main_fwhm_fraction: 0.27
+          early_limits: {}
+          require_single_mode: false
+          average_samples: 5
+          average_max_wait_s: 10.0
+          average_statistic: median
+          fast_settle_s: 3.0
+          slow_observables:
+          - dither_response
+    online-pid:
+      controller_card_id: steady-lock
+      window_s: 20.0
+      min_samples: 15
+      timeout_s: 300.0
+      gain_factors:
+      - 0.5
+      minimum_improvement: 0.1
+      save_settings: true
+    window-center:
+      step_fraction: 0.002512562814070352
+      max_span_fraction: 0.03015075376884422
+      max_steps: 60
+      settle_s: 33.0
+      measurement_max_age_s: 5.0
+      temperature_tolerance: 0.0005
+      seed_ttl_s: 3600.0
+      vote_count: 3
+      vote_window: 4
+      position_warning_fraction: 0.2
+      minimum_monotonicity: 0.9
+      model_max_error_fraction: 0.1
+      controller_card_id: steady-lock
+      mode: center_only
+      initial_interior_search: true
+      timeout_s: 3600.0
+      observables:
+      - dither_response
+      - metrics.side_peak_height_max
+      - metrics.side_peak_prominence_max
+      - metrics.main_fwhm_fraction
+      boundary_limits:
+        dither_response: 0.005290622
+        metrics.side_peak_height_max: 0.35
+        metrics.side_peak_prominence_max: 0.18
+        metrics.main_fwhm_fraction: 0.27
+      urgent_limits:
+        metrics.side_peak_height_max: 0.35
+        metrics.side_peak_prominence_max: 0.18
+        metrics.main_fwhm_fraction: 0.27
+      early_limits: {}
+      require_single_mode: false
+      average_samples: 5
+      average_max_wait_s: 10.0
+      average_statistic: median
+      fast_settle_s: 3.0
+      slow_observables:
+      - dither_response
+    mode-map:
+      target_frequency_hz: 710962838507871.5
+      measurement_timeout_s: 120.0
+    diagnostic-agent:
+      provider: claude
+      mode: create_or_connect
+      workspace: ''
+      session_id: ''
+      remote_control: null
+      execution_profile: ''
+      model: ''
+      effort: ''
+      request_timeout_s: 900.0
+      role: gateway
+    teams-notification:
+      webhook_env: LDCON_TEAMS_LASER_MONITOR
+    agent-monitor:
+      conditions:
+      - above: 0.003
+        clear_below: 0.0024
+        cooldown_s: 900
+        id: dither-high
+        max_age_s: 37.0
+        metric: dither_response
+        persistence_s: 60
+        repeat_s: 900
+      - above: 20000000.0
+        clear_below: 10000000.0
+        cooldown_s: 900
+        id: frequency-offset
+        max_age_s: 10
+        metric: abs_error_hz
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.318
+        clear_below: 0.3021
+        cooldown_s: 900
+        id: quality-side-peak-height-max
+        max_age_s: 10
+        metric: fringe_metrics.side_peak_height_max
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.135
+        clear_below: 0.12825
+        cooldown_s: 900
+        id: quality-side-peak-prominence-max
+        max_age_s: 10
+        metric: fringe_metrics.side_peak_prominence_max
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.1797
+        clear_below: 0.17071499999999998
+        cooldown_s: 900
+        id: quality-main-fwhm-fraction
+        max_age_s: 10
+        metric: fringe_metrics.main_fwhm_fraction
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.005
+        clear_below: 0.00475
+        cooldown_s: 900
+        id: quality-near-main-peak-prominence-max
+        max_age_s: 10
+        metric: fringe_metrics.near_main_peak_prominence_max
+        persistence_s: 60
+        repeat_s: 900
+      - above: 0.25
+        baseline: 0.044995
+        clear_below: 0.1
+        cooldown_s: 900
+        id: source-cadence
+        max_age_s: 10
+        metric: source_interval_s
+        persistence_s: 60
+        repeat_s: 900
+      background:
+        enabled: true
+        families:
+        - current
+        - slow_loop
+        - feedforward
+        half_span_v: 0.02
+        max_points: 128
+        timeout_s: 1800.0
+        handoff_timeout_s: 20.0
+        adjustment_parameters:
+          slow_loop:
+            objective: frequency_rms_hz
+            window_s: 120.0
+            min_samples: 60
+            settle_s: 30.0
+            max_sample_gap_s: 3.0
+            timeout_s: 900.0
+            minimum_improvement_fraction: 0.1
+            maximum_cadence_fraction: 0.2
+            minimum_tec_excursion_v: 0.0
+          feedforward:
+            objective: frequency_rms_hz
+            window_s: 120.0
+            min_samples: 60
+            settle_s: 30.0
+            max_sample_gap_s: 3.0
+            timeout_s: 900.0
+            minimum_improvement_fraction: 0.1
+            maximum_cadence_fraction: 0.2
+            minimum_tec_excursion_v: 0.0002
+      follow_quality_thresholds: true
+    target-response:
+      offsets_hz: null
+      expected_settle_s: 3.0
+      settling_goal_s: 3.0
+      execution_profile: ''
+      adoption_mode: report_only
+    agent-adjust:
+      request_delegation: true
+      execution_profile: ''
+      adoption_mode: auto_within_approved
+      prompt: Teams notifications are disabled. Do not post or enqueue Teams messages.
+        Use current owner and recorded evidence; old failure records are not authority
+        to restart locks. Do not change target, absolute physical limits, slew limits,
+        calibration, firmware, or persistent PI settings. Human and program foreground
+        operations take priority. Use only this task background grant for automatic
+        effects. If the system is healthy, explain why no adjustment is needed. Do
+        not repeatedly disturb a healthy lock. Do not force observation of a multimode
+        state. Use historical drift/recovery behavior to judge practical quality.
+        Keep the local result concise in English, with evidence, actual outcome and
+        uncertainty. Optimize the current operating point only when justified. Start
+        with small measured moves; the full existing owner range is a ceiling, not
+        a target jump. Measure fresh dither and position-free side peaks at every
+        point. Record all explored points and keep the best practical measured point,
+        even if a full window is not identified. Do not claim unobserved boundaries.
+        Automatic scope now includes current, slow_loop and feedforward. Read background
+        capabilities and actual runtime parameters first. For slow_loop use parameter_candidate
+        with tec_gain, supervision_interval_s or piezo_center_dac; for feedforward
+        use current_per_temperature. The approved bounds are TEC gain .01..5e-1, period
+        1..100 s, PZT center 30000..36000 count, TEC-current FF .5..2 V/V. Current/TEC
+        excursion ceilings are 20/10 mV per intervention; the owner publishes a tighter
+        effective return envelope when needed for the unchanged 20 s foreground deadline.
+        Never treat a bound as a target jump. tec_dt_cap_s is not a tuning candidate.
+        The worker requires four actual slow cycles plus fresh distinct native/optical
+        evidence; a long period may need several minutes. For slow-loop/feedforward
+        identification only, missing thermal excitation or invalid optical observations
+        make that comparison inconclusive; do not force motion to obtain excitation.
+        Current-family optical-quality limits may be revised after repeated best-practical
+        review; they are not physical safety bounds. Select a family justified by
+        evidence; do not keep repeating a rejected trial. Save no candidate into persistent
+        calibration/PI settings. Foreground operations preempt and restore this intervention
+        checkpoint; never restore an old target. Teams remains disabled.
+    mode-recovery:
+      classes:
+      - id: upper
+        delta_nm:
+        - - -0.08
+          - -0.05
+        sequence:
+        - action: current_excursion
+          offsets:
+          - -0.01
+          - -0.02
+          - -0.03
+          - -0.04
+          - -0.05
+      - id: lower
+        delta_nm:
+        - - -0.13
+          - -0.09
+        - - 0.06
+          - 0.09
+        sequence:
+        - action: current_excursion
+          offsets:
+          - 0.01
+          - 0.02
+          - 0.03
+          - 0.04
+      - id: unknown
+        delta_nm: null
+        sequence:
+        - action: current_excursion
+          offsets:
+          - -0.01
+          - 0.01
+          - -0.02
+          - 0.02
+          - -0.04
+          - 0.04
+      passes: 3
+      pass_wait_s: 15.0
+      current_end_dwell_s: 0.4
+      current_return_wait_s: 0.5
+      piezo_step: 500.0
+      piezo_step_interval_s: 0.11
+      piezo_end_dwell_s: 0.3
+      piezo_return_wait_s: 0.5
+      home_tolerance_hz: null
+      home_confirm_s: 5.0
+      home_mode_id: null
+      require_single_mode: false
+      approach: null
+      success_tolerance_hz: 100000000.0
+      timeout_s: 900.0
+      branch_match:
+        max_age_s: 86400.0
+        map_job_id: null
+        branch_id: null
+        separation_fraction: 0.25
+        min_points: 3
+        confirm_samples: 3
+        max_sample_age_s: 5.0
+        held_tolerances:
+          piezo: 0.0
+          temperature: 0.0
+    frequency-staircase:
+      lead_s: 0.05
+      tail_s: 0.05
+    tec-branch-alignment:
+      target_frequency_hz: 710962838507871.5
+      tolerance_hz: 100000000.0
+      measurement_timeout_s: 120.0
+      stable_s: 30.0
+      approach_gain: 0.2

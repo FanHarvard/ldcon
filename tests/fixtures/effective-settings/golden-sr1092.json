@@ -1,0 +1,4796 @@
+{
+ "laser": "sr1092",
+ "rows": [
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "allow_output",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": true
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.adjustment_family",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "auto"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.adjustment_objective",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.adjustment_plan_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "agent-monitor"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.adoption_mode",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "auto_within_approved"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.agent_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "diagnostic-agent"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.evidence_images",
+   "source": "code:agent_task.DEFAULTS (resolver)",
+   "value": []
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.execution_profile",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.instruction_profile",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "adjustment"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.lookback_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 3600.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.monitor_job_id",
+   "source": "code:agent_task.DEFAULTS (resolver)",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.prompt",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "Teams notifications are disabled. Do not post or enqueue Teams messages. Use current owner and recorded evidence; old failure records are not authority to restart locks. Do not change target, absolute physical limits, slew limits, calibration, firmware, or persistent PI settings. Human and program foreground operations take priority. Use only this task background grant for automatic effects. If the system is healthy, explain why no adjustment is needed. Do not repeatedly disturb a healthy lock. Do not force observation of a multimode state. Use historical drift/recovery behavior to judge practical quality. Keep the local result concise in English, with evidence, actual outcome and uncertainty. Sr1092 has no optical-mode quality channels configured. Current is the frequency actuator, not an independent operating-point axis at fixed target. Assess source cadence and error/activity history. For justified PI tuning, read the actual runtime Kp/Ki and raw integral limits from native_config; submit one explicit pi_candidate with kp_count_per_nm, ki_count_per_nm_s, integral_limit_count via background_adjustment_step begin family pi. Increases, decreases and symmetric integral-bound changes are allowed only if the owner proves its existing physical envelope, output continuity and return budget. A refusal excludes that candidate, not continued locking. Compare before/trial; adoption is runtime-only."
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.request_delegation",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": true
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.sample_interval_s",
+   "source": "code:agent_task.DEFAULTS (resolver)",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-adjust.timeout_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 1800.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.agent_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "diagnostic-agent"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.enabled",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": true
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.families",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": [
+    "pi"
+   ]
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.handoff_timeout_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 20.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.activity_weight",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.adaptive_max_trials",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 4
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.adaptive_min_step",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 0.05
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.adaptive_step",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 0.2
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.confidence_multiplier",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 2.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.controller_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "native-current-servo"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.gain_factors",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": [
+    0.5,
+    0.25
+   ]
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.min_samples",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 20
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.minimum_effect_count",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.minimum_improvement",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.save_settings",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": false
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.settle_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 5.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.strategy",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "validated_candidates"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.timeout_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 300.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.pid_parameters.window_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 30.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.background.timeout_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 300.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.above",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 10000000.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.clear_below",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 5000000.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.cooldown_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.id",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "frequency-offset"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.max_age_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 10
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.metric",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "abs_error_hz"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.persistence_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 60
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.0.repeat_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.above",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.8
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.clear_below",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.5
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.cooldown_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.id",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "integral-use"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.max_age_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 10
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.metric",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "native_integral_usage"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.persistence_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 60
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.1.repeat_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.above",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.25
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.baseline",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.043953
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.clear_below",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.1
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.cooldown_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.id",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "source-cadence"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.max_age_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 10
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.metric",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "source_interval_s"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.persistence_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 60
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.conditions.2.repeat_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.enabled",
+   "source": "code:agent_monitor.DEFAULTS (resolver)",
+   "value": true
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.follow_quality_thresholds",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": false
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.history_interval_s",
+   "source": "code:agent_monitor.DEFAULTS (resolver)",
+   "value": 0.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.history_min_new_samples",
+   "source": "code:agent_monitor.DEFAULTS (resolver)",
+   "value": 1000
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.history_task_card_id",
+   "source": "code:agent_monitor.DEFAULTS (resolver)",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.interval_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 3600.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.lookback_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 3600.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.prompt",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "Teams notifications are disabled. Do not post or enqueue Teams messages. Use current owner and recorded evidence; old failure records are not authority to restart locks. Do not change target, absolute physical limits, slew limits, calibration, firmware, or persistent PI settings. Human and program foreground operations take priority. Use only this task background grant for automatic effects. If the system is healthy, explain why no adjustment is needed. Do not repeatedly disturb a healthy lock. Do not force observation of a multimode state. Use historical drift/recovery behavior to judge practical quality. Keep the local result concise in English, with evidence, actual outcome and uncertainty."
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.sample_interval_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 2.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-monitor.task_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "agent-adjust"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-request.agent_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "diagnostic-agent"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-request.prompt",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.agent-request.sample_interval_s",
+   "source": "code:resident_agent.parameters (resolver)",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.approach_tolerance",
+   "source": "code:operating_point.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.approach_wait_s",
+   "source": "code:operating_point.DEFAULTS",
+   "value": 0.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.max_step_codes",
+   "source": "code:operating_point.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.measurement_timeout_s",
+   "source": "code:operating_point.DEFAULTS",
+   "value": 60.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.moves",
+   "source": "code:operating_point.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.observe_each_step",
+   "source": "code:operating_point.DEFAULTS",
+   "value": false
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.sample_interval_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.5
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.schedule",
+   "source": "code:operating_point.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.settle_s",
+   "source": "code:operating_point.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.timeout_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.verify_samples",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 3
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-operating-point.verify_tolerance_hz",
+   "source": "code:operating_point.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.max_change_hz",
+   "source": "code:lock_target.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.offset_hz",
+   "source": "code:lock_target.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.queue_steps",
+   "source": "code:lock_target.DEFAULTS",
+   "value": false
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.sample_interval_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.target_frequency_hz",
+   "source": "code:lock_target.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.target_wavelength_nm",
+   "source": "code:lock_target.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.timeout_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.tolerance_hz",
+   "source": "code:lock_target.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.change-target.verify_samples",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 5
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.max_initial_detuning_hz",
+   "source": "code:current_cards.DEFAULTS (resolver)",
+   "value": 1000000000000.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.max_sample_age_s",
+   "source": "code:current_cards.DEFAULTS (resolver)",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.measurement_recovery_samples",
+   "source": "code:current_cards.DEFAULTS (resolver)",
+   "value": 3
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.measurement_recovery_timeout_s",
+   "source": "code:current_cards.DEFAULTS (resolver)",
+   "value": 15.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.optimize_update_interval",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": false
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.sample_interval_s",
+   "source": "code:current_cards.DEFAULTS (resolver)",
+   "value": 0.5
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.save_settings",
+   "source": "code:current_cards.DEFAULTS (resolver)",
+   "value": true
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.current-response.timeout_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 60.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.effort",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.execution_profile",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": ""
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.mode",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "create_or_connect"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.model",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.provider",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "claude"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.remote_control",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.request_timeout_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 900.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.role",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "gateway"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.sample_interval_s",
+   "source": "code:resident_agent.parameters (resolver)",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.session_id",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.diagnostic-agent.workspace",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.calibrate_only",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": false
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.duration_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 600
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.dwell_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.edge_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.01
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.ff_gain_scale",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.full_data_log_ms",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.ldc_ff_v_per_hz",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.lead_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.levels_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": [
+    -1000000,
+    1000000
+   ]
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.max_sample_age_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.pzt_ff_gain_scale",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.ready",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.recentre_before_ff",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": true
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.sample_interval_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.1
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.sample_rate_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 20000
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.shape",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "staircase"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.shot_sweep",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.tail_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-staircase.trigger",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": "auto"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.calibrate_only",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": false
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.duration_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 600
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.dwell_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.edge_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.01
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.ff_gain_scale",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.full_data_log_ms",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.ldc_ff_v_per_hz",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.lead_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.levels_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": [
+    -1000000,
+    1000000
+   ]
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.max_sample_age_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.pzt_ff_gain_scale",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.ready",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.recentre_before_ff",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": true
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.sample_interval_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.1
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.sample_rate_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 20000
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.shape",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "triangle"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.shot_sweep",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.tail_s",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": 0.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.frequency-triangle.trigger",
+   "source": "code:modulation_sweep.DEFAULTS",
+   "value": "auto"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.datasource_uid",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "dfdmpri8s8miob"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.display_tolerance_hz",
+   "source": "code:grafana_dashboard.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.max_sample_age_s",
+   "source": "code:grafana_dashboard.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.metric_overrides",
+   "source": "code:grafana_dashboard.DEFAULTS",
+   "value": {}
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.offset_range_mhz",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 100
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.reference_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "native-current-servo"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.reference_frequency_hz",
+   "source": "code:grafana_dashboard.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.reference_wavelength_nm",
+   "source": "code:grafana_dashboard.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.report_card_ids",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": [
+    "native-current-servo"
+   ]
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.report_quantity_ids",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": [
+    "controller.state",
+    "optical.frequency",
+    "electrical.current",
+    "control.current_dac",
+    "model.current_estimate",
+    "optical.wavelength",
+    "controller.actions"
+   ]
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.sample_interval_s",
+   "source": "code:grafana_dashboard.DEFAULTS",
+   "value": 0.5
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.grafana-dashboard.title",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "Sr1092"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.acquisition_timeout_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 300.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.duration_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.max_sample_age_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.owner_outage_timeout_s",
+   "source": "code:native_current_card.DEFAULTS",
+   "value": 60.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.sample_interval_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 0.5
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.target_frequency_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.target_wavelength_nm",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-current-servo.tolerance_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 10000000.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.average_samples",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 3
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.max_sample_age_s",
+   "source": "code:native_current_acquire.DEFAULTS",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.max_step_codes",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 3
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.sample_interval_s",
+   "source": "code:native_current_acquire.DEFAULTS",
+   "value": 0.5
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.settle_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 2.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.stable_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 5.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.target_frequency_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 274589143700000.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.target_wavelength_nm",
+   "source": "code:native_current_acquire.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.timeout_s",
+   "source": "code:native_current_acquire.DEFAULTS",
+   "value": 300.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.native-operating-point.tolerance_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 10000000.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.adjustment_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "agent-adjust"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.agent_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "diagnostic-agent"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.baseline_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 8.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.evidence_from_job",
+   "source": "code:pi_response.DEFAULTS",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.execution_profile",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "deepseek-flash-max"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.observation_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 20.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.pi_timeout_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 1500.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.response_card_id",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "target-response"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.resume_from_job",
+   "source": "code:pi_response.DEFAULTS",
+   "value": ""
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.step_hz",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.pi-response.timeout_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 2400.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.abort_integral_fraction_max",
+   "source": "code:target_response.DEFAULTS",
+   "value": 0.95
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.adoption_mode",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "report_only"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.agent_card_id",
+   "source": "code:target_response.DEFAULTS",
+   "value": "gateway-agent"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.agent_timeout_s",
+   "source": "code:target_response.DEFAULTS",
+   "value": 300.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.baseline_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 2.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.check_interval_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.command_timeout_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 90.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.confirmation_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 2.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.data_wait_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 15.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.evaluation_window_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.execution_mode",
+   "source": "code:target_response.DEFAULTS",
+   "value": "deterministic"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.execution_profile",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.expected_settle_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 3.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.ff_budget_s",
+   "source": "code:target_response.DEFAULTS",
+   "value": 1200.0
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.ff_max_roundtrips",
+   "source": "code:target_response.DEFAULTS",
+   "value": 12
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.max_gap_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 0.2
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.mean_error_max_hz",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 10000000.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.minimum_samples",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 10
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.observation_s",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 10.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.offsets_hz",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.optimization_goal",
+   "source": "code:target_response.DEFAULTS",
+   "value": "settling_criteria"
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.peak_error_max_hz",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.rms_error_max_hz",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": 10000000.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.settling_goal_s",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": 3.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.shift_hz",
+   "source": "code:target_response.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.shift_search",
+   "source": "code:target_response.DEFAULTS",
+   "value": null
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.target-response.workflow_parent_id",
+   "source": "code:target_response.DEFAULTS",
+   "value": ""
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.teams-notification.message",
+   "source": "deck:lasers/sr1092/config/interface-decks/dfb-dbr-ldc-tec.yaml",
+   "value": "LDCon notification"
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.teams-notification.sample_interval_s",
+   "source": "code:teams_card.DEFAULTS (resolver)",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "runtime",
+   "path": "cards.dfb-dbr-ldc-tec.teams-notification.webhook_env",
+   "source": "assignment:lasers/sr1092/config/assignments/sr1092.yaml",
+   "value": "LDCON_TEAMS_LASER_MONITOR"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.native_ff_proxy.READY_DEFAULTS.samples",
+   "source": "code:native_ff_proxy.READY_DEFAULTS",
+   "value": 5
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.native_ff_proxy.READY_DEFAULTS.stability_hz",
+   "source": "code:native_ff_proxy.READY_DEFAULTS",
+   "value": 5000000.0
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.native_ff_proxy.READY_DEFAULTS.tolerance_hz",
+   "source": "code:native_ff_proxy.READY_DEFAULTS",
+   "value": 5000000.0
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.current.locked",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "reference_move"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.current.open_loop",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "output"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.current.port",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "current"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.current.unit",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "V"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.piezo.locked",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "dac_center"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.piezo.open_loop",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "output"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.piezo.port",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "piezo"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.piezo.unit",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "count"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.temperature.locked",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "refused"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.temperature.locked_reason",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "the TEC outer loop drives the TEC while locked; move the DAC centre (piezo) instead"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.temperature.open_loop",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "output"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.temperature.port",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "temperature"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.ecdl.rig.owner.temperature.unit",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "V"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.current.locked",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "dac_center"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.current.open_loop",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "output"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.current.port",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "native_current"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.current.unit",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "count"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.temperature.locked",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "refused"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.temperature.locked_reason",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "the native bias lease freezes the CLD TEC set-point"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.temperature.open_loop",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "refused"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.temperature.open_loop_reason",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "the CLD owner has temperature writes disabled"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.temperature.port",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "temperature"
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "code.operating_point.AXIS_DEFAULTS.esp32servocon.native_current.owner.temperature.unit",
+   "source": "code:operating_point.AXIS_DEFAULTS",
+   "value": "C"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.absolute_conditions.modulation_v.bounds_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": [
+    0.1,
+    3.2
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.absolute_conditions.modulation_v.max_slew_v_per_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": null
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.absolute_conditions.modulation_v.max_vpp_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 1.5
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.absolute_conditions.preserve_channels",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": [
+    1
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.connection.channel",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 2
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.connection.endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "http://127.0.0.1:47151"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.connection.instrument",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "sdg2042x:SDG2XFBCA00839"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.connection.projection.key_env",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "LDCON_PROJECTION_SR1092"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.connection.projection.principal",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "laser-sr1092"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.connection.resource",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "TCPIP::192.168.1.37::INSTR"
+  },
+  {
+   "class": "safety",
+   "live": "snapshot",
+   "path": "devices.current_awg.control_settings.native_feedforward_awg.centre_tolerance_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 0.05
+  },
+  {
+   "class": "safety",
+   "live": "snapshot",
+   "path": "devices.current_awg.control_settings.native_feedforward_awg.expected_identity",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "Siglent Technologies,SDG2042X,SDG2XFBCA00839,2.01.01.39R7"
+  },
+  {
+   "class": "safety",
+   "live": "snapshot",
+   "path": "devices.current_awg.control_settings.native_feedforward_awg.load",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "HZ"
+  },
+  {
+   "class": "safety",
+   "live": "snapshot",
+   "path": "devices.current_awg.control_settings.native_feedforward_awg.profile",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "siglent_sdg2000x"
+  },
+  {
+   "class": "safety",
+   "live": "snapshot",
+   "path": "devices.current_awg.control_settings.native_feedforward_awg.reference",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "initial_offset"
+  },
+  {
+   "class": "safety",
+   "live": "snapshot",
+   "path": "devices.current_awg.control_settings.native_feedforward_awg.rest_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "owner_hot",
+   "path": "devices.current_awg.control_settings.sweep_api_defaults.continuous.max_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 600.0
+  },
+  {
+   "class": "safety",
+   "live": "owner_hot",
+   "path": "devices.current_awg.control_settings.sweep_api_defaults.continuous.max_slope_hz_per_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 1000000000.0
+  },
+  {
+   "class": "safety",
+   "live": "owner_hot",
+   "path": "devices.current_awg.control_settings.sweep_api_defaults.continuous.step_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 1000000.0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.current_awg.type",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "siglent.sdg2000x.broker"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.current_a.bounds_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": [
+    0.045,
+    0.055
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.current_a.expressions",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": [
+    "state.ld_enabled and state.tec_enabled"
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.current_a.max_slew_a_per_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.0005
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.current_a.max_step_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.001
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.current_a.min_update_interval_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.1
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.temperature_c.bounds_c",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": [
+    16.5,
+    17.5
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.temperature_c.expressions",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": [
+    "state.tec_enabled and state.ld_enabled"
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.temperature_c.max_slew_c_per_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.01
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.absolute_conditions.temperature_c.max_step_c",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.005
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.connection.endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "http://127.0.0.1:47143"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.connection.instrument",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "repump_1092_controller"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.connection.resource",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "USB0::4883::32847::M01343851::0::INSTR"
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.activation_range_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": [
+    -0.001,
+    0.001
+   ]
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.enabled",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": true
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.output_update_interval_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.pid.derivative_filter_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.1
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.pid.integral_limit_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.0005000000000000004
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.pid.kd_a_s_per_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.pid.ki_a_per_hz_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": -3.640411938878836e-13
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.pid.kp_a_per_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": -1.820205969439418e-13
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.response.hold_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 6.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.response.min_snr",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 5.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.response.samples",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 12
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.current.response.step_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.0001
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.slow_control.error_deadband",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.slow_control.measurement_filter_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.slow_control.output_resolution",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored DIVERGED: 5e-05 in device-owners/cld1015-M01343851/config.json]",
+   "value": "5e-05"
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.slow_control.quantization_hysteresis",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.1
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.control_settings.slow_control.sensitivity",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": -1098776750312.4685
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.ldc.control_settings.temperature.output_update_interval_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: projected to cld1015-M01343851] [owner-config copy ignored =]",
+   "value": 0.5
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.ldc.type",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "thorlabs.cld1015.broker"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.absolute_conditions",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": {}
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.connection.device_id",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "esp32servocon-sr1092"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.connection.endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "http://127.0.0.1:47141"
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.activation_range_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": [
+    -0.003,
+    0.003
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.adc.bits",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 16
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.adc.max_voltage",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 3.3
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.adc.min_voltage",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 0.0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.bias_current_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 0.0494
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.current_a_per_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 0.015
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.evidence",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": "Human confirmed x10 (20 dB, voltage ratio 10) attenuator between ESP32 DAC and CLD modulation input. Nominal current_a_per_v scaling, not re-measured. PI-off staircase job 7281ec297e1f42f18b85a1afaf660aa9: DAC32828 to32879, about53MHz, about-1.0MHz/code (+/-0.1; drift not excluded)."
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.gain_relative_uncertainty",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 0.05
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.response_verified",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": true
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.verified",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": true
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.wavelength_nm_per_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 4.147299961746285
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.calibration.zero_voltage_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 0.0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.cld_interlock.endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "http://127.0.0.1:47143"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.cld_interlock.instrument",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "repump_1092_controller"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.cld_interlock.resource",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "USB0::4883::32847::M01343851::0::INSTR"
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.current_bounds_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": [
+    0.045,
+    0.055
+   ]
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.dac.bits",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 16
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.dac.max_voltage",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": 2.5
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.dac.min_voltage",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": -2.5
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.external_modulation_step_slew_limited",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": false
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.firmware_version",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config physical =]",
+   "value": "2026.10.21-antiwindup"
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.heartbeat_timeout_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 30.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.max_sample_age_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.max_slew_a_per_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0.0005
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.max_step_a",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0.001
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.missing_timeout_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 120.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.acceptance_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 10000000000.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.arm_enabled",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": true
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.capture_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 100000000.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.evidence",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "Human-approved x10 gain scaling for the attenuator; raw integral limit unchanged. Complete envelope revalidated at approved target and actual DAC under PI-off owner; no closed-loop performance claim. 2026-10-21: human approved activation_range_a +-3 mA for native_esp (CLD software PID stays +-1 mA); firmware PI+FF output not step/slew capped, host-written moves keep 50 uA / 0.5 mA/s."
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.native.input.channel",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 4
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.native.input.cycle",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.native.input.src",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "192.168.1.22"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.native.input.udp_port",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 5557
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.native.input.valid_data_index",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 3
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.integral_limit_count",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 100.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.interval_bounds_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": [
+    0.02,
+    0.3
+   ]
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.ki_count_per_nm_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": -21069.129507383714
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.kp_count_per_nm",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": -100.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.target_feedforward_scale",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.target_feedforward_scale_bounds",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": [
+    0.5,
+    2.0
+   ]
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.native.target_ramp_step_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 100000000.0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.optical.channel",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 4
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.optical.cycle",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.optical.endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "http://192.168.1.22:8765"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.optical.expected_laser",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "Sr1092"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.optical.trust_source_clock",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": true
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.baseline_control",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 32768
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.baseline_target",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 32768
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.mod_valid_max",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 65535
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.mod_valid_min",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.multiplier_control",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.multiplier_target",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.polling_interval",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 1
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.software_modulation_enable",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.target_delay_us",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.preserved.target_time_match",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.revision",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "sr1092-native-current-1ms-x10att-act3mA-20261021"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.udp_gate",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": null
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_current.update_interval_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0.1
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.control_settings.native_current.writes_enabled",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": true
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.abort_error_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 200000000.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.abort_integral_fraction_max",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0.95
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.adc_center_count",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 19530
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.adc_noise_counts",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 60
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.adc_valid_bounds",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": [
+    5875,
+    33185
+   ]
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.awg_center_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.enabled",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": true
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.ff_input_gap_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 1.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.firmware_version",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "2026.10.21-antiwindup"
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.frequency_hz_per_v",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 1000000000.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.heartbeat_timeout_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 10.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.max_continuous_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 600.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.max_duration_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 60.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.max_half_span_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 600000000.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.missing_timeout_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 20.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.revision",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "sr1092-native-ff-20261022-v1"
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.start_integral_fraction_max",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 0.5
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.start_samples",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 5
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.start_span_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 2.0
+  },
+  {
+   "class": "free",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.unwind_interval_s",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 1.0
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.unwind_steps",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": 3
+  },
+  {
+   "class": "safety",
+   "live": "native_hot",
+   "path": "devices.native_esp.control_settings.native_ff_sweep.window_rule",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml [layer 2: adopted by esp32servocon-sr1092] [owner-config copy ignored =]",
+   "value": "S1"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.native_esp.type",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "esp32servocon.native_current.owner"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.absolute_conditions",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": {}
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.connection.endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "http://192.168.1.5:47130"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.connection.instrument",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "sr1092_optical"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.connection.source.channel",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 4
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.connection.source.cycle",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 0
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.connection.source.endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "http://192.168.1.22:8765"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.connection.source.expected_laser",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "Sr1092"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.connection.source.trust_source_clock",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": true
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "devices.wavemeter.type",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "fizeau.owner"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "id",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "sr1092"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.actuator.axis",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "current"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.actuator.capability",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "slow_actuator"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.actuator.device",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "ldc"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.current.capability",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "current_controller"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.current.device",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "ldc"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.current_modulation.capability",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "current_modulation"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.current_modulation.device",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "current_awg"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.measurement.capability",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "scalar_sensor"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.measurement.device",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "wavemeter"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.native_current.capability",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "native_current_lock"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.native_current.device",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "native_esp"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.temperature.capability",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "temperature_controller"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.temperature.device",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "ldc"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.wavelength.capability",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "frequency_monitor"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "interfaces.wavelength.device",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "wavemeter"
+  },
+  {
+   "class": "free",
+   "live": "snapshot",
+   "path": "name",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "Sr1092"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.bind",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "127.0.0.1"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.activation_range_a",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    -0.001,
+    0.001
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.enabled",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.output_update_interval_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.1
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.pid.derivative_filter_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.1
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.pid.integral_limit_a",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.0005000000000000004
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.pid.kd_a_s_per_hz",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.pid.ki_a_per_hz_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": -3.640411938878836e-13
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.pid.kp_a_per_hz",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": -1.820205969439418e-13
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.response.hold_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 6.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.response.min_snr",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 5.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.response.samples",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 12
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.current.response.step_a",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.0001
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.slow_control.error_deadband",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.slow_control.measurement_filter_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.slow_control.output_resolution",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 5e-05
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.slow_control.quantization_hysteresis",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.1
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.slow_control.sensitivity",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": -1098776750312.4685
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.control_settings.temperature.output_update_interval_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.5
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.current_conditions.bounds_a",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    0.045,
+    0.055
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.current_conditions.expressions",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    "state.ld_enabled and state.tec_enabled"
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.current_conditions.max_slew_a_per_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.0005
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.current_conditions.max_step_a",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.001
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.current_conditions.min_update_interval_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.1
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.controller.current_limits_a",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": [
+    0.045,
+    0.055
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.current_writes_enabled",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": false
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.controller.modulation_role",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "repump_1092_current"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.temperature_conditions.bounds_c",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    16.5,
+    17.5
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.temperature_conditions.expressions",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    "state.tec_enabled and state.ld_enabled"
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.temperature_conditions.max_slew_c_per_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.01
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.temperature_conditions.max_step_c",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.005
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.temperature_limits_c",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    16.5,
+    17.5
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.cld1015-M01343851.controller.temperature_writes_enabled",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": false
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.device_id",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "cld1015_M01343851"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.handoff_file",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "/opt/ldcon/var/device-owners/cld1015-M01343851/handoff.json"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.identity.manufacturer",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "THORLABS"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.identity.model",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "CLD1015"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.identity.serial",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "M01343851"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.instrument",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "repump_1092_controller"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.io_timeout_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": 5
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.max_age_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": 5
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.poll_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": 1
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.port",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": 47143
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.read_unavailable_timeout_s",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": 120
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.resource",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "USB0::4883::32847::M01343851::0::INSTR"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.state_file",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "/opt/ldcon/var/device-owners/cld1015-M01343851/state.json"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.system_id",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": "Sr1092"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.cld1015-M01343851.writes_enabled",
+   "source": "owner-config:device-owners/cld1015-M01343851/config.json",
+   "value": false
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.api_port",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 47141
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.approvals_root",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "/opt/ldcon/var/agent-approvals"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.bind",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "127.0.0.1"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.device_id",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "esp32servocon-sr1092"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.device_port",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 80
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.driver",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "esp32servocon"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.host",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "esp32servocon-sr1092.localnet"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.interval_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 0.2
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.max_age_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 1.0
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_assembly.laser_file",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "/opt/ldcon/var/device-owners/esp32servocon-sr1092/assembly-definition.yaml"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.activation_range_a",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    -0.003,
+    0.003
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.adc.bits",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 16
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.adc.max_voltage",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 3.3
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.adc.min_voltage",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 0.0
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.bias_current_a",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 0.0494
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.current_a_per_v",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 0.015
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.evidence",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "Human confirmed x10 (20 dB, voltage ratio 10) attenuator between ESP32 DAC and CLD modulation input. Nominal current_a_per_v scaling, not re-measured. PI-off staircase job 7281ec297e1f42f18b85a1afaf660aa9: DAC32828 to32879, about53MHz, about-1.0MHz/code (+/-0.1; drift not excluded)."
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.gain_relative_uncertainty",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 0.05
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.response_verified",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.verified",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.wavelength_nm_per_a",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 4.147299961746285
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.calibration.zero_voltage_v",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 0.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.cld_interlock.endpoint",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "http://127.0.0.1:47143"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.cld_interlock.instrument",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "repump_1092_controller"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.cld_interlock.resource",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "USB0::4883::32847::M01343851::0::INSTR"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.current_bounds_a",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    0.045,
+    0.055
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.dac.bits",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 16
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.dac.max_voltage",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": 2.5
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.dac.min_voltage",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": -2.5
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.external_modulation_step_slew_limited",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": false
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.native_current.firmware_version",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "2026.10.21-antiwindup"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.heartbeat_timeout_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 30.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.max_sample_age_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.max_slew_a_per_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.0005
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.max_step_a",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.001
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.missing_timeout_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 120.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.acceptance_hz",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 10000000000.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.arm_enabled",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.capture_hz",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 100000000.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.evidence",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "Human-approved x10 gain scaling for the attenuator; raw integral limit unchanged. Complete envelope revalidated at approved target and actual DAC under PI-off owner; no closed-loop performance claim. 2026-10-21: human approved activation_range_a +-3 mA for native_esp (CLD software PID stays +-1 mA); firmware PI+FF output not step/slew capped, host-written moves keep 50 uA / 0.5 mA/s."
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.input.channel",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 4
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.input.cycle",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.input.src",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "192.168.1.22"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.input.udp_port",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 5557
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.input.valid_data_index",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 3
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.integral_limit_count",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 100.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.interval_bounds_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    0.02,
+    0.3
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.ki_count_per_nm_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": -21069.129507383714
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.kp_count_per_nm",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": -100.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.target_feedforward_scale",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.target_feedforward_scale_bounds",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    0.5,
+    2.0
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.native.target_ramp_step_hz",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 100000000.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.optical.channel",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 4
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.optical.cycle",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.optical.endpoint",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "http://192.168.1.22:8765"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.optical.expected_laser",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "Sr1092"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.optical.trust_source_clock",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.baseline_control",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 32768
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.baseline_target",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 32768
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.mod_valid_max",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 65535
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.mod_valid_min",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.multiplier_control",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.multiplier_target",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.polling_interval",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.software_modulation_enable",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.target_delay_us",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.preserved.target_time_match",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.revision",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "sr1092-native-current-1ms-x10att-act3mA-20261021"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.udp_gate",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": null
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.update_interval_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.1
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_current.writes_enabled",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.abort_error_hz",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 200000000.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.abort_integral_fraction_max",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.95
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.adc_center_count",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 19530
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.adc_noise_counts",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 60
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.adc_valid_bounds",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": [
+    5875,
+    33185
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.awg_center_v",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.enabled",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.ff_input_gap_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.firmware_version",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "2026.10.21-antiwindup"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.frequency_hz_per_v",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1000000000.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.heartbeat_timeout_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 10.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.max_continuous_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 600.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.max_duration_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 60.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.max_half_span_hz",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 600000000.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.missing_timeout_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 20.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.revision",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "sr1092-native-ff-20261022-v1"
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.start_integral_fraction_max",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 0.5
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.start_samples",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 5
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.start_span_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 2.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.unwind_interval_s",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 1.0
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.unwind_steps",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": 3
+  },
+  {
+   "class": "layer1",
+   "live": "ignored",
+   "path": "owner-config.esp32servocon-sr1092.native_ff_sweep.window_rule",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json [layer1 copy ignored; ops/trim_owner_config.py]",
+   "value": "S1"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.state_file",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "/opt/ldcon/var/device-owners/esp32servocon-sr1092/measured-native-state.json"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.esp32servocon-sr1092.status_file",
+   "source": "owner-config:device-owners/esp32servocon-sr1092/config.json",
+   "value": "/opt/ldcon/var/device-owners/esp32servocon-sr1092/native-status.json"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.api_port",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": 47140
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.bind",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": "127.0.0.1"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.device_id",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": "scope-sr422-sr1092"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.host",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": "scope-sr422-sr1092.localnet"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.interval_s",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": 5
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.max_age_s",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": 15
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.scpi_port",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": 5555
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.serial",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": "DHO9A26BM00256"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.scope-sr422-sr1092.status_file",
+   "source": "owner-config:device-owners/scope-sr422-sr1092/config.json",
+   "value": "/opt/ldcon/var/device-owners/scope-sr422-sr1092/status.json"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.bind",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "127.0.0.1"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.capabilities.max_points",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": 8000000
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.capabilities.max_vpp",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": 20.0
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.capabilities.voltage_bounds_v",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": [
+    -10.0,
+    10.0
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.channels.1.role",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "sr422 TEC DC (rig lease)"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.channels.1.writes_enabled",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.channels.2.require_channel_environment",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.channels.2.role",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "sr1092 native FF modulation (relay lease)"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.channels.2.writes_enabled",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.description",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "Shared SDG2042X: CH1 = sr422 TEC (DC), CH2 = sr1092 native FF modulation. ONE VXI-11 session."
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.endpoint_lock.port",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": 5025
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.expected_identity",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "Siglent Technologies,SDG2042X,SDG2XFBCA00839,2.01.01.39R7"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.host",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "192.168.1.37"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "sdg2042x:SDG2XFBCA00839"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument_settings.check_interval_s",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": 60
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument_settings.items.0.description",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "SDG2042X .37 = SLAVE on the EXTERNAL 10 MHz from the new sr422 SDG2042X (awg-ldcon-sr422-sgl, SDG2XFBCA00845) = clock master (human 2026-10-22)"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument_settings.items.0.expect.source",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "EXT"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument_settings.items.0.name",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "reference_clock_source"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument_settings.items.0.query",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "ROSC?"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument_settings.items.0.write",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "ROSC EXT"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.instrument_settings.mode",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "enforce"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.kind",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "awg"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.lock_dir",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "/opt/ldcon/var/instrument-locks"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.port",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": 47151
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.profile",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "siglent_sdg2000x"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.projection_sources.laser-sr1092.channels",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": [
+    2
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.projection_sources.laser-sr1092.key_env",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "LDCON_PROJECTION_SR1092"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.projection_sources.laser-sr1092.system_id",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "Sr1092"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.projection_sources.laser-sr422.channels",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": [
+    1
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.projection_sources.laser-sr422.key_env",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "LDCON_PROJECTION_SR422"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.projection_sources.laser-sr422.system_id",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "sr422"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.reconnect",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "manual"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.resource",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "TCPIP::192.168.1.37::INSTR"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.burst",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "OFF"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.enabled",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": true
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.load",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "HZ"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.modulation",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "OFF"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.polarity",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "NOR"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.sweep",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "OFF"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.value_range",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": [
+    0.2,
+    1.0
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.1.waveform",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "DC"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.2.burst",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "OFF"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.2.modulation",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "OFF"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.2.sweep",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "OFF"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.safe_start.expect.2.waveform",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "DC"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.state_dir",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "/opt/ldcon/var/instrument-owners/sdg2042x-SDG2XFBCA00839"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.timeout_s",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": 10.0
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.transport",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "vxi11"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sdg2042x-SDG2XFBCA00839.visa_backend",
+   "source": "owner-config:instrument-owners/sdg2042x-SDG2XFBCA00839/config.json",
+   "value": "@py"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.bind",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "192.168.1.5"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.audit_file",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "/opt/ldcon/var/device-owners/sr422/audit.jsonl"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.channels",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": [
+    1,
+    2
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.endpoint",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "http://127.0.0.1:47153"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.instrument",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "sdg2042x:SDG2XFBCA00845"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.observe",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": []
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.profile",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "siglent_sdg2000x"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.projection.key_env",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "LDCON_PROJECTION_SR422"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.projection.principal",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "laser-sr422"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.current_awg.resource",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "TCPIP::192.168.1.38::INSTR"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.channels",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": [
+    1
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.endpoint",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "http://127.0.0.1:47151"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.instrument",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "sdg2042x:SDG2XFBCA00839"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.observe",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": [
+    2
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.profile",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "siglent_sdg2000x"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.projection.key_env",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "LDCON_PROJECTION_SR422"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.projection.principal",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "laser-sr422"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.instrument_owners.tec_awg.resource",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "TCPIP::192.168.1.37::INSTR"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.ecdl_rigs.sr422.laser_file",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "/opt/ldcon/var/lasers/sr422/config/lasers/sr422.yaml"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.channels",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": [
+    2
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.expected_identity",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "Siglent Technologies,SDG2042X,SDG2XFBCA00839,2.01.01.39R7"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.profile",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "siglent_sdg2000x"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.relay_to_owner.endpoint",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "http://127.0.0.1:47151"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.relay_to_owner.instrument",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "sdg2042x:SDG2XFBCA00839"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.resource",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "TCPIP::192.168.1.37::INSTR"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.timeout_s",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": 10.0
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092.visa_backend",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "@py"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.channels",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": [
+    0
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.current_limits_a",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": null
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.policy_device",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "ldc"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.profile",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "cld1015"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.resource",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "auto"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.temperature_conditions_file",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "/opt/ldcon/var/device-owners/sr422/compat/sr1092-broker.yaml"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.temperature_limits_c",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": [
+    16.5,
+    17.5
+   ]
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.instruments.repump_1092_controller.timeout_s",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": 5
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.port",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": 47130
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.registry.endpoint",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "http://127.0.0.1:47150"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.registry.state_dir",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "/opt/ldcon/var/instrument-owners"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.retained_instrument_faults.repump_1092_controller.fault",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "[Errno 110] Operation timed out"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.retained_instrument_faults.repump_1092_controller.resource",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "auto"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.sensors.sr1092_optical.device",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "wavemeter"
+  },
+  {
+   "class": "layer1",
+   "live": "restart",
+   "path": "owner-config.sr422.sensors.sr1092_optical.laser_file",
+   "source": "owner-config:device-owners/sr422/config.json",
+   "value": "/opt/ldcon/var/device-owners/sr422/compat/sr1092-broker.yaml"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "schema_version",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 1
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "sweep_api.current_awg.acquire_fraction",
+   "source": "code:sweep_api.CODE_DEFAULTS[native]",
+   "value": 0.5
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "sweep_api.current_awg.arm_window_s",
+   "source": "code:sweep_api.CODE_DEFAULTS[native]",
+   "value": 30.0
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "sweep_api.current_awg.continuous.max_slope_hz_per_s",
+   "source": "yaml:control_settings.sweep_api_defaults",
+   "value": 1000000000.0
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "sweep_api.current_awg.ff_gain_scale",
+   "source": "code:sweep_api.CODE_DEFAULTS[native]",
+   "value": 1.05
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "sweep_api.current_awg.min_arm_window_s",
+   "source": "code:sweep_api.CODE_DEFAULTS[native]",
+   "value": 5.0
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "sweep_api.current_awg.min_lead_s",
+   "source": "code:sweep_api.CODE_DEFAULTS[native]",
+   "value": 0.05
+  },
+  {
+   "class": "",
+   "live": "",
+   "path": "sweep_api.current_awg.settle_fraction",
+   "source": "code:sweep_api.CODE_DEFAULTS[native]",
+   "value": 0.3
+  },
+  {
+   "class": "safety",
+   "live": "snapshot",
+   "path": "target.allowed_change_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": [
+    -99999999999.96875,
+    100000000000.03125
+   ]
+  },
+  {
+   "class": "free",
+   "live": "target_hot",
+   "path": "target.frequency_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 274589143699999.97
+  },
+  {
+   "class": "free",
+   "live": "snapshot",
+   "path": "target.max_change_hz",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": 100000000.0
+  },
+  {
+   "class": "free",
+   "live": "snapshot",
+   "path": "target.note",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "human 2026-10-22, target range +-100 GHz around the lock target, at most 100 MHz per card run"
+  },
+  {
+   "class": "forbidden",
+   "live": "idle_only",
+   "path": "telemetry.telegraf_endpoint",
+   "source": "yaml:lasers/sr1092/config/lasers/sr1092.yaml",
+   "value": "udp://192.168.1.5:8094"
+  }
+ ]
+}

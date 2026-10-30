@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ECDL steady lock</title>
+<h1>ECDL steady lock</h1>
+<p><code>servo.ecdl_steady_lock</code> maintains the existing owner-controlled PZT PI, slow TEC centering and configured current feedforward. The owner validates current PI configuration, target capture, output bounds, leases and watchdogs.</p>
+<h2>Quality and optional recovery</h2>
+<p>Optical quality is reported independently of frequency tracking. The card does not contain a hidden current-window search; use the explicit midpoint or adjustment task. Optional <code>recovery</code> contains the configured v2 relative-current route, stable-history criteria and return confirmation settings.</p>
+<p>A hop freezes the latest stable pre-hop frequency in the current target epoch. The same directed-current route runs for standalone and steady recovery. Return frequency, optical quality and PI capture remain separate checks. Returning to the observed frequency does not authorize PI enable outside the current target capture range.</p>
+<h2>Interruption and faults</h2>
+<p>Foreground target changes, sweeps and operating-point moves invalidate obsolete references. Finite adjustment trials retain their own measured checkpoint. Missing observations do not authorize output changes; owner freshness and outage behavior apply. Uncertain writes, owner faults and lost ownership are not retried. Cancellation follows owner-verified hold and lease cleanup.</p>
+<h2>Parameters and migration</h2>
+<p>Current target, tolerance, TEC settings and execution timing use their existing validated runtime controls. There is no lifetime recovery-attempt limit or automatic re-arm trim. Retired map-artifact/reference controls, <code>mapped_recovery_max_attempts</code> and <code>rearm_trim</code> produce a migration error even if explicitly null. Review and configure v2 <code>recovery</code> parameters instead.</p>
+<p>Implementation: <code>ecdl_steady.py</code>, <code>recovery_stationary.py</code>, <code>recovery_procedure.py</code>.</p></html>

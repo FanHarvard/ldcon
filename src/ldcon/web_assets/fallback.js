@@ -1,0 +1,21 @@
+'use strict';
+(function(){
+ const language=globalThis.LDConI18n?.language||'en';
+ const words={
+  title:['失敗時のフォールバック通知','Card failure fallback notification','卡片失败回退通知'],
+  explanation:['実行中でも通知先を変更できます。通常の停止や一時欠測は通知しません。通知は機器の制御とは独立しています。','Change the destination while the card is running. Normal stops and transient missing samples do not trigger a failure notification. Notification is independent of device control.','运行中也可更改通知目标。正常停止和短暂缺测不会触发失败通知。通知与设备控制独立。'],
+  enable:['失敗時に通知する','Notify on failure','失败时通知'],session:['通知先のCodexセッションID','Destination Codex session ID','目标 Codex 会话 ID'],save:['保存して即時適用','Save and apply now','保存并立即应用'],history:['最近の通知','Recent notifications','最近的通知'],note:['送信済みはセッションのキュー受付を示します。送信結果が不明な場合は重複防止のため自動再送しません。','Sent means accepted into the session queue. Unknown delivery outcomes are not automatically retried.','已发送表示会话队列已接受。发送结果不明时不会自动重发。'],saved:['保存しました。実行を再起動する必要はありません。','Saved. No card restart is needed.','已保存，无需重启卡片。'],job:['この実行のカード','Card in this run','本次运行的卡片'],card:['このカードの既定の通知設定','Default notification for this card','此卡片的默认通知设置'],none:['通知履歴はまだありません。','No notification history yet.','暂无通知记录。']};
+ const t=k=>words[k][language==='ja'?0:language==='zh-CN'?2:1];const $=id=>document.getElementById(id);
+ $('title').textContent=t('title');$('explanation').textContent=t('explanation');$('enable-label').textContent=t('enable');$('session-label').textContent=t('session');$('save').textContent=t('save');$('history-title').textContent=t('history');$('delivery-note').textContent=t('note');
+ const query=new URL(location.href).searchParams;const job=query.get('job'),card=query.get('card');
+ const scope=job?'job/'+encodeURIComponent(job)+'/'+encodeURIComponent(card):'card/'+[query.get('set'),query.get('deck'),card].map(encodeURIComponent).join('/');
+ $('scope').textContent=(job?t('job'):t('card'))+': '+(job||query.get('set')+' / '+query.get('deck'))+' / '+card;
+ let revision=0;
+ async function api(path,method='GET',body){const response=await fetch(new URL((location.pathname.endsWith('/notifications')?'api/fallback/':'api/')+path,location.href),{method,headers:{'Content-Type':'application/json','X-LDCon-Client':'web'},body:body===undefined?undefined:JSON.stringify(body)});const value=await response.json();if(!response.ok)throw Error(typeof value.detail==='string'?value.detail:JSON.stringify(value.detail));return value;}
+ function fail(error){$('status').dataset.error='true';$('status').textContent=error.message;}
+ async function load(){const result=await api(scope);const p=job?result.effective:result;revision=job?result.override.revision:p.revision;const inherited=p.config.kind==='standard';$('enabled').checked=inherited?p.config.enabled&&p.config.codex.enabled:p.config.enabled;$('session').value=inherited?p.config.codex.session_id:p.config.session_id;$('session').required=$('enabled').checked;if(inherited)$('status').textContent='Global fallback settings are inherited. Saving here creates a Codex-only override for this run.';}
+ async function history(){const result=await api('health');const rows=result.notifications.filter(r=>r.card===card&&(!job||r.job===job));$('history').replaceChildren();for(const r of rows){const a=document.createElement('article'),h=document.createElement('strong'),p=document.createElement('pre');h.textContent=r.status+' / '+new Date(r.created*1000).toLocaleString()+' / '+r.job;p.textContent=JSON.stringify({failure:r.payload,delivery:r.result},null,2);a.append(h,p);$('history').append(a);}if(!rows.length)$('history').textContent=t('none');}
+ $('enabled').addEventListener('change',()=>$('session').required=$('enabled').checked);
+ $('settings').addEventListener('submit',async event=>{event.preventDefault();$('save').disabled=true;try{const result=await api(scope,'PUT',{expected_revision:revision,config:{enabled:$('enabled').checked,kind:'codex_session',session_id:$('session').value.trim()}});revision=job?result.override.revision:result.revision;$('status').dataset.error='false';$('status').textContent=t('saved');await history();}catch(error){fail(error);}finally{$('save').disabled=false;}});
+ Promise.all([load(),history()]).catch(fail);setInterval(()=>history().catch(fail),5000);
+})();

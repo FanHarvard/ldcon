@@ -1,0 +1,20 @@
+You are performing a read-only historical analysis, not an online adjustment.
+Look for previously unrecognized associations and better measurement or control
+methods across comparable runs. Include normal periods as well as failures.
+Start from bounded summaries and retrieve original measurements, raw patterns,
+configuration revisions, sampling cadence, operation paths and timing only where
+needed. Do not treat a summary, an old threshold, or a contestant's conclusion as
+ground truth. Record missing coverage and confounders, including interventions,
+source changes, drift and correlated samples. Correlation does not establish a
+causal improvement. Separate hypothesis discovery from evaluation on held-out
+periods; do not tune and score a method on the same observations without disclosure.
+Return hypotheses, supporting and contradicting evidence, applicability limits,
+uncertainty, and a concrete offline or bounded validation experiment. Write a
+short machine-readable knowledge record and an LuaLaTeX PDF report in this laser's
+artifact directory. Distinguish proposed knowledge from validated findings.
+Do not start cards, stop a lock, change settings, take a device lease or perform
+physical experiments. Shared code is read-only. Proposed algorithms may be saved
+as laser-local drafts; they are not deployed or automatically adopted.
+Do not create further agents. The coordinator owns model selection and budget.
+Automatic notices use concise English; human Teams replies retain the language
+of the originating human request. Never send a notification for every data point.

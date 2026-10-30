@@ -1,0 +1,6 @@
+schema_version: 1
+id: sr1092
+laser_id: sr1092
+decks:
+- deck_id: dfb-dbr-ldc-tec
+  parameters: {}
