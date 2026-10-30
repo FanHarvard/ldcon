@@ -11,19 +11,45 @@ Current version: 0.2.1. No production service is activated by publication.</p>
 <p>Use the repository's <code>pypi</code> environment to restrict release access. Authentication uses
 GitHub OIDC and PyPI Trusted Publishing; no long-lived PyPI API token belongs in this repository.
 See the <a href="https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/">official PyPI setup</a>.</p>
-<h2>Release</h2><p>Publish experiment-core before LDCon. LDCon pins the verified compatible core version.
-Update package metadata and the LDCon CI core tag together for a future version.</p>
-<pre>python -m build
-python -m twine check --strict dist/*
-python scripts/check_dist.py dist
+<h2>Updating an installation</h2>
+<p>In the virtual environment used for the installation:</p>
+<pre>python -m pip install --upgrade "ldcon[web,instruments,analysis,agents]"
+python -m pip check</pre>
+<p>This selects the latest LDCon release and its declared compatible dependencies. LDCon pins
+experiment-core and fanharvard-agentbridge versions, so independent updates to those projects are
+adopted when the LDCon dependency pins are updated. For standalone use, update either with
+<code>python -m pip install --upgrade experiment-core</code> or
+<code>python -m pip install --upgrade fanharvard-agentbridge</code>.</p>
+<p>Updating a Python environment does not promote an immutable production release or restart a service.
+The existing production installation uses its separate deployment and handover procedure.</p>
+<h2>Updating GitHub</h2>
+<p>Edit the public checkout, commit reviewed files and push to <code>main</code>. README and icon changes
+are visible on GitHub after the push; they do not require a PyPI version bump. The icon source is
+<code>docs/icon.svg</code>; regenerate its PNG with:</p>
+<pre>rsvg-convert --width 512 --height 512 --output docs/icon.png docs/icon.svg</pre>
+<p>The public checkout was split from the internal deployment repository. They do not synchronize
+automatically. Port reviewed source changes and test fixtures explicitly; export deployment
+configurations as disabled, sanitized examples. Preserve the public packaging metadata and exclude
+credentials, inboxes and runtime state instead of copying the full deployment directory or its Git history.</p>
+<h2>Publishing a new PyPI version</h2><p>Change <code>project.version</code> in <code>pyproject.toml</code>
+to a new, unused version. Publish updated experiment-core or agentbridge dependencies first if needed.
+When changing the experiment-core pin, update its checkout tag in both CI and release workflows too.</p>
+<p>From a development environment with the build, test and role dependencies installed, build into an
+empty directory so old distributions cannot be uploaded accidentally:</p>
+<pre>release_dir=$(mktemp -d)
+python -m build --outdir "$release_dir"
+python -m twine check --strict "$release_dir"/*
+python scripts/check_dist.py "$release_dir"
 python scripts/check_secrets.py
+python -m pip install --force-reinstall --no-deps "$release_dir"/*.whl
 python -m pytest -q
-git tag v0.2.1
-git push origin v0.2.1</pre>
-<p>Create a GitHub Release for the tag to run <code>release.yml</code>, or dispatch that workflow at
-the tag. The workflow checks the tag against package metadata, builds and audits distributions,
+python -m pip check</pre>
+<p>Commit and push the reviewed changes. After CI succeeds, create a tag matching the new version
+(<code>vX.Y.Z</code>) and publish a GitHub Release for it. That runs <code>release.yml</code>; alternatively
+dispatch that workflow at the tag. The workflow checks the tag against package metadata, builds and audits distributions,
 tests the wheel, and publishes through the dedicated environment. Do not reuse an uploaded PyPI version.
-The CI workflow also checks Python 3.10, 3.12 and 3.13.</p>
+The CI workflow also checks Python 3.10, 3.12 and 3.13. An existing PyPI release's embedded README
+changes only with a new package version; a GitHub push alone does not replace it.</p>
 <h2>Public/private boundary</h2><p>Public: source, tests, documentation, MIT license and reviewed examples.
 Private: credentials, .env/.pypirc files, runtime databases, job logs, agent conversations,
 approval receipts, local deployment history and live service configuration. New public repositories
