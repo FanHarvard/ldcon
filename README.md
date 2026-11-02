@@ -8,6 +8,7 @@ Laser locking, characterization and a Web dashboard. **ECDL and DFB/DBR control
 are implemented**, with digital-servo PI control and TOPTICA DLCpro adapters.
 
 ```sh
+pip install https://github.com/FanHarvard/experiment-drivers/releases/download/v0.1.0/fanharvard_experiment_drivers-0.1.0-py3-none-any.whl
 pip install "ldcon[web,instruments,analysis]"
 ldcon-simulate --mode deterministic
 ldcon-examples ./my-lab

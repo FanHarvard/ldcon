@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ldcon"
-version = "0.2.2"
+version = "0.2.2+rigol.1"
 description = "Laser operations, physical owners and fleet presentation"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -21,7 +21,7 @@ classifiers = ["Development Status :: 3 - Alpha",
   "Operating System :: POSIX :: Linux",
   "Topic :: Scientific/Engineering",
 ]
-dependencies = ["experiment-core==0.1.0", "numpy>=1.24", "PyYAML>=6,<7"]
+dependencies = ["experiment-core==0.1.0", "fanharvard-experiment-drivers==0.1.0", "numpy>=1.24", "PyYAML>=6,<7"]
 
 [project.scripts]
 ldcon-instruments = "ldcon.cli:instruments_main"
